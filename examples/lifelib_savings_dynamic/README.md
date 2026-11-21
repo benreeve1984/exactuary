@@ -27,7 +27,7 @@ dynamic version computes a power inside the projection instead of in advance.
 | Exhaustive tables | 16,036 constructed test policies in each configuration; identical. The tests also change assumption tables through the model's data interface, to reach behaviour that never occurs with the shipped tables |
 | Planted errors | Static version: 214 runnable planted errors. Totals detect 124 (58%), and every recorded intermediate value detects 211 (98.6%). Dynamic version: 218, 139 (64%) and 215 (98.6%) |
 | Proof (Z3) | For each of the 5 configurations, Z3 proves 124 main statements and 52 early-exit goals. Of 432 runnable planted errors, Z3 finds a difference for 428 and establishes equality in exact arithmetic for 4 |
-| Lean | For each configuration, Lean checks 158 exported statements: 124 main statements and 34 early-exit statements. Z3's 52 goals are these 34 statements plus 18 lemmas written for this model, which Lean does not check |
+| Lean | For each configuration, Lean checks 158 exported statements: 124 main statements and 34 early-exit statements. Z3's 52 goals are these 34 statements plus 18 extra lemmas for this model. Lean does not check the extra lemmas |
 | Assumptions | Policy data, switches, table lookups and scenario returns. One proof covers one configuration |
 
 ## Values that are not finite
