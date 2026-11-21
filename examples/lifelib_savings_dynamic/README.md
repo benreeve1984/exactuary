@@ -1,22 +1,43 @@
 # Savings with dynamic lapses: `CashValue_ME_EX2`
 
-**Model.** The savings model with switches for fees, mortality and lapses, and a lapse rate that
-depends on how valuable the guarantee is (the ratio of sum assured to account value). lifelib
-defines five configurations (`sim_id` 1 to 5); all five are converted. 92 formulas.
+In this document, "the original model" means the lifelib model run unchanged. "The fast model"
+means the rewritten version. The code calls it the "kernel".
 
-**Kernel.** Two kernels: a static one for configurations 1 to 4, and a dynamic one for
-configuration 5, in which the lapse rate depends on the carried account value and so requires a
-power to be computed inside the projection rather than precomputed.
+## Model
 
-| Level | Result |
+This is the savings model with switches for fees, mortality and lapses. Its lapse rate depends on
+how valuable the guarantee is, measured as the ratio of sum assured to account value. lifelib
+defines 5 configurations (`sim_id` 1 to 5), and all 5 are converted. The model has 92 formulas.
+
+## Fast model
+
+There are 2 fast models:
+
+- a static one for configurations 1 to 4
+- a dynamic one for configuration 5
+
+In configuration 5, the lapse rate depends on the account value carried from month to month. So
+the dynamic fast model must compute a power inside the projection, rather than in advance.
+
+## Results
+
+A planted error is a single small edit to the fast model, made to test whether the checks catch
+it. Z3 is an automated theorem prover from Microsoft Research that either proves a statement or
+finds a counterexample. Lean is a proof assistant that checks every step of a proof with a small,
+well-studied checking program.
+
+| Check | Result |
 |---|---|
-| Exact comparison | 59 outputs, 19 runs over five portfolios and five configurations, 790,582,300 values; none differs. This includes the dynamic kernel, whose power function agrees with NumPy's on the processor; on the GPU it differs in the last bit for 0.2% of arguments |
-| Exhaustive tables | 16,036 synthetic policies in each configuration; identical. Assumption tables were also perturbed through the model's own data objects to reach behaviour the shipped tables never trigger |
-| Seeded defects | Static kernel: 214 runnable defects, totals catch 124 (58%), every intermediate catches 211 (98.6%). Dynamic kernel: 218, 139 (64%) and 215 (98.6%) |
-| Proof (Z3) | 124 of 124 obligations in each configuration; 52 early-exit obligations each; 428 of 432 runnable defects refuted, 4 proved equivalent |
+| Exact comparison | 59 outputs, 19 runs over 5 portfolios and 5 configurations, 790,582,300 values; none differs. This includes the dynamic fast model. Its power function agrees with NumPy's on the processor. On the GPU it differs in the last bit for 0.2% of arguments |
+| Exhaustive tables | 16,036 made-up policies in each configuration; identical. The assumption tables were also changed through the model's own data objects, to reach behaviour that never occurs with the shipped tables |
+| Planted errors | Static fast model: 214 planted errors that give programs that run. Totals catch 124 (58%), and every intermediate value catches 211 (98.6%). Dynamic fast model: 218, 139 (64%) and 215 (98.6%) |
+| Proof (Z3) | 124 of 124 statements proved in each configuration; 52 statements for early exit in each; 428 of 432 planted errors shown to change the results, and 4 shown to make no difference |
 | Lean | 158 of 158 theorems in each configuration |
-| Assumed (axioms) | Model point, switches, table lookups, scenario returns. One proof covers one configuration |
+| Assumptions (the code calls these "axioms") | Model point, switches, table lookups, scenario returns. One proof covers one configuration |
 
-Where the original itself produces a non-finite value (an account value of zero in the lapse
-formula), the kernel reproduces it exactly; stopping early is then not equivalent and the rows
-affected are reported.
+## Values that are not finite numbers
+
+Sometimes the original model itself produces a value that is not a finite number. This happens
+when the account value in the lapse formula is 0. The fast model reproduces that value exactly.
+Stopping early is then not equivalent, and the affected rows are reported. A row is one policy
+in one scenario.

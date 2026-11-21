@@ -125,10 +125,10 @@
     const cell = (r, c) => cells[r * C + c];
     const sv = SAV.steps;
     const modes = [
-      { label: 'One at a time', title: 'Interpreted, one number at a time', text: 'Python reads and interprets each instruction afresh for every single number. Simple and flexible, and the slowest way to do arithmetic: most of the time goes on bookkeeping, not sums.', kv: [['Worked on at once', 'one square'], ['Kept in memory', 'one policy'], ['Savings model', `${fmtS(sv[0].s)} s per million rows`]], tick: 35 },
-      { label: 'Vectorised', title: 'Vectorised: one month for all policies', text: 'Array operations process a whole column at once, which removes most of the bookkeeping. But months still go one after another, every month of every policy is kept in memory, and matured policies are still computed to the end.', kv: [['Worked on at once', 'a column'], ['Kept in memory', 'everything (orange)'], ['Savings model', `${fmtS(sv[1].s)} s per million rows`]], tick: 220 },
-      { label: 'Compiled', title: 'Compiled: one policy through all its months', text: 'The step is turned into machine code. Each policy runs from its first month to its last carrying forward only a few numbers, and stops when nothing is left in force (striped squares are never computed).', kv: [['Worked on at once', 'one row, very fast'], ['Kept in memory', 'two numbers per policy'], ['Savings model', `${fmtS(sv[2].s)} s per million rows`]], tick: 22 },
-      { label: 'All cores / GPU', title: 'Many policies at once', text: 'Because policies are independent, rows are shared out: 20 at a time across the processor cores here, thousands at a time on a graphics processor. Each row still runs its months in order.', kv: [['Worked on at once', 'many rows'], ['Kept in memory', 'two numbers per policy'], ['Savings model', `${fmtS(sv[4].s)} s (cores) · ${fmtS(sv[6].s)} s (GPU)`]], tick: 160 },
+      { label: 'One at a time', title: 'One number at a time', text: 'Python reads and works out each instruction again for every single number. This is simple and flexible, but it is the slowest way to do arithmetic: most of the time goes on bookkeeping, not sums.', kv: [['Worked on together', 'one square'], ['Kept in memory', 'one policy'], ['Savings model', `${fmtS(sv[0].s)} s per million rows`]], tick: 35 },
+      { label: 'Vectorised', title: 'Vectorised: one month for all policies', text: 'The computer works out a whole column at once, which removes most of the bookkeeping. But months still come one after another, the computer keeps every month of every policy in memory, and it keeps calculating matured policies to the end.', kv: [['Worked on together', 'a column'], ['Kept in memory', 'everything (orange)'], ['Savings model', `${fmtS(sv[1].s)} s per million rows`]], tick: 220 },
+      { label: 'Compiled', title: 'Compiled: one policy through all its months', text: 'The model is translated into the processor\'s own instructions. Each policy runs from its first month to its last, passing only a few numbers forward, and stops when nothing is left in force. The computer never works out the striped squares.', kv: [['Worked on together', 'one row, very fast'], ['Kept in memory', 'two numbers per policy'], ['Savings model', `${fmtS(sv[2].s)} s per million rows`]], tick: 22 },
+      { label: 'All cores / GPU', title: 'Many policies at once', text: 'Policies do not affect each other, so the computer shares the rows out: 20 at a time across the processor cores here, and thousands at a time on a graphics processor. Each row still runs its months in order.', kv: [['Worked on together', 'many rows'], ['Kept in memory', 'two numbers per policy'], ['Savings model', `${fmtS(sv[4].s)} s (cores) · ${fmtS(sv[6].s)} s (GPU)`]], tick: 160 },
     ];
     let timer = null, mode = 0, active = false;
     function reset() { cells.forEach(c => (c.className = '')); for (let r = 0; r < R; r++) for (let c = ends[r]; c < C; c++) if (mode >= 2) cell(r, c).className = 'skip'; }
@@ -159,11 +159,11 @@
     const box = $('#lad-chart'), side = $('#lad-side'), tb = $('#lad-tabs'); if (!box) return;
     const tip = el('div', { class: 'lad-tip' }); box.appendChild(tip);
     const descr = [
-      ['2 · Compiled, one core', 'Each policy runs through its months in machine code, carrying two or three numbers forward.'],
-      ['3 · All 20 processor cores', 'Policies are shared across the cores. Results identical to one core.'],
-      ['4 · Stop when nothing is left', 'A projection ends once no policies remain in force, instead of running to the longest term.'],
-      ['5 · Graphics processor, 16 digits', 'Thousands of policies at once, in double precision. Last digits can differ.'],
-      ['6 · Graphics processor, 7 digits', 'Single precision: many times faster on most graphics processors, and less accurate.'],
+      ['2 · Compiled, one core', 'Each policy runs through its months in the processor\'s own instructions, passing two or three numbers forward.'],
+      ['3 · All 20 processor cores', 'The cores share the policies. Results are identical to one core.'],
+      ['4 · Stop when nothing is left', 'A projection ends once no policies remain in force, not at the longest term.'],
+      ['5 · Graphics processor, 16 digits', 'Thousands of policies at once, keeping about 16 digits. The last digits can differ.'],
+      ['6 · Graphics processor, 7 digits', 'Keeping about 7 digits. Many times faster on most graphics processors, and less accurate.'],
     ];
     side.innerHTML = descr.map(([a, b], i) => `<div class="ls-step" data-i="${i}"><b>${a}</b><span>${b}</span></div>`).join('');
     let model = SAV, step = 0;
@@ -211,12 +211,12 @@
     const tb = $('#steps-body'); if (!tb) return;
     const st = SAV.steps;
     const rows = [
-      ['1 · Vectorised (as lifelib ships it)', st[1].s, st[0].s, 'Policies processed together with array operations', '<span class="yes">Yes</span>: it is the reference', 'None: this is where most Python models start'],
-      ['2 · Compiled, one core', st[2].s, st[1].s, 'Each policy projected in machine code; only a few numbers kept', '<span class="yes">Yes</span>, every value', 'Rewrite the model in a restricted form'],
-      ['3 · All processor cores', st[3].s, st[2].s, 'Policies shared across cores', '<span class="yes">Yes</span>', 'None'],
-      ['4 · Stop when nothing is left', st[4].s, st[3].s, 'Projections end early', '<span class="part">Equal in exact arithmetic</span>; identical here', 'A proof that stopping loses nothing'],
-      ['5 · Graphics processor, 16 digits', st[5].s, st[4].s, 'Same arithmetic on different hardware', '<span class="part">Last digits differ</span>', 'A graphics processor; error bounds'],
-      ['6 · Graphics processor, 7 digits', st[6].s, st[5].s, 'About 7 significant digits instead of 16', '<span class="part">No: up to ~1% per policy</span>', 'Error bounds; aggregate use only'],
+      ['1 · Vectorised (as lifelib ships it)', st[1].s, st[0].s, 'The computer works out all policies together, one month at a time', '<span class="yes">Yes</span>: it is the reference', 'None: most Python models start here'],
+      ['2 · Compiled, one core', st[2].s, st[1].s, 'Each policy runs in the processor\'s own instructions, keeping only a few numbers', '<span class="yes">Yes</span>, every value', 'Rewrite the model in a simple, restricted form'],
+      ['3 · All processor cores', st[3].s, st[2].s, 'The cores share the policies', '<span class="yes">Yes</span>', 'None'],
+      ['4 · Stop when nothing is left', st[4].s, st[3].s, 'Projections end early', '<span class="part">Equal in exact arithmetic</span>, and identical here', 'A proof that stopping loses nothing'],
+      ['5 · Graphics processor, 16 digits', st[5].s, st[4].s, 'The same sums on different hardware', '<span class="part">Last digits differ</span>', 'A graphics processor, and error bounds'],
+      ['6 · Graphics processor, 7 digits', st[6].s, st[5].s, 'About 7 digits instead of 16', '<span class="part">No: up to about 1% for each policy</span>', 'Error bounds, and use of totals only'],
     ];
     tb.innerHTML = rows.map(r => `<tr><td>${r[0]}</td><td class="num">×${fmtX(r[2] / r[1])}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td></tr>`).join('');
   })();
@@ -232,11 +232,11 @@
   // ---------- defects ----------
   (function () {
     const box = $('#df-chart'), tb = $('#df-tabs'); if (!box) return;
-    const names = { 'portfolio totals within 1e-6, sample portfolio': 'Portfolio totals agree (to 1 part in a million)', 'per-policy present values within 1e-9, sample portfolio': 'Each policy\'s present values agree', 'every intermediate exact, sample portfolio': 'Every intermediate value, sample portfolio', 'every intermediate exact, all portfolios': 'Every intermediate value, sample and edge portfolios' };
+    const names = { 'portfolio totals within 1e-6, sample portfolio': 'Portfolio totals agree to 1 part in a million', 'per-policy present values within 1e-9, sample portfolio': 'Each policy\'s present values agree', 'every intermediate exact, sample portfolio': 'Every value, sample portfolio', 'every intermediate exact, all portfolios': 'Every value, sample and unusual cases' };
     tabs(tb, D.models.map(m => ({ label: m.name, m })), it => {
       const rows = it.m.defects;
       box.innerHTML = rows.map((r, i) => `<div class="df-row ${i < 2 ? 'weak' : ''}"><div class="nm"><span>${names[r.check] || r.check}</span><b>${r.caught} of ${r.of} · ${Math.round(100 * r.caught / r.of)}%</b></div><div class="df-track"><div class="df-bar" style="width:0"></div></div></div>`).join('') +
-        `<p class="src" style="margin-top:12px">Planted errors that run without crashing. ${it.m.name} model.</p>`;
+        `<p class="src" style="margin-top:12px">Only planted errors that still let the model run are counted. ${it.m.name} model.</p>`;
       requestAnimationFrame(() => box.querySelectorAll('.df-bar').forEach((b, i) => { b.style.width = `${100 * rows[i].caught / rows[i].of}%`; }));
     });
   })();
@@ -285,16 +285,16 @@
     add(base, 'text', { x: 430, y: 206, 'text-anchor': 'middle' }, 'upper');
     add(base, 'line', { x1: 372, x2: 372, y1: 128, y2: 192, stroke: '#0c0d12', 'stroke-width': 2, 'stroke-dasharray': '3 3' });
     add(base, 'text', { x: 372, y: 118, 'text-anchor': 'middle', class: 'lbl' }, 'exact answer (unknown)');
-    add(base, 'text', { x: 380, y: 236, 'text-anchor': 'middle', class: 'lbl' }, 'guaranteed to lie inside the box');
+    add(base, 'text', { x: 380, y: 236, 'text-anchor': 'middle', class: 'lbl' }, 'the exact answer must lie inside the box');
     const s1 = g({}, 1);
     add(s1, 'circle', { cx: 365, cy: 160, r: 7, fill: '#1a2fd0', stroke: '#fff', 'stroke-width': 2 });
     add(s1, 'circle', { cx: 392, cy: 160, r: 7, fill: '#3d50e6', stroke: '#fff', 'stroke-width': 2 });
-    add(s1, 'text', { x: 300, y: 60, class: 'lbl' }, 'processor and GPU, 16 digits:');
+    add(s1, 'text', { x: 300, y: 60, class: 'lbl' }, 'processor, and GPU at 16 digits:');
     add(s1, 'text', { x: 300, y: 80, class: 'lbl' }, 'inside or next to the box');
     add(s1, 'line', { x1: 370, y1: 86, x2: 375, y2: 150, stroke: '#8b8f99' });
     const s2 = g({}, 2);
     add(s2, 'circle', { cx: 610, cy: 160, r: 7, fill: '#e5892a', stroke: '#fff', 'stroke-width': 2 });
-    add(s2, 'text', { x: 610, y: 128, 'text-anchor': 'middle', class: 'lbl' }, 'GPU, 7 digits');
+    add(s2, 'text', { x: 610, y: 128, 'text-anchor': 'middle', class: 'lbl' }, 'GPU at 7 digits');
     add(s2, 'line', { x1: 330, x2: 610, y1: 280, y2: 280, stroke: '#e5892a', 'stroke-width': 2 });
     add(s2, 'line', { x1: 330, x2: 330, y1: 272, y2: 288, stroke: '#e5892a', 'stroke-width': 2 });
     add(s2, 'line', { x1: 610, x2: 610, y1: 272, y2: 288, stroke: '#e5892a', 'stroke-width': 2 });
