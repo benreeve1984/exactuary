@@ -19,7 +19,7 @@
   }
   const fmtS = s => s >= 1000 ? Math.round(s).toLocaleString('en-GB') : s >= 10 ? s.toFixed(0) : s >= 1 ? s.toFixed(2) : s >= 0.1 ? s.toFixed(3) : s.toFixed(4);
   const fmtX = x => x >= 100 ? Math.round(x).toLocaleString('en-GB') : x >= 10 ? x.toFixed(0) : x.toFixed(1);
-  const sci = v => { if (v === null || v === undefined) return 'n/a'; if (v === 0) return '0'; const e = Math.floor(Math.log10(v)); const m = v / 10 ** e; return `${m.toFixed(1)}e${e}`; };
+  const sci = v => { if (v === null || v === undefined) return 'Not available'; if (v === 0) return '0'; const e = Math.floor(Math.log10(v)); const m = v / 10 ** e; return `${m.toFixed(1)}e${e}`; };
 
   function tabs(container, items, onPick, start = 0) {
     container.innerHTML = '';
@@ -35,7 +35,7 @@
   (function () {
     const box = $('#title-bars'); if (!box) return;
     const pick = [0, 1, 4, 5, 6].map(i => SAV.steps[i]);
-    const names = ['One policy at a time', 'Vectorised, as shipped', 'Compiled, all cores', 'Graphics processor, 16 digits', 'Graphics processor, 7 digits'];
+    const names = ['One policy at a time', 'Vectorised, as shipped', 'Compiled, 20 cores, early exit', 'Graphics processor, 16 digits', 'Graphics processor, 7 digits'];
     const t = pick.map(s => s.s * 10), lo = Math.log10(Math.min(...t)) - 0.6, hi = Math.log10(Math.max(...t));
     const rows = pick.map((s, i) => {
       const r = el('div', { class: 'tb-row' + (s.kind === 'original' ? ' orig' : '') },
@@ -125,9 +125,9 @@
     const cell = (r, c) => cells[r * C + c];
     const sv = SAV.steps;
     const modes = [
-      { label: 'One at a time', title: 'One number at a time', text: 'Python reads and works out each instruction again for every single number. This is simple and flexible, but it is the slowest way to do arithmetic: most of the time goes on bookkeeping, not sums.', kv: [['Worked on together', 'one square'], ['Kept in memory', 'one policy'], ['Savings model', `${fmtS(sv[0].s)} s per million rows`]], tick: 35 },
+      { label: 'One at a time', title: 'One number at a time', text: 'Python reads and works out each instruction again for every single number. This is simple and flexible, but most of the time goes on handling each instruction, and little on the arithmetic itself.', kv: [['Worked on together', 'one square'], ['Kept in memory', 'one policy'], ['Savings model', `${fmtS(sv[0].s)} s per million rows`]], tick: 35 },
       { label: 'Vectorised', title: 'Vectorised: one month for all policies', text: 'The computer works out a whole column at once, which removes most of the bookkeeping. But months still come one after another, the computer keeps every month of every policy in memory, and it keeps calculating matured policies to the end.', kv: [['Worked on together', 'a column'], ['Kept in memory', 'everything (orange)'], ['Savings model', `${fmtS(sv[1].s)} s per million rows`]], tick: 220 },
-      { label: 'Compiled', title: 'Compiled: one policy through all its months', text: 'The model is translated into the processor\'s own instructions. Each policy runs from its first month to its last, passing only a few numbers forward, and stops when nothing is left in force. The computer never works out the striped squares.', kv: [['Worked on together', 'one row, very fast'], ['Kept in memory', 'two numbers per policy'], ['Savings model', `${fmtS(sv[2].s)} s per million rows`]], tick: 22 },
+      { label: 'Compiled', title: 'Compiled: one policy through all its months', text: 'The model is translated into the processor\'s own instructions. Each policy runs from its first month to its last and passes a small set of values to the next month. The striped squares show early exit, which is a separate change at level 4: the projection stops when nothing is left in force.', kv: [['Worked on together', 'one row, very fast'], ['Kept in memory', 'two numbers per policy'], ['Savings model', `${fmtS(sv[2].s)} s per million rows`]], tick: 22 },
       { label: 'All cores / GPU', title: 'Many policies at once', text: 'Policies do not affect each other, so the computer shares the rows out: 20 at a time across the processor cores here, and thousands at a time on a graphics processor. Each row still runs its months in order.', kv: [['Worked on together', 'many rows'], ['Kept in memory', 'two numbers per policy'], ['Savings model', `${fmtS(sv[4].s)} s (cores) · ${fmtS(sv[6].s)} s (GPU)`]], tick: 160 },
     ];
     let timer = null, mode = 0, active = false;
@@ -176,7 +176,7 @@
       const ax = svgEl('g', { class: 'ax' });
       for (let e = lo; e <= hi; e++) {
         ax.appendChild(svgEl('line', { x1: x(10 ** e), x2: x(10 ** e), y1: 20, y2: H }));
-        const t = svgEl('text', { x: x(10 ** e), y: 12, 'text-anchor': 'middle' }); t.textContent = e >= 3 ? `${10 ** (e - 3)}k s` : e >= 0 ? `${10 ** e} s` : `${10 ** e} s`; ax.appendChild(t);
+        const t = svgEl('text', { x: x(10 ** e), y: 12, 'text-anchor': 'middle' }); t.textContent = `${(10 ** e).toLocaleString('en-GB')} s`; ax.appendChild(t);
       }
       s.appendChild(ax);
       const nOrig = st.filter(z => z.kind === 'original').length, vec = st[nOrig - 1].s;
@@ -191,8 +191,8 @@
         hit.addEventListener('mousemove', ev => {
           const b = box.getBoundingClientRect(), sc = b.width / box.offsetWidth;
           tip.innerHTML = `<b>${z.label}</b><div><span>Per million rows</span><span>${fmtS(z.s)} s</span></div><div><span>10 million rows</span><span>${dur(z.s * 10)}</span></div>` +
-            (i > 0 ? `<div><span>vs previous step</span><span>×${fmtX(st[i - 1].s / z.s)}</span></div>` : '') +
-            (i >= nOrig ? `<div><span>vs vectorised original</span><span>×${fmtX(vec / z.s)}</span></div>` : '');
+            (i > 0 ? `<div><span>Compared with the previous level</span><span>×${fmtX(st[i - 1].s / z.s)}</span></div>` : '') +
+            (i >= nOrig ? `<div><span>Compared with the vectorised original</span><span>×${fmtX(vec / z.s)}</span></div>` : '');
           tip.style.left = `${Math.min((ev.clientX - b.left) / sc + 14, box.offsetWidth - 240)}px`; tip.style.top = `${(ev.clientY - b.top) / sc + 12}px`; tip.classList.add('on');
         });
         hit.addEventListener('mouseleave', () => tip.classList.remove('on'));
@@ -211,12 +211,12 @@
     const tb = $('#steps-body'); if (!tb) return;
     const st = SAV.steps;
     const rows = [
-      ['1 · Vectorised (as lifelib ships it)', st[1].s, st[0].s, 'The computer works out all policies together, one month at a time', '<span class="yes">Yes</span>: it is the reference', 'None: most Python models start here'],
-      ['2 · Compiled, one core', st[2].s, st[1].s, 'Each policy runs in the processor\'s own instructions, keeping only a few numbers', '<span class="yes">Yes</span>, every value', 'Rewrite the model in a simple, restricted form'],
+      ['1 · Vectorised (as lifelib ships it)', st[1].s, st[0].s, 'The computer works out all policies together, one month at a time', '<span class="yes">Yes</span>: it is the reference', 'No conversion for these lifelib examples'],
+      ['2 · Compiled, one core', st[2].s, st[1].s, 'Each policy runs in the processor\'s own instructions, keeping only a few numbers', '<span class="yes">Yes</span> for recorded values on the test portfolios', 'Rewrite the model in a simple, restricted form'],
       ['3 · All processor cores', st[3].s, st[2].s, 'The cores share the policies', '<span class="yes">Yes</span>', 'None'],
-      ['4 · Stop when nothing is left', st[4].s, st[3].s, 'Projections end early', '<span class="part">Equal in exact arithmetic</span>, and identical here', 'A proof that stopping loses nothing'],
+      ['4 · Stop when nothing is left', st[4].s, st[3].s, 'Projections end early', '<span class="part">Equal in exact arithmetic</span> under stated assumptions', 'A proof that stopping loses nothing'],
       ['5 · Graphics processor, 16 digits', st[5].s, st[4].s, 'The same sums on different hardware', '<span class="part">Last digits differ</span>', 'A graphics processor, and error bounds'],
-      ['6 · Graphics processor, 7 digits', st[6].s, st[5].s, 'About 7 digits instead of 16', '<span class="part">No: up to about 1% for each policy</span>', 'Error bounds, and use of totals only'],
+      ['6 · Graphics processor, 7 digits', st[6].s, st[5].s, 'About 7 digits instead of 16', '<span class="part">No: depends on the output; see section 06</span>', 'Error bounds, checked for each reported output'],
     ];
     tb.innerHTML = rows.map(r => `<tr><td>${r[0]}</td><td class="num">×${fmtX(r[2] / r[1])}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td></tr>`).join('');
   })();
@@ -232,7 +232,7 @@
   // ---------- defects ----------
   (function () {
     const box = $('#df-chart'), tb = $('#df-tabs'); if (!box) return;
-    const names = { 'portfolio totals within 1e-6, sample portfolio': 'Portfolio totals agree to 1 part in a million', 'per-policy present values within 1e-9, sample portfolio': 'Each policy\'s present values agree', 'every intermediate exact, sample portfolio': 'Every value, sample portfolio', 'every intermediate exact, all portfolios': 'Every value, sample and unusual cases' };
+    const names = { 'portfolio totals within 1e-6, sample portfolio': 'Portfolio totals agree to 1 part in a million', 'per-policy present values within 1e-9, sample portfolio': 'Each policy\'s present values agree to 1 part per billion', 'every intermediate exact, sample portfolio': 'Every recorded value exactly, sample portfolio', 'every intermediate exact, all portfolios': 'Every recorded value exactly, sample and unusual cases' };
     tabs(tb, D.models.map(m => ({ label: m.name, m })), it => {
       const rows = it.m.defects;
       box.innerHTML = rows.map((r, i) => `<div class="df-row ${i < 2 ? 'weak' : ''}"><div class="nm"><span>${names[r.check] || r.check}</span><b>${r.caught} of ${r.of} · ${Math.round(100 * r.caught / r.of)}%</b></div><div class="df-track"><div class="df-bar" style="width:0"></div></div></div>`).join('') +
@@ -261,14 +261,14 @@
     const mark = (s, ref) => { let out = '', ok = true; for (let i = 0; i < s.length; i++) { if (ok && s[i] !== ref[i]) ok = false; out += ok ? s[i] : `<span class="bad">${s[i]}</span>`; } return out; };
     function upd() {
       const t = inp.value.trim(), x = Number(t);
-      if (!isFinite(x) || t === '') { ['#fl-64', '#fl-32', '#fl-can'].forEach(q => ($(q).textContent = '—')); return; }
+      if (!isFinite(x) || t === '') { ['#fl-64', '#fl-32', '#fl-can'].forEach(q => ($(q).textContent = 'Enter a finite number')); return; }
       const exact = t.includes('.') ? t + '0'.repeat(25) : t + '.' + '0'.repeat(25);
       const d = x.toPrecision(21), f = Math.fround(x).toPrecision(21);
       const norm = v => { const n = Number(v); return n.toFixed(Math.max(0, 20 - Math.floor(Math.log10(Math.abs(n) || 1)))).slice(0, 23); };
       $('#fl-64').innerHTML = mark(norm(d), exact);
       $('#fl-32').innerHTML = mark(norm(f), exact);
       const c = Math.fround(Math.fround(1e6 + x) - 1e6);
-      $('#fl-can').innerHTML = `${c} <span class="label" style="margin-left:8px">should be ${t}</span>`;
+      $('#fl-can').innerHTML = `${c} <span class="label" style="margin-left:8px">exact result: ${t}</span>`;
     }
     inp.addEventListener('input', upd); upd();
   })();
@@ -306,8 +306,8 @@
   // ---------- certified distances ----------
   (function () {
     const hd = $('#cert-head'), bd = $('#cert-body'); if (!hd) return;
-    const cols = [["original's summation (float64)", 'Original model'], ['gpu float64', 'GPU, 16 digits'], ['cpu float32', 'Processor, 7 digits'], ['gpu float32', 'GPU, 7 digits']];
-    hd.innerHTML = `<tr><th>Model</th><th class="num">Rows</th>${cols.map(c => `<th class="num">${c[1]}</th>`).join('')}<th class="num">GPU, 7 digits: net cashflow</th></tr>`;
+    const cols = [["original's summation (float64)", 'Fast-model values, original summation order'], ['gpu float64', 'GPU, 16 digits'], ['cpu float32', 'Processor, 7 digits'], ['gpu float32', 'GPU, 7 digits']];
+    hd.innerHTML = `<tr><th>Model</th><th class="num">Rows</th>${cols.map(c => `<th class="num">${c[1]}</th>`).join('')}<th class="num">Net cashflow, GPU at 7 digits</th></tr>`;
     bd.innerHTML = D.models.map(m => {
       const v = m.certify.variants;
       return `<tr><td>${m.name}</td><td class="num">${m.certify.rows.toLocaleString('en-GB')}</td>` + cols.map(c => { const w = v[c[0]].worst; return `<td class="num ${w > 1e-3 ? 'hi' : ''}">${sci(w)}</td>`; }).join('') +

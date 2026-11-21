@@ -1,12 +1,11 @@
 # Traditional life, annual: `fastlife`
 
-In this document, "the original model" means the lifelib model run unchanged. "The fast model"
-means the rewritten version. The code calls it the "kernel".
+The [glossary](../../README.md#glossary) explains the terms on this page.
 
 ## Model
 
-This is lifelib's annual model of term, whole-life and endowment business. It is spread over 4
-modules: projection, policy, assumptions and economic. It covers:
+This is lifelib's annual model of term, whole-life and endowment business. It spans 4 source
+files: projection, policy, assumptions and economic. It covers:
 
 - net-premium reserves from commutation columns
 - surrender charges and cash values
@@ -15,33 +14,29 @@ modules: projection, policy, assumptions and economic. It covers:
 
 ## Fast model
 
-The fast model carries 2 values from year to year: the policies in force and the accumulated
-cashflow. Commutation columns and rates for each policy are prepared once. They are then compared
-exactly with the original model's cells.
+The fast model carries 2 values between years: the policies in force and the accumulated
+cashflow. Input preparation computes commutation columns and rates for each policy once. Tests
+compare them with the original model's values.
 
 ## Results
 
-A planted error is a single small edit to the fast model, made to test whether the checks catch
-it. Z3 is an automated theorem prover from Microsoft Research that either proves a statement or
-finds a counterexample. Lean is a proof assistant that checks every step of a proof with a small,
-well-studied checking program.
-
 | Check | Result |
 |---|---|
-| Exact comparison | 77 outputs, 16,008,300 values on 2 portfolios; none differs. The 4 present-value cells match all 838,800 values. They are computed backwards from the fast model's trace, using the original model's expression |
-| Exhaustive tables | 5,544 commutation values, and 5,174,064 lookups over 4,872 made-up policies; identical |
-| Planted errors | 264 planted errors that give programs that run. Totals catch 189 (72%). Every intermediate value catches 250 (95%). Some of the 14 errors not caught edit terms that are 0 for every product in the model, for example an annuity over a waiting period of zero length. No portfolio of real products can reveal them |
-| Proof (Z3) | 158 of 158 statements proved for each version of the fast model; 8 statements for early exit; 253 of 262 planted errors shown to change the results, and 9 shown to make no difference |
+| Exact comparison | 77 outputs, 16,008,300 recorded values on 2 portfolios; none differs. A separate calculation works backwards through the fast model's recorded values with the original expression. Its 4 present-value outputs match all 838,800 values |
+| Exhaustive tables | 5,544 commutation values, and 5,174,064 lookups over 4,872 constructed test policies; identical |
+| Planted errors | 264 runnable planted errors. Totals detect 189 (72%). Every recorded intermediate value detects 250 (95%). Some of the 14 errors that survive comparison change terms that are 0 for every product in the model, for example an annuity over a waiting period of zero length. No portfolio of real products can reveal them |
+| Proof outcomes for planted errors | 253 differ; 9 preserve exact-arithmetic results; 2 additional runnable errors fail symbolic processing. Of the 14 errors that survive comparison, Z3 finds a difference for 3 and establishes equality in exact arithmetic for 9. The symbolic check rejects 2 because it cannot process their table indices |
+| Proof (Z3) | Z3 proves 158 of 158 statements for each version of the fast model, and 8 statements for early exit |
 | Lean | 166 of 166 theorems for each version |
-| Assumptions (the code calls these "axioms") | Model point and assumption lookups; the economic scenario; the reserve rate. The original model computes the reserve rate row by row, with Python branches. The description of the model as formulas describes it with a formula written by hand. The proof of everything that depends on the reserve rests on that formula |
+| Assumptions | Policy data and assumption lookups; the economic scenario; the reserve rate. The original model computes the reserve rate row by row with Python branches. The formal description replaces it with a handwritten formula. The proof of everything downstream of the reserve rate depends on that formula |
 
 ## Other notes
 
-20 cells of the original model raise errors when run with lifelib 0.17.3 and pandas 3.1. These
-are 10 valuation-basis reserve cells and 10 present-value cells. They are left out of the
-comparison.
+20 cells (formula results) of the original model raise errors with lifelib 0.17.3 and pandas 3.1.
+These are 10 valuation-basis reserve cells and 10 present-value cells. The comparison excludes
+them.
 
-Present values defined backwards are tested exactly but not proved.
+Exact comparison covers the present values defined backwards, and proof coverage excludes them.
 
-lifelib's `simplelife` projects one policy at a time. It agrees exactly and takes 20 ms per
-policy.
+lifelib's `simplelife` projects one policy at a time. Its recorded values agree on the baseline
+portfolios. The scalar timing run takes about 20.5 milliseconds per policy.

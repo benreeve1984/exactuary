@@ -1,173 +1,167 @@
 # Method
 
-In this document, "the original model" means the lifelib model run unchanged. "The fast model"
-means the rewritten version. The code calls the fast model the "kernel", and so does this
-document from here on.
+The [glossary](../README.md#glossary) explains the terms on this page.
 
 ## Scope
 
-The checks are designed to catch mistakes made in good faith by whoever converts a model. That
-may be a person or an AI coding agent. Typical mistakes are a wrong table row, an operation in
-the wrong order, a missing branch or a misread formula. The tests in `tests/` record mistakes of
-this kind, and the checks are known to catch them.
+The checks aim to detect mistakes during model conversion by a person or an AI coding agent.
+Typical mistakes are a wrong table row, an operation in the wrong order, a missing branch or a
+misread formula. The tests in `tests/` record mistakes of this kind, and the checks detect them.
 
-The checks do not defend against someone who deliberately tries to get a wrong model to pass, for
-example by writing unusual code or by editing the description of the model or the proof files.
-Adversarial testing found ways to do this.
+The checks do not defend against someone who deliberately seeks a pass for a wrong model, for
+example by writing unusual code or by editing the formal description or the proof files.
+Adversarial testing shows that such an author can obtain a pass.
 
-So you should review the description of a model, and any hand edits, as work products. Do not
-treat them as untrusted input and assume the tools make them safe.
+Review the formal description and any manual changes as work products. The tools do not make them
+safe.
 
 ## Principle
 
-A person or, as intended here, an AI coding agent writes the fast model, and you do not need to
-trust them. It is not accepted on its author's word. A small set of checks, whose code is short
-enough to read, decides whether to accept it.
+A person or an AI coding agent can write the fast model. The checks assess that model against the
+original model. A small set of checks decides whether to accept it, and their code is short enough
+to read.
 
-The proofs do trust one part of the author's work. This is the description of the original model
-as formulas, which says how the original model is to be read. It includes the model's
-assumptions (the code calls these "axioms"), its table definitions and keys, and how it maps
-inputs. A wrong description can produce a valid proof of a false claim. So you must review the
-description in its own right. Exact comparison does not depend on it.
+The proofs depend on one part of the author's work: the formal description. It says how to read
+the original model. It includes the assumptions (the code calls them "axioms"), the table
+definitions and keys, and the mapping of inputs. A reviewer must check the formal description and
+assumptions, even if the same author supplied them. A proof can be valid under its stated
+assumptions even when those assumptions describe the original model incorrectly. Exact comparison
+does not depend on the formal description.
 
-Compiler research calls this arrangement "translation validation". The translator is not proved
-correct. Each translation is checked instead.
+Compiler research calls this arrangement translation validation. Each converted model receives its
+own checks.
 
-## The kernel
+## The step function
 
-The kernel is a single function that describes one month of one policy. It receives:
+The fast model uses a step function for one period of one policy. Execution code repeats the step
+through the projection. The step function receives:
 
 - the policy's data
-- the month's inputs
-- the small amount of state carried from the previous month
+- the period's inputs
+- the small set of values carried from the previous period
 
-It returns that month's values and the state for the next month.
+It returns that period's values and the values to carry to the next period.
 
-The kernel is written in a deliberately restricted form. It is straight-line arithmetic, with no
-loops or branches. Choices are written as `sel(condition, a, b)`.
+Write the step function in a restricted form: arithmetic without loops or branches. Use
+`sel(condition, a, b)` for choices.
 
-Because of this restriction, the same text can be run in several ways:
+Different programs interpret the same text:
 
 | Interpretation | Purpose |
 |---|---|
-| Compiled for a processor (Numba) | Fast running; exact comparison with the original model |
-| Compiled for a graphics processor (CUDA) | Faster running |
-| Array arithmetic (NumPy) | Measuring how strong the tests are |
-| As formulas (Z3) | Proof that the results are equal |
-| Interval arithmetic with outward rounding | A guaranteed interval that contains the exact result |
+| Compiled for a processor (Numba) | Fast execution; exact comparison with the original model |
+| Compiled for a graphics processor (CUDA) | Faster execution |
+| Array arithmetic (NumPy) | Measuring test performance |
+| Symbols (Z3) | Proof of equality in exact arithmetic |
+| Interval arithmetic with outward rounding | A guaranteed interval around the exact result |
 
-Z3 is an automated theorem prover from Microsoft Research that either proves a statement or finds
-a counterexample.
+All interpretations come from one text, so there is no separate GPU model, proof model or test
+model to maintain. The interpreters must still agree on the meaning of the text. The parser (the
+code reader) accepts only the allowed syntax in `exactuary/lang.py`. The interval and symbolic
+interpreters evaluate the parsed expressions one at a time. The backends regenerate code from the
+parsed form and compile that code.
 
-Every interpretation comes from one text. So there is no separate GPU model, proof model or test
-model to write and keep in step. The interpreters must still agree on what the text means. To
-help with this, the text is limited to a small grammar (`exactuary/lang.py`) and is never run as
-written. The interval and formula interpreters work through the parsed text one piece at a time.
-The numeric backends compile text that is regenerated from the parsed form.
+## The original model as reference
 
-## The original model as the reference
+For testing, run the unchanged original model and record the selected intermediate values.
 
-For testing, the original model is run as written, and every intermediate cell is recorded.
+For proof, the proof tool reads supported formulas from the original source. An interpreter (a
+program that evaluates formulas) evaluates them with symbols. This gives a formula for each value
+in terms of the policy data. A separate description supplies assumptions for unsupported parts.
+The annual example includes a handwritten reserve formula. Each assumption needs its own tests
+and review. There are 2 qualifications.
 
-For proof, the original model is again not copied by hand. Instead, its source code is run on
-symbols rather than numbers. This gives a formula for each cell in terms of the policy
-data. There are 2 qualifications.
+First, Python does not run the original formulas. The interpreter accepts a listed set of Python
+constructs and rejects others. Tests found incorrect readings, and the interpreter now rejects
+those cases. Related forms may still pass. Tests cover the listed supported constructs, and the
+interpreter has no proof of completeness.
 
-First, Python does not run the original model's formulas. An interpreter reads them and works
-through them one piece at a time. The interpreter is written to accept a listed set of Python
-constructs and to reject others. That list has been wrong before. Testing found constructs that
-were accepted and misread. The specific inputs found are now rejected, but related forms may
-still be accepted. You should treat the interpreter as tested, not as proved complete.
+The formal description supplies trusted code, such as assumptions and stand-ins for other source
+files. That code runs as written.
 
-The description itself supplies some objects, such as assumptions and stand-ins for other
-modules. These are trusted code, and they run as written.
+Unsupported parts include inputs, table lookups that use operations on tables of labelled data,
+random draws and, in the annual example, the handwritten reserve formula. Assumptions replace each
+of these. Tests check each assumption case by case.
 
-Some cells are outside the accepted set. These are inputs, table lookups written with data-frame
-operations, random draws and, in one example, a reserve formula that a person copied by hand. A stated
-assumption replaces each of these. We test each assumption separately, case by case.
+Second, the interpreter treats every value as a single real number or integer. It does not model
+missing values, infinities, index alignment (matching table rows by their labels) or integer
+overflow (a whole number exceeding its storage range). So the proof concerns one reading of the
+original model, and the evidence depends on that reading.
 
-Secondly, the interpreter treats every value as a single real number or integer. It does not
-model missing values, infinities, index alignment or integer overflow. So the proof is a proof
-about one reading of the original model, and that reading is part of what must be trusted.
+## Tables that ignore a position
 
-## Tables that ignore an index
+Sometimes the formal description defines a precomputed table in a way that does not depend on one
+of its row or column positions (indices). This happens, for example, when a single symbol
+describes a per-policy assumption. The description must then state which fast-model input that
+position must equal. This is the key. The proof treats a lookup at any other position as an
+unknown value. The checks always enforce a declared key.
 
-Sometimes the description defines a precomputed table in a way that does not depend on one of its
-indices. This happens, for example, when a single symbol stands for a per-policy assumption.
-In that case, the description must state which kernel input that index has to equal. A lookup
-with any other index is then treated as an unknown value. A declared key is always enforced.
-
-If a definition does not depend on an index and declares nothing, the library rejects it. This
-check is a safeguard against oversight. It is not a proof that the description is right. A
-description that states the wrong key, or wrongly says a table is constant, is a wrong
-description, and the proof will follow it.
+The library rejects a definition that ignores a position and declares no key. This safeguard
+catches oversights. It does not prove the description right. If the description states the wrong
+key, or wrongly treats a table as constant, the proof follows the wrong description.
 
 ## The proof
 
-The proof is split into proof obligations. A proof obligation is a statement to be proved. For
-each output, Z3 is asked to prove 2 statements.
+Split the proof into statements (proof obligations). For each output, Z3 checks 2 statements.
 
-1. In month 0, the kernel's value equals the original model's, for every possible policy.
-2. In any later month, suppose the kernel's carried state matches the original model's. Then
-   the kernel's value equals the original model's, and the kernel again carries forward the
-   correct state.
+1. In period 0, the fast model's value equals the original model's value for every possible
+   policy.
+2. In any later period, suppose the fast model's carried values match the original model's. Then
+   the fast model's value equals the original model's, and the fast model again carries forward
+   the correct values.
 
-If both statements hold for every output, then the results are equal in every month, by
-induction.
+If both hold for every output, induction (a proof that agreement carries from one period to the
+next) gives equality in every period.
 
-Lean is a proof assistant that checks every step of a proof with a small, well-studied checking
-program. Two general results are proved once in Lean, in `exactuary/lean/Glue.lean`:
+Lean proves 2 general results once, in `exactuary/lean/Glue.lean`:
 
 - the induction itself
-- that present values calculated as running totals are equal
+- the equality of present values as running totals
 
-No machine checks that a particular model's statements fit the conditions of those general
-results. That rests on the exporter. It also rests on matching the description's "state after
-month t" with the theorem's "state entering month t+1".
+No program checks that a particular model's statements fit the conditions of those general
+results. A reviewer must check the exporter's connection between each model and the general
+results. This includes the match between the description's "state after period t" and the
+theorem's "state entering period t+1".
 
-## Stopping early
+## Early exit
 
-A kernel may stop a projection once a stated rule holds, for example when no policies remain in
-force. The compiled code runs this rule, and the statements that justify stopping early come from
-that same rule.
+A fast model may stop a projection once a stated rule holds, for example when no policies remain
+in force. The compiled code runs this rule, and the statements for early exit come from that same
+rule.
 
-For month 0 and for any later month, and for any state at all, Z3 must prove the following. If
-the rule holds after a month, then in the next month every accumulated cashflow is 0 and the rule
+For period 0, for any later period and for any carried values, Z3 must prove the following. If the
+rule holds after a period, then in the next period every accumulated cashflow is 0 and the rule
 holds again.
 
-In addition, the stopped projection is compared, value for value, with the full projection on
-every test portfolio.
+Then compare the stopped and full projections, value for value, on every test portfolio.
 
-The proof uses real numbers. Sometimes the original model itself produces a value that is not a
-finite number after the stopping point. In that case the 2 projections differ, and the affected
-rows are reported. A row is one policy in one scenario.
+The proof establishes zero future accumulated cashflows in exact arithmetic once the exit rule
+holds. Computer results can still differ if the original model later produces an undefined or
+infinite value. The examples report the affected rows.
 
 ## Rounding
 
-A proof of equality over real numbers does not show that computed results are equal. This is
-because computer arithmetic rounds. There are 2 cases.
+Proof of equality in exact arithmetic does not establish equality of computed results, because
+computer arithmetic rounds. There are 2 cases.
 
-In the first case, the kernel performs the original model's operations in the original model's
-order. The computed results are then expected to be identical. Exact comparison shows that they
-are, on the portfolios tested.
+If the fast model performs the original model's operations in the original order, expect agreement.
+Exact comparison confirms it on the portfolios tested.
 
-In the second case, operations are reordered, or a different device or precision is used. The
-kernel is then run once more in interval arithmetic. Every value is carried as a pair of numbers
-known to lie either side of the exact result. Each operation rounds the lower number down and the
-upper number up. Where the intervals cannot decide a comparison, both outcomes are kept.
+If the implementation changes operation order, device or precision, run the fast model through the
+interval program. The program stores each value as 2 endpoints, one on either side of the exact
+result. Each operation rounds the lower endpoint down and the upper endpoint up. Where the
+intervals cannot decide a comparison, the program keeps both outcomes.
 
-The result, for each policy run, is a guaranteed interval. The code calls this an "enclosure". It
-contains what exact arithmetic would give on the same inputs, provided the program that computes
-it is correct.
+For each row, the result is a guaranteed interval. It contains the exact-arithmetic result on the
+same inputs, provided the interval program is correct. Every number in the step passes through
+that program, including integer arithmetic, the time index and divisions of constants. So nothing
+rounds before the program tracks it. If the program cannot represent an input exactly, it rejects
+that input.
 
-Every number in the step passes through that program, including integer arithmetic, the time
-index and divisions of constants. So nothing is rounded before it is tracked. If the program cannot
-represent an input exactly, it rejects that input.
+You can then place any computed result in single or double precision, from any device, against the
+interval. Its distance to the far endpoint gives an upper bound on its error. You do not need to
+assume anything about the device's rounding.
 
-You can then place any computed result in single or double precision, from any device, against
-the interval. Its error is at most its distance to the far
-end of the interval. You do not need to assume anything about how that device rounds.
-
-This is a statement about each policy actually run, made after the run. It is not a bound that
-holds for every possible input. It also takes the prepared inputs as given, including any powers
-precomputed into tables. `benchmarks/certify.py` applies it to every example.
+The resulting bound applies to the rows in that run. It does not hold for every possible input. It
+takes the prepared inputs as given, including any powers precomputed into tables.
+`benchmarks/certify.py` applies it to every example.

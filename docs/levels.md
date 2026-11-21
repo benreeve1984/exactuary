@@ -1,96 +1,94 @@
 # Levels of acceleration
 
 You can make a cashflow model faster in a series of levels. Each level moves the model further
-from its original, validated form. So each level needs stronger evidence that
-the results have not changed.
-
-This document defines the levels and says what evidence each one needs. It also sets out what to
-consider when you choose between them.
-
-In this document, "the original model" means the lifelib model run unchanged. "The fast model"
-means the rewritten version. The code calls the fast model the "kernel".
+from its validated form, so each level needs more evidence of agreement. This page defines the
+levels and the evidence for each, and sets out how to choose between them. The
+[glossary](../README.md#glossary) explains the terms.
 
 ## Summary
 
-| Level | What changes | Are results identical? | Evidence needed | Main cost |
+| Level | What changes | Agreement with the original model | Evidence | Main cost |
 |---|---|---|---|---|
-| 0. One policy at a time | Nothing. Each policy runs through interpreted Python, one at a time. | This is the reference | None | Run time |
-| 1. Vectorised | All policies are processed together, using operations on whole arrays. | Usually identical | Reconciliation of results | Memory grows with policies x months |
-| 2. Compiled | Each policy is projected through all its months in machine code, on one processor core. | Every monthly value is identical. Present values are identical when added up in the original model's order | Exact comparison of every intermediate value, and a measure of how strong the tests are | The model is rewritten in a restricted form |
-| 3. All processor cores (parallel) | The compiled model runs on all processor cores. | As level 2 | As level 2 | None beyond level 2 |
-| 4. Restructured | Work is removed or reordered. The projection stops once nothing is in force, and the arithmetic is rearranged. | Equal in exact arithmetic. May differ in the last digits | Mathematical proof that the results are equal, and a comparison of the stopped projection with the full one | Needs a formal description of the model. Proofs concern real numbers, not rounding |
-| 5. GPU, double precision | The same arithmetic runs on a graphics processor (GPU). Numbers are held to about 16 significant digits. | Differs in the last digits | Proof as level 4, plus a guaranteed interval that contains the exact result | Hardware cost and availability. The gain depends strongly on the device |
-| 6. GPU, single precision | Numbers are held to about 7 significant digits rather than 16. | No. Individual values may differ materially | Guaranteed interval that contains the exact result, and comparison with the reference at the level at which results are used | Accuracy. Suitable only where you need aggregate results |
+| 0. One policy at a time | lifelib's separate model processes one policy at a time in interpreted Python, where such a model exists | Separate checks compare it with level 1 | Baseline checks against the level 1 model | Run time |
+| 1. Vectorised | The unchanged original model processes policies together, with operations on arrays of policy values. It is the comparison reference | Reference | Baseline checks against the separate level 0 model, where available | Memory grows with policies times periods |
+| 2. Compiled | Processor instructions project each policy through all its periods, on one processor core | Recorded values agree on the test portfolios. Present values agree when both models add them in the same order | Exact comparison of every recorded intermediate value, and a measured detection rate for planted errors | The author rewrites the model in a restricted form |
+| 3. All processor cores (parallel) | The compiled model runs on all processor cores | As level 2 | As level 2 | None beyond level 2 |
+| 4. Restructured | Remove or reorder work: early exit, and rearranged arithmetic | Equal in exact arithmetic. Rounded results may differ in the last digits | Proof of equality in exact arithmetic under stated assumptions; comparison of the stopped and full projections; rounding checks where rounding changes | A formal description of the model. The proof concerns exact arithmetic, and separate checks assess rounding |
+| 5. GPU, double precision | The same arithmetic runs on a graphics processor (GPU), with about 16 significant digits | Differs in the last digits | Proof as level 4, plus rounding error bounds | Hardware cost and availability. The gain depends strongly on the device |
+| 6. GPU, single precision | The number format keeps about 7 significant digits | Individual values may differ materially | Rounding error bounds, and accuracy checks on each reported output | Accuracy. Each reported output needs an agreed error limit |
 
-Levels 2 and 3 are separate because level 2 changes the model. Level 3 only changes how many
-processors run it.
+Levels 2 and 3 are separate because level 2 changes the model. Level 3 changes only the number of
+processors.
 
-## The evidence available
+## The checks
 
-There are 4 forms of evidence. They are listed here from weakest to strongest.
+There are 5 complementary checks. Each addresses a different source of error.
 
-1. Exact comparison. The original model is run on a test portfolio, and every intermediate value
-   in every month is recorded. The fast model must reproduce each value exactly. This shows the
-   results are equal for the policies tested. "Exactly" means equal as numbers. The comparison
-   also counts values that are equal as numbers but differ in their bits (the sign of a zero). In
-   every example, that count is 0. Present values added up as a running total differ from the
-   original model's matrix product in the last digits, by about 1 part in 10^11. When added up in
-   the original model's order, they are identical.
-2. Measured tests. Errors are planted in the fast model, one at a time. The comparison
-   is then run, and its detection rate is recorded. This measures the quality of the test portfolio and of the
-   comparison, rather than assuming it.
-3. Proof. The formulas of the original model are run on symbols instead of numbers. Z3 is then
-   asked whether any policy, in any month, could give a different value in the fast model. Z3 is
-   an automated theorem prover from Microsoft Research that either proves a statement or finds a
-   counterexample. This shows the results are equal for all policies, in exact arithmetic. The
-   result depends on a description of the original model as formulas (see "What must be
-   trusted").
-4. Independent proof checking. The statements are translated for Lean. Lean is a proof assistant
-   that checks every step of a proof with a small, well-studied checking program. The translation
-   covers integers, real numbers and true-or-false values, and rejects anything else. With this
-   check, you no longer need to trust Z3's verdict. You do still need to trust the statements
-   themselves, and their translation.
+1. Comparison of recorded values. Run the original model on a test portfolio and record each
+   selected intermediate value in each period. The fast model must reproduce each value exactly.
+   This shows agreement for the policies tested. The comparison treats equal numeric values and
+   pairs of undefined values as matching. It separately prints differences in the stored binary
+   representation, including signed zeros and undefined values. The saved JSON reports do not
+   retain that count.
+2. Tests with planted errors. Plant an error, run the comparison and record whether it detects the
+   error. The recorded detection rate measures test performance.
+3. Proof in exact arithmetic. An interpreter evaluates the original model's formulas with symbols.
+   Z3 then checks whether any policy, in any period, could give a different value in the fast
+   model. For each covered output, this establishes equality in exact arithmetic under the
+   model's stated assumptions (see [Dependencies of the evidence](trusted-base.md)).
+4. Separate proof checking. The exporter translates the statements for Lean, which checks separate
+   proofs. This removes reliance on Z3's verdict for those statements. The translation covers
+   integers, real numbers and true-or-false values, and rejects anything else. The translation,
+   assumptions and connection to the full projection still need review.
+5. Rounding error bounds. A separate check computes an interval for each row in the certification
+   run. The interval contains the exact fast-model result on the prepared inputs, provided the
+   interval program is correct. The check reports any row without a bound.
 
-These forms of evidence do not replace each other in turn. Exact comparison is the foundation. It
-tests the programs that actually run, on actual numbers, against the actual original model.
+A running total of present values can differ in the last digits from the original model's method,
+which multiplies cashflows by discount factors and adds them. Across the saved exact-comparison
+runs, the largest reported relative difference from a running total is about 1.27 parts in 10
+billion, for configuration 3 of savings with dynamic lapses. Matching the original summation
+order removes this difference on those tests.
 
-Proof extends the conclusion from the policies tested to all policies. But it is a proof about a
-description of the original model, and it concerns real numbers. Some errors leave the
-real-number meaning unchanged but damage the computed result. One example is adding and then
-subtracting a very large number. Such an error passes every proof. Only exact comparison catches
-it.
+Exact comparison tests the programs that run, on real inputs, against the original model. Proof
+extends the result to all inputs within the stated assumptions, for a formal reading of the
+selected formulas. It excludes some calculations, non-finite values and machine rounding.
 
-Proofs are statements about exact arithmetic. Z3 works with real numbers and Lean with
-rational numbers (fractions). Both treat powers, exponentials and logarithms as unknown functions,
-not as the real ones. Computers round, so rounding is dealt with separately.
+Some errors leave the exact-arithmetic meaning unchanged but damage the computed result. One
+example is adding and then subtracting a very large number. Such an error passes every proof. You
+also need a numerical check to detect changes in rounding.
 
-At levels 2 and 3, exact comparison shows that the computed values agree with the original
-model's on the policies tested. It does not show that rounding agrees on policies not tested.
+Proofs concern exact arithmetic. Z3 uses real numbers here, and Lean uses fractions. Both represent
+powers, exponentials and logarithms as named functions with unspecified behaviour. So the proof
+does not establish how a computer calculates them.
 
-At levels 4 to 6, a guaranteed interval is computed for each policy run. The code calls this an
-"enclosure". The interval is computed with outward rounding, which means the lower end is always
-rounded down and the upper end up. It contains the exact result, provided the program that
-computes it is correct. You can then place any computed result against it. That program has been
-tested against exact arithmetic with fractions and by adversarial testing. It has not been
-formally proved correct.
+At levels 2 and 3, exact comparison shows agreement on the policies tested. It does not show that
+rounding agrees on other policies.
+
+At levels 4 to 6, wherever rounding changes, the interval check applies. The interval program
+rounds each lower endpoint down and each upper endpoint up. You can place any computed result
+against the interval. Tests compare the program with exact fraction arithmetic and with
+adversarial cases. The interval program has no formal correctness proof.
 
 ## Choosing a level
 
-To choose the right level, ask these questions.
+To choose a level, ask these questions.
 
-1. Is the current run time a constraint? If not, you do not need to change anything.
+1. Does the current run time meet the task's requirements? If so, you do not need to change
+   anything.
 2. Must every reported figure match the existing model exactly? If so, levels 2 and 3 are the
-   limit. For most purposes they are enough. They need no special hardware and no argument about
-   rounding.
-3. Is the model used for results for individual policies, or only in aggregate? Single precision
-   (level 6) is defensible only for aggregates, such as a mean or a percentile over many
-   scenarios. Even then, the measured aggregate error must be small compared with the statistical
-   error of the simulation.
-4. Will suitable hardware be available when the model must run? Levels 5 and 6 depend on a device
-   that may be costly or shared.
-5. What will the reviewer accept? Exact comparison is easy to understand. A proof needs the
+   limit. They need no special hardware. Present values match only when the fast model adds them
+   in the original order.
+3. Which outputs do you report? For each reported output, set an acceptable error and check it on
+   the intended workload. Apply separate checks to totals, percentiles and ratios. Aggregation
+   alone does not guarantee an acceptable error, especially for tails, ratios or totals near 0.
+   Double precision can serve individual outputs if you check them.
+4. Is compatible hardware available? GPU use needs compatible hardware, which may be costly or
+   shared. It also needs bounds on rounding.
+5. What will the reviewer accept? Reviewers can follow exact comparison easily. A proof asks the
    reviewer to accept a formal description of the model and a short list of stated assumptions.
-   Independent proof checking reduces what must be trusted, but adds nothing to speed.
+   Separate proof checking reduces reliance on Z3 but adds nothing to speed.
 
-As a default, use level 3. Move to level 4 where a proof can be obtained. Consider levels 5 and 6
-only for work with very large numbers of scenarios, where you report totals only.
+Start with level 3 when its test results and run time meet the task's requirements. Move to level
+4 where a proof is available. Consider levels 5 and 6 for workloads with very large numbers of
+scenarios, after you check device support and accuracy on the intended outputs.

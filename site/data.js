@@ -108,7 +108,7 @@ window.EXA = {
   },
   {
    "key": "lifelib_savings_dynamic",
-   "name": "Savings, dynamic lapse",
+   "name": "Savings with dynamic lapses",
    "lib": "CashValue_ME_EX2",
    "period": "month",
    "periods": 121,
