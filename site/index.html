@@ -38,12 +38,12 @@
       </div>
     </div>
   </div>
-  <aside class="notes"><p>The headline. Written to handle one policy at a time, this run takes 18 days. As lifelib supplies it, it takes 47 minutes. Our fast version takes 3 seconds on an ordinary processor and gives identical results. On a graphics processor it takes a tenth of a second, and the results differ in the later digits.</p><p>The rest of the deck explains where each gain comes from, what it costs, and what evidence to collect before relying on it.</p></aside>
+  <aside class="notes"><p>The headline. Written to handle one policy at a time, this run takes 18 days. As lifelib supplies it, it takes 47 minutes. Our fast version takes 3 seconds on an ordinary processor and gives identical results. On a graphics processor it takes a tenth of a second, and the results differ in the later digits.</p><p>The rest of the deck explains where each gain comes from, what it takes to achieve, and what evidence it needs.</p></aside>
 </section>
 
 <section class="slide" data-section="Introduction">
   <span class="kicker">The question</span>
-  <h2>"Could our models run 1,000 times faster? And would we trust them if they did?"</h2>
+  <h2>Can our models run much faster and still be trusted?</h2>
   <div class="cols c2" style="margin-top:34px; gap:48px">
     <div>
       <span class="label">Why speed is wanted</span>
@@ -63,7 +63,7 @@
       </ul>
     </div>
   </div>
-  <div class="callout rise" style="--i:3; margin-top:30px">Commercial platforms already run actuarial models on graphics processors. This project asks a narrower question: <b>at each level of speed, what changes, and what evidence would let you rely on the result?</b></div>
+  <div class="callout rise" style="--i:3; margin-top:30px">Commercial platforms already run actuarial models on graphics processors. This project looks at each level of speed in turn. For each one it describes <b>what changes in the model and what evidence you need to rely on the results.</b></div>
   <aside class="notes"><p>Both halves matter. Speed without evidence gives you a new, unvalidated model. Evidence without speed is where most teams are today.</p></aside>
 </section>
 
@@ -94,14 +94,14 @@
     <div class="rise" style="--i:2"><span class="label">03</span><h3>Six levels of acceleration</h3><p>What each level gains and what it changes, on four real models.</p></div>
     <div class="rise" style="--i:3"><span class="label">04</span><h3>Is it still the same model?</h3><p>Comparing every number, and testing the test.</p></div>
     <div class="rise" style="--i:4"><span class="label">05</span><h3>Proof, from first principles</h3><p>What a theorem prover is, and why Lean matters at the highest levels.</p></div>
-    <div class="rise" style="--i:5"><span class="label">06</span><h3>Rounding, and choosing a level</h3><p>How far rounding can move an answer, which level to choose, and what is new.</p></div>
+    <div class="rise" style="--i:5"><span class="label">06</span><h3>Rounding and choosing a level</h3><p>Rounding errors, choosing a level, and what is new.</p></div>
   </div>
 </section>
 
 <!-- ================= 01 WHAT A MODEL DOES ================= -->
 <section class="slide" id="one-policy" data-section="[01] What a model does">
   <span class="kicker">01 · What a cashflow model does</span>
-  <h2>One policy, one month at a time</h2>
+  <h2>Projecting one policy</h2>
   <div class="cols c46" style="margin-top:10px; gap:44px">
     <div>
       <p>A projection follows a policy forward one month at a time. Each month it works out how many policies are still in force. It then works out the cashflows: premiums coming in, and claims, surrenders and expenses going out.</p>
@@ -119,7 +119,7 @@
 
 <section class="slide" data-section="[01] What a model does">
   <span class="kicker">01 · What a cashflow model does</span>
-  <h2>Then multiply: policies × scenarios × months</h2>
+  <h2>The size of a full run</h2>
   <div class="cols c55" style="margin-top:10px; gap:50px; align-items:center">
     <div class="cube-wrap"><div id="cube"></div></div>
     <div>
@@ -142,7 +142,7 @@
 <!-- ================= 02 WHERE THE TIME GOES ================= -->
 <section class="slide" data-section="[02] Where the time goes">
   <span class="kicker">02 · Where the time goes</span>
-  <h2>The same arithmetic, four ways of doing it</h2>
+  <h2>Four ways to run the same calculation</h2>
   <div class="grid-demo">
     <div class="gd-left">
       <div class="tabs" id="gd-tabs" role="radiogroup" aria-label="Way of doing it"></div>
@@ -156,7 +156,7 @@
 
 <section class="slide" data-section="[02] Where the time goes">
   <span class="kicker">02 · Where the time goes</span>
-  <h2>What a computer can do at the same time, and what it cannot</h2>
+  <h2>What can run in parallel</h2>
   <div class="cols c3" style="margin-top:30px">
     <div class="card q3 rise" style="--i:0"><span class="label">Across policies and scenarios</span><h3>Yes, freely</h3><p class="small-p">Policies do not affect each other, so a computer can work on a million of them at once. Every speed-up in this deck relies on this.</p></div>
     <div class="card q3 rise" style="--i:1"><span class="label">Across months</span><h3>No</h3><p class="small-p">Month 13 needs the policies in force and the account value at the end of month 12. However you arrange the work, each policy's months come one after another.</p></div>
@@ -168,7 +168,7 @@
 <!-- ================= 03 SIX LEVELS ================= -->
 <section class="slide" id="ladder" data-section="[03] Six levels">
   <span class="kicker">03 · Six levels of acceleration</span>
-  <h2>Seconds per million rows, level by level</h2>
+  <h2>Speed at each level</h2>
   <div class="lad">
     <div>
       <div class="tabs" id="lad-tabs" role="radiogroup" aria-label="Model"></div>
@@ -183,7 +183,7 @@
 
 <section class="slide" data-section="[03] Six levels">
   <span class="kicker">03 · Six levels of acceleration</span>
-  <h2>What each level gains, and what it changes</h2>
+  <h2>Summary of the levels</h2>
   <table class="t steps-t">
     <thead><tr><th>Level</th><th>Gain on the savings model</th><th>What changes</th><th>Are results identical?</th><th>What it costs</th></tr></thead>
     <tbody id="steps-body"></tbody>
@@ -194,7 +194,7 @@
 
 <section class="slide" data-section="[03] Six levels">
   <span class="kicker">03 · Six levels of acceleration</span>
-  <h2>What that means for one large run</h2>
+  <h2>Run times for 10 million rows</h2>
   <p class="lede" style="font-size:20px">Ten million policies and scenarios of the savings model, projected for up to 95 years.</p>
   <div class="hero-row" id="hero-row"></div>
   <div class="cols c2" style="margin-top:34px; gap:40px">
@@ -206,7 +206,7 @@
 <!-- ================= 04 SAME MODEL? ================= -->
 <section class="slide" data-section="[04] Is it the same model?">
   <span class="kicker">04 · Is it still the same model?</span>
-  <h2>More speed needs stronger evidence</h2>
+  <h2>Types of evidence</h2>
   <div class="ev">
     <div class="ev-row rise" style="--i:0"><span class="ev-n">1</span><div><b>Compare every number</b><p>Run the original model and record all its results, for every policy in every month. The fast model must reproduce each one exactly.</p></div><span class="ev-for">Levels 2 to 3</span></div>
     <div class="ev-row rise" style="--i:1"><span class="ev-n">2</span><div><b>Test the test</b><p>Plant errors in the fast model on purpose, and count how many the comparison catches.</p></div><span class="ev-for">Levels 2 to 3</span></div>
@@ -219,10 +219,10 @@
 
 <section class="slide" data-section="[04] Is it the same model?">
   <span class="kicker">04 · Evidence 1 · Compare every number</span>
-  <h2>1.6 billion values compared. None differs.</h2>
+  <h2>Results of the comparison</h2>
   <div class="cols c55" style="margin-top:14px; gap:50px; align-items:start">
     <div>
-      <p>For each test portfolio, we run the original model unchanged and record <b>all its results</b>: policies in force, account values and each cashflow, for every policy and every month. The fast model's values must be identical, not just close.</p>
+      <p>For each test portfolio, we run the original model unchanged and record <b>all its results</b>: policies in force, account values and each cashflow, for every policy and every month. The fast model's values must be identical.</p>
       <p>We compare every value, not only totals, for two reasons. Errors can cancel out and hide in a total. And a difference in a single value points straight at the line of the model that is wrong.</p>
       <p>The test portfolios include each model's own sample policies and a set of unusual cases. These include policies not yet started or already matured, ages at the ends of the mortality table, zero or extreme amounts, and cases where the original model itself gives an undefined result.</p>
     </div>
@@ -243,7 +243,7 @@
 
 <section class="slide" id="defects" data-section="[04] Is it the same model?">
   <span class="kicker">04 · Evidence 2 · Test the test</span>
-  <h2>Checking totals misses a third of errors</h2>
+  <h2>Testing the comparison with planted errors</h2>
   <div class="cols c55" style="margin-top:6px; gap:50px; align-items:start">
     <div>
       <p>To measure how good a check is, we planted errors in the fast model, one at a time. They were common kinds of error: a plus instead of a minus, a wrong constant, the wrong row of a table, the wrong variable, or a comparison that is out by one. We then ran each check against each planted error.</p>
@@ -258,8 +258,8 @@
 </section>
 
 <section class="slide" data-section="[04] Is it the same model?">
-  <span class="kicker">04 · The limit of testing</span>
-  <h2>Testing only covers tested policies</h2>
+  <span class="kicker">04 · Is it still the same model?</span>
+  <h2>Limits of testing</h2>
   <div class="cols c3" style="margin-top:30px">
     <div class="card q3 rise" style="--i:0"><span class="label">Problem 1</span><h3>Untested policies</h3><p class="small-p">A comparison says nothing about a policy that is not in the portfolio, such as an age, term or duration that nobody thought to include.</p></div>
     <div class="card q3 rise" style="--i:1"><span class="label">Problem 2</span><h3>Rearranged sums</h3><p class="small-p">Stopping early, or rearranging the sums so they run faster, adds arithmetic that is not in the original. Results can differ in the last digit, so "identical" is no longer the test.</p></div>
@@ -271,7 +271,7 @@
 <!-- ================= 05 PROOF ================= -->
 <section class="slide" data-section="[05] Proof">
   <span class="kicker">05 · Proof, from first principles</span>
-  <h2>A test checks examples. A proof covers every case.</h2>
+  <h2>Tests and proofs</h2>
   <div class="cols c2" style="margin-top:26px; gap:50px">
     <div class="card pf">
       <span class="label">Testing</span>
@@ -319,7 +319,7 @@ claims  = sa * p_death</pre>
 
 <section class="slide" id="dominoes" data-section="[05] Proof">
   <span class="kicker">05 · Proof, from first principles</span>
-  <h2>Every month, like a row of dominoes</h2>
+  <h2>Proving every month</h2>
   <div class="dom" id="dom"></div>
   <div class="cols c2" style="margin-top:24px; gap:44px">
     <div data-step="1"><span class="label">Part 1 · The first month</span><p>Prove that in month 0 every value of the fast model equals the original's, and that it passes the right numbers on to month 1.</p></div>
@@ -331,11 +331,11 @@ claims  = sa * p_death</pre>
 
 <section class="slide" data-section="[05] Proof">
   <span class="kicker">05 · What a theorem prover is</span>
-  <h2>Two kinds of tool: one finds proofs, one checks them</h2>
+  <h2>Z3 and Lean</h2>
   <div class="cols c2" style="margin-top:26px; gap:40px">
     <div class="card tool">
       <span class="label">Theorem prover · Z3</span>
-      <h3>Finds a proof, or a counterexample</h3>
+      <h3>Finds proofs and counterexamples</h3>
       <p class="small-p">Z3 comes from Microsoft Research. You give it a statement, such as "for every policy, the two formulas are equal", and it searches for a proof. If the statement is false, it returns a <b>counterexample</b>: a specific policy, with its age, term and amounts, on which the two models disagree.</p>
       <p class="small-p">It is fast and clever. It is also large: hundreds of thousands of lines of code that you have to trust.</p>
     </div>
@@ -350,8 +350,8 @@ claims  = sa * p_death</pre>
 </section>
 
 <section class="slide" data-section="[05] Proof">
-  <span class="kicker">05 · What proof catches</span>
-  <h2>Errors no portfolio would have shown</h2>
+  <span class="kicker">05 · Proof</span>
+  <h2>Examples from the proofs</h2>
   <div class="cols c2" style="margin-top:22px; gap:40px">
     <div class="card cx">
       <span class="label">Example 1 · Working out a constant in advance</span>
@@ -376,21 +376,21 @@ claims  = sa * p_death</pre>
 </section>
 
 <section class="slide" data-section="[05] Proof">
-  <span class="kicker">05 · Why Lean matters at the highest levels</span>
-  <h2>Above level 3, the proof <em>is</em> the evidence</h2>
+  <span class="kicker">05 · Proof</span>
+  <h2>Why Lean matters at levels 4 to 6</h2>
   <div class="push">
-    <div class="push-col"><span class="label">Levels 2 to 3</span><h3>Comparison does the work</h3><p class="small-p">The fast model reproduces the original exactly. Proof adds "for every policy", but a reviewer can rely on the comparison alone.</p><div class="push-bar" style="--w:30%"></div></div>
-    <div class="push-col"><span class="label">Level 4</span><h3>Proof does the work</h3><p class="small-p">Stopping early and rearranging sums change the arithmetic. The claim that results are still the same comes from the proof, so the proof must be trustworthy.</p><div class="push-bar" style="--w:65%"></div></div>
-    <div class="push-col"><span class="label">Levels 5 to 6</span><h3>Proof and error bounds together</h3><p class="small-p">The proof says the calculation is the same. The error bound says how far rounding moved the answer. Neither is enough alone.</p><div class="push-bar" style="--w:100%"></div></div>
+    <div class="push-col"><span class="label">Levels 2 to 3</span><h3>Comparison</h3><p class="small-p">The fast model reproduces the original exactly. Proof adds "for every policy", but a reviewer can rely on the comparison alone.</p><div class="push-bar" style="--w:30%"></div></div>
+    <div class="push-col"><span class="label">Level 4</span><h3>Proof</h3><p class="small-p">Stopping early and rearranging sums change the arithmetic. The claim that results are still the same comes from the proof, so the proof must be trustworthy.</p><div class="push-bar" style="--w:65%"></div></div>
+    <div class="push-col"><span class="label">Levels 5 to 6</span><h3>Proof and error bounds</h3><p class="small-p">The proof says the calculation is the same. The error bound says how far rounding moved the answer. Neither is enough alone.</p><div class="push-bar" style="--w:100%"></div></div>
   </div>
-  <div class="callout" style="margin-top:24px">This is where a separate proof checker earns its place. A proof found by a large automated tool is only as good as that tool. Because Lean checks every statement again, the case for the fastest versions rests on a small, much-examined checker, not on the software that found the proof.</div>
+  <div class="callout" style="margin-top:24px">This is where a separate proof checker earns its place. A proof found by a large automated tool is only as good as that tool. Because Lean checks every statement again, the case for the fastest versions rests on Lean's small, much-examined checker.</div>
   <aside class="notes"><p>A caveat, repeated on the limits slide. Our own code and a short written description of the model produce the statements, and Lean checks them. Someone has to review both the code and the description.</p></aside>
 </section>
 
 <!-- ================= 06 ROUNDING ================= -->
 <section class="slide" id="floats" data-section="[06] Rounding">
   <span class="kicker">06 · Rounding</span>
-  <h2>Computers keep 16 digits, or 7</h2>
+  <h2>How computers round numbers</h2>
   <div class="cols c55" style="margin-top:14px; gap:50px; align-items:start">
     <div>
       <p>Proofs deal with exact numbers. Computers store a fixed number of digits: about 16 in <b>double precision</b>, the normal choice for financial work, and about 7 in <b>single precision</b>, which graphics processors handle many times faster.</p>
@@ -408,7 +408,7 @@ claims  = sa * p_death</pre>
 
 <section class="slide" id="interval" data-section="[06] Rounding">
   <span class="kicker">06 · How far rounding can move an answer</span>
-  <h2>A range that must contain the exact answer</h2>
+  <h2>Interval arithmetic</h2>
   <div class="cols c46" style="margin-top:10px; gap:46px; align-items:start">
     <div>
       <p>We run the fast model once more, this time carrying every number as a pair: one known to be below the exact value, and one above. Every sum rounds the lower number down and the upper number up, so the exact answer cannot escape. When the pair cannot settle a comparison, the program keeps both outcomes. This is called <b>interval arithmetic</b>.</p>
@@ -424,7 +424,7 @@ claims  = sa * p_death</pre>
 
 <section class="slide" data-section="[06] Rounding">
   <span class="kicker">06 · How far rounding can move an answer · results</span>
-  <h2>How far each version can be from the exact answer</h2>
+  <h2>Maximum rounding error by model</h2>
   <p class="lede" style="font-size:19px">The largest possible error over every policy in every test portfolio (69,200 rows), as a share of the value. A figure of 1e-7 means one part in ten million.</p>
   <table class="t cert-t"><thead id="cert-head"></thead><tbody id="cert-body"></tbody></table>
   <div class="cols c2" style="margin-top:20px; gap:36px">
@@ -436,7 +436,7 @@ claims  = sa * p_death</pre>
 <!-- ================= 07 CHOOSING ================= -->
 <section class="slide" data-section="[07] Choosing">
   <span class="kicker">07 · Choosing a level</span>
-  <h2>Which level to stop at</h2>
+  <h2>Choosing a level</h2>
   <div class="flow">
     <div class="fq rise" style="--i:0"><b>Is run time a problem?</b><span>No: change nothing, or vectorise (level 1). Speed is not free.</span></div>
     <div class="fq rise" style="--i:1"><b>Must every figure match the current model exactly?</b><span>Yes: <em>compile, and use all processor cores</em> (levels 2 and 3). On our tests this ran 100 to 420 times faster than lifelib's version, with identical results, ordinary hardware, and evidence anyone can follow.</span></div>
@@ -448,7 +448,7 @@ claims  = sa * p_death</pre>
 
 <section class="slide" data-section="[07] Choosing">
   <span class="kicker">07 · Choosing a level</span>
-  <h2>The trade-offs side by side</h2>
+  <h2>Comparison of the levels</h2>
   <table class="t trade-t">
     <thead><tr><th></th><th>1 · Vectorised (today)</th><th>2–3 · Compiled, all cores</th><th>4 · Restructured</th><th>5 · GPU, 16 digits</th><th>6 · GPU, 7 digits</th></tr></thead>
     <tbody>
@@ -465,22 +465,22 @@ claims  = sa * p_death</pre>
 
 <!-- ================= 08 WHAT'S NEW ================= -->
 <section class="slide" data-section="[08] What is new">
-  <span class="kicker">08 · What is new here</span>
-  <h2>Compared with platforms that run models on GPUs</h2>
+  <span class="kicker">08 · Comparison with other platforms</span>
+  <h2>What is new</h2>
   <div class="new">
-    <div class="card nw rise" style="--i:0"><span class="label">01</span><h3>The original stays the reference</h3><p class="small-p">Nobody replaces or rewrites the specification of the existing model. It runs unchanged, and the fast version is checked against it.</p></div>
-    <div class="card nw rise" style="--i:1"><span class="label">02</span><h3>Every value, not just totals</h3><p class="small-p">The fast model must agree on every amount in every month, and we measure how strong that check is.</p></div>
+    <div class="card nw rise" style="--i:0"><span class="label">01</span><h3>The original model is the reference</h3><p class="small-p">Nobody replaces or rewrites the specification of the existing model. It runs unchanged, and the fast version is checked against it.</p></div>
+    <div class="card nw rise" style="--i:1"><span class="label">02</span><h3>Every value is compared</h3><p class="small-p">The fast model must agree on every amount in every month, and we measure how strong that check is.</p></div>
     <div class="card nw rise" style="--i:2"><span class="label">03</span><h3>Proof for every policy</h3><p class="small-p">The models are proved equal for every possible policy and month, including the shortcuts that make the fast versions fast.</p></div>
     <div class="card nw rise" style="--i:3"><span class="label">04</span><h3>Proofs checked separately</h3><p class="small-p">Lean checks every proof again, so the case does not rest on the tool that found it.</p></div>
     <div class="card nw rise" style="--i:4"><span class="label">05</span><h3>Guaranteed error bounds</h3><p class="small-p">For runs on a graphics processor, each policy's possible error has a guaranteed limit. It is not an estimate.</p></div>
-    <div class="card nw rise" style="--i:5"><span class="label">06</span><h3>Nothing taken on trust</h3><p class="small-p">The checks do not trust the converter. So an AI coding agent can do the conversion, following a written procedure, and the checks decide whether to accept it.</p></div>
+    <div class="card nw rise" style="--i:5"><span class="label">06</span><h3>The converter is not trusted</h3><p class="small-p">The checks do not trust the converter. So an AI coding agent can do the conversion, following a written procedure, and the checks decide whether to accept it.</p></div>
   </div>
   <aside class="notes"><p>We do not know how commercial platforms work inside, and some may do parts of this. We have not seen the combination elsewhere, or seen it done openly on public models.</p></aside>
 </section>
 
 <section class="slide" data-section="[08] What is new">
   <span class="kicker">08 · The models we used</span>
-  <h2>Four public models, one machine</h2>
+  <h2>Models and computer used</h2>
   <div class="mods">
     <div class="card md"><span class="label">lifelib · CashValue_ME</span><h3>Savings</h3><p class="small-p">A universal life savings product. An account value earns random investment returns and pays fees and a cost of insurance. Death and maturity benefits are guaranteed. Monthly, up to 95 years. 79 formulas.</p></div>
     <div class="card md"><span class="label">lifelib · CashValue_ME_EX2</span><h3>Savings, dynamic lapse</h3><p class="small-p">As above, but more people lapse when the guarantee is worth little. Five combinations of fees, mortality and lapses, each proved separately. 92 formulas.</p></div>
@@ -495,7 +495,7 @@ claims  = sa * p_death</pre>
 
 <section class="slide" data-section="[08] What is new">
   <span class="kicker">08 · Limits</span>
-  <h2>What this does not show</h2>
+  <h2>Limitations</h2>
   <ul class="plain small" style="margin-top:20px; max-width:1180px">
     <li><b>These are teaching models.</b> Production models have management actions, many more products, and policies that affect each other. Nothing here shows the effort or the gains for those.</li>
     <li><b>The proofs are about a description of the original model.</b> Written assumptions replace the parts that cannot be run on symbols. We test these assumptions but do not prove them. In one model, a person wrote the reserve formula by hand. Someone must review the description like any other model documentation.</li>
@@ -509,7 +509,7 @@ claims  = sa * p_death</pre>
 <section class="slide plain" data-section="Close" data-nochrome>
   <div class="close">
     <span class="kicker">Exactuary</span>
-    <h2 style="font-size:64px; max-width:1100px">Most of the speed needs no special hardware and keeps every number identical. The highest levels need proof, and Lean makes that proof trustworthy.</h2>
+    <h2 style="font-size:64px; max-width:1100px">Levels 2 and 3 give most of the speed, need no special hardware and keep every number identical. Levels 4 to 6 need proof, and Lean checks the proof.</h2>
     <div class="close-links">
       <a class="btn" href="https://github.com/benreeve1984/exactuary">Code, docs and results on GitHub</a>
       <a class="btn ghost" href="https://github.com/benreeve1984/exactuary/blob/main/docs/levels.md">Levels and how to choose</a>

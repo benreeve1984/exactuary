@@ -15,7 +15,7 @@ not a validated production tool.
 for readers who are not specialists. It explains how cashflow models can be made faster, what
 it takes to achieve each speed-up, and how theorem provers help.
 
-## The idea
+## Approach
 
 You do not need to trust whoever writes the fast model. In the intended use, an AI coding agent
 writes it. Instead, you trust a short set of checks and the original model
@@ -125,7 +125,7 @@ double-precision units.
 Single precision is 10 or more times faster again. The cost in accuracy depends on the product.
 For an individual policy, the error can reach 1 or 2 per cent.
 
-## What this does and does not establish
+## Limitations
 
 The checks are designed to catch errors made in good faith during a conversion. They do not
 defend against someone who deliberately tries to get a wrong model to pass. The proofs concern

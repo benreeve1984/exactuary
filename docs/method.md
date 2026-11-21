@@ -4,7 +4,7 @@ In this document, "the original model" means the lifelib model run unchanged. "T
 means the rewritten version. The code calls the fast model the "kernel", and so does this
 document from here on.
 
-## Scope: errors, not deliberate attacks
+## Scope
 
 The checks are designed to catch mistakes made in good faith by whoever converts a model. That
 may be a person or an AI coding agent. Typical mistakes are a wrong table row, an operation in
