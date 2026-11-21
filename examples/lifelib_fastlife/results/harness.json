@@ -1,0 +1,316 @@
+{
+ "tables": {
+  "life_tables": [
+   "('F', 0.015, 3)",
+   "('F', 0.02, 3)",
+   "('F', 0.03, 3)",
+   "('M', 0.015, 3)",
+   "('M', 0.02, 3)",
+   "('M', 0.03, 3)"
+  ],
+  "product_keys": [
+   "('TERM', 1, 1, 'M')",
+   "('TERM', 1, 1, 'F')",
+   "('TERM', 1, 2, 'M')",
+   "('TERM', 1, 2, 'F')",
+   "('WL', 1, 1, 'M')",
+   "('WL', 1, 1, 'F')",
+   "('ENDW', 1, 1, 'M')",
+   "('ENDW', 1, 1, 'F')",
+   "('ENDW', 1, 2, 'M')",
+   "('ENDW', 1, 2, 'F')",
+   "('ENDW', 2, 1, 'M')",
+   "('ENDW', 2, 1, 'F')",
+   "('ENDW', 2, 2, 'M')",
+   "('ENDW', 2, 2, 'F')"
+  ],
+  "commutation_values": 5544,
+  "commutation_differing": 0,
+  "policies": 4872,
+  "years": 118,
+  "lookup_values": 5174064,
+  "lookup_differing": {
+   "BaseMortRate": 0,
+   "asmp.MortFactor": 0,
+   "asmp.SurrRate": 0,
+   "pol.ReserveNLP_Rate[PREM]": 0,
+   "pol.SurrCharge": 0,
+   "pol.CashValueRate": 0,
+   "PolsDeath": 0,
+   "PolsSurr": 0,
+   "SizeBenefitSurr": 0
+  },
+  "prep_attributes_differing": {
+   "gpr": 0,
+   "netp": 0,
+   "apr": 0,
+   "isc": 0,
+   "g2": 0,
+   "last_t": 0,
+   "cip": 0,
+   "crp": 0,
+   "crt": 0,
+   "acq_ap": 0,
+   "acq_sa": 0,
+   "acq_pol": 0,
+   "mnt_ap": 0,
+   "mnt_sa": 0,
+   "mnt_pol": 0
+  }
+ },
+ "coverage_sample": {
+  "seen": 78,
+  "of": 92,
+  "missing": [
+   [
+    "lk2(TAB_MF, pk, t)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "lk2(TAB_SR, pk, t)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "lk2(TAB_KF, pk, 0)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "lk2(TAB_KF, pk, 1)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "lk2(TAB_KF, pk, 2)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "lk2(TAB_KF, pk, 3)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "lk2(TAB_KF, pk, 4)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "lk2(TAB_KF, pk, 5)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "lk2(TAB_KF, pk, 6)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "lk2(TAB_KF, pk, 7)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "lk2(TAB_KF, pk, 8)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "lk2(TAB_M, pk, agen)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "lk2(TAB_N, pk, agen)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "imin(term, 10)",
+    [
+     "second"
+    ]
+   ]
+  ]
+ },
+ "coverage_edge": {
+  "seen": 79,
+  "of": 92,
+  "missing": [
+   [
+    "lk2(TAB_MF, pk, t)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "lk2(TAB_SR, pk, t)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "lk2(TAB_KF, pk, 0)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "lk2(TAB_KF, pk, 1)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "lk2(TAB_KF, pk, 2)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "lk2(TAB_KF, pk, 3)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "lk2(TAB_KF, pk, 4)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "lk2(TAB_KF, pk, 5)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "lk2(TAB_KF, pk, 6)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "lk2(TAB_KF, pk, 7)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "lk2(TAB_KF, pk, 8)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "lk2(TAB_M, pk, agen)",
+    [
+     "in-table"
+    ]
+   ],
+   [
+    "lk2(TAB_N, pk, agen)",
+    [
+     "in-table"
+    ]
+   ]
+  ]
+ },
+ "defects": 264,
+ "table": [
+  [
+   "portfolio totals within 1e-6, sample portfolio",
+   189,
+   264
+  ],
+  [
+   "per-policy present values within 1e-9, sample portfolio",
+   193,
+   264
+  ],
+  [
+   "every intermediate exact, sample portfolio",
+   237,
+   264
+  ],
+  [
+   "every intermediate exact, all portfolios",
+   250,
+   264
+  ]
+ ],
+ "survivors": [
+  [
+   "lookup-index",
+   "lk2(TAB_KF, pk, 8)  ->  lk2(TAB_KF, pk + 1, 8)   in: g2 = lk2(TAB_KF, pk, 8)"
+  ],
+  [
+   "lookup-index",
+   "lk2(TAB_KF, pk, 8)  ->  lk2(TAB_KF, pk, 8 + 1)   in: g2 = lk2(TAB_KF, pk, 8)"
+  ],
+  [
+   "constant",
+   "8  ->  9   in: g2 = lk2(TAB_KF, pk, 8)"
+  ],
+  [
+   "branch-swap",
+   "sel(ok0, (n_n - n_n) / dd0, ZERO)  ->  sel(ok0, ZERO, (n_n - n_n) / dd0)   in: w0 = sel(ok0, (n_n - n_n) / dd0, ZERO)"
+  ],
+  [
+   "operator",
+   "(n_n - n_n) / dd0  ->  (n_n - n_n) * dd0   in: w0 = sel(ok0, (n_n - n_n) / dd0, ZERO)"
+  ],
+  [
+   "branch-swap",
+   "sel(ok1, (n_n - n_n) / dd1, ZERO)  ->  sel(ok1, ZERO, (n_n - n_n) / dd1)   in: w1 = sel(ok1, (n_n - n_n) / dd1, ZERO)"
+  ],
+  [
+   "operator",
+   "(n_n - n_n) / dd1  ->  (n_n - n_n) * dd1   in: w1 = sel(ok1, (n_n - n_n) / dd1, ZERO)"
+  ],
+  [
+   "wrong-variable",
+   "dd1  ->  dd0   in: w1 = sel(ok1, (n_n - n_n) / dd1, ZERO)"
+  ],
+  [
+   "constant",
+   "1  ->  2   in: rsv1 = sel(t + 1 <= term, axn1 + (g2 * w1 - netp * ann1), ZERO)"
+  ],
+  [
+   "operator",
+   "(sa * acq_sa + acq_pol) * infl / infl  ->  (sa * acq_sa + acq_pol) * infl * infl   in: s_acq = sel(is_t0, sap * acq_ap + (sa * acq_sa + acq_pol) * infl / inf"
+  ],
+  [
+   "operator",
+   "(sa * acq_sa + acq_pol) * infl  ->  (sa * acq_sa + acq_pol) / infl   in: s_acq = sel(is_t0, sap * acq_ap + (sa * acq_sa + acq_pol) * infl / inf"
+  ],
+  [
+   "wrong-variable",
+   "accum  ->  s_accum   in: int_acc = (accum + prem - e_total) * disc_rate"
+  ],
+  [
+   "wrong-variable",
+   "accum  ->  s_accum   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq"
+  ],
+  [
+   "wrong-variable",
+   "accum  ->  s_accum   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq"
+  ]
+ ]
+}

@@ -1,0 +1,4318 @@
+{
+ "sim5": {
+  "tally": {
+   "refuted": 216,
+   "proved": 2,
+   "unknown": 0,
+   "invalid": 14
+  },
+  "defects": 232,
+  "seconds": 37.4912211894989,
+  "not_refuted": [
+   [
+    "wrong-variable",
+    "p_bef_mat  ->  p_bef_nb   in: p_mat = sel(dm == term12, p_bef_mat, ZERO * p_bef_mat)",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "p_bef_mat  ->  p_bef_nb   in: p_mat = sel(dm == term12, p_bef_mat, ZERO * p_bef_mat)",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "p_bef_mat  ->  p_bef_nb   in: p_bef_nb = p_bef_mat - p_mat",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "p_bef_nb  ->  p_decr   in: p_decr = p_bef_nb + p_nb",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "prem_pp  ->  prem_av_pp   in: prem_av_pp = (1 - load) * prem_pp",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "av_prem  ->  av_fee   in: av_fee = av_prem + prem_av_pp",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "av_fee  ->  av_inv   in: mfee_pp = FEE_RATE * av_fee",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "sa  ->  av_mid   in: nar = fmax(sa - av_fee, ZERO)",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "av_fee  ->  av_inv   in: nar = fmax(sa - av_fee, ZERO)",
+    "invalid"
+   ],
+   [
+    "operator",
+    "av_fee - mfee_pp - coi_pp  ->  av_fee - mfee_pp + coi_pp   in: av_inv = av_fee - mfee_pp - coi_pp",
+    "proved"
+   ],
+   [
+    "wrong-variable",
+    "av_fee  ->  av_inv   in: av_inv = av_fee - mfee_pp - coi_pp",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "av_inv  ->  av_mid   in: iipp = inv_ret * av_inv",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "av_inv  ->  av_mid   in: av_mid = av_inv + 0.5 * iipp",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "q  ->  lq   in: p_death = p_decr * q",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "p_death  ->  p_lapse   in: p_lapse = (p_decr - p_death) * lq",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: coi = coi_pp * p_decr",
+    "proved"
+   ]
+  ],
+  "rows": [
+   [
+    "operator",
+    "dm0 + t  ->  dm0 - t   in: dm = dm0 + t",
+    "refuted",
+    [
+     "month t>=1: age",
+     "duration_mth=11, t=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dm  ->  dm0   in: dur = idiv(dm, 12)",
+    "refuted",
+    [
+     "month t>=1: age",
+     "duration_mth=-2, t=13"
+    ]
+   ],
+   [
+    "constant",
+    "12  ->  13   in: dur = idiv(dm, 12)",
+    "refuted",
+    [
+     "month 0: age",
+     "duration_mth=-156"
+    ]
+   ],
+   [
+    "operator",
+    "age0 + dur  ->  age0 - dur   in: age = age0 + dur",
+    "refuted",
+    [
+     "month 0: age",
+     "duration_mth=-12"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dur  ->  dm   in: age = age0 + dur",
+    "refuted",
+    [
+     "month 0: age",
+     "duration_mth=12"
+    ]
+   ],
+   [
+    "operator",
+    "term * 12  ->  term / 12   in: term12 = term * 12",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=1, av_pp_init=-1200/1199, duration_mth=12, has_surr_charge=True, is_wl=True, load_prem_rate=1, mort_table_last_age=2, policy_count=1, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "constant",
+    "12  ->  13   in: term12 = term * 12",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-1, av_pp_init=-2400/1199, duration_mth=49, has_surr_charge=True, is_level=True, is_wl=True, load_prem_rate=0, mort_table_last_age=3, policy_count=1, premium_pp=1, sum_assured=0, surr_charge_col=14"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(is_t0, av0, s_av_prem)  ->  sel(is_t0, s_av_prem, av0)   in: av_prem = sel(is_t0, av0, s_av_prem)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=6, av_pp_init=-3/2, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=0, mort_table_last_age=4, policy_count=1/2, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "s_av_prem  ->  av0   in: av_prem = sel(is_t0, av0, s_av_prem)",
+    "refuted",
+    [
+     "month t>=1: av_change",
+     "age_at_entry=7, av_pp_init=-1, duration_mth=-1, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=7, policy_count=1, sum_assured=0, surr_charge_col=6, t=1"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(is_t0, sel(dm0 > 0, pcount, ZERO), s_p_bef_mat)  ->  sel(is_t0, s_p_bef_mat, sel(dm0 > 0, pcount, ZERO))   in: p_bef_mat = sel(is_t0, sel(dm0 > 0, pcount, ZERO), s_p_bef_mat)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=8, av_pp_init=1, duration_mth=-12, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=5/3, mort_table_last_age=7, sum_assured=0, surr_charge_col=6"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(dm0 > 0, pcount, ZERO)  ->  sel(dm0 > 0, ZERO, pcount)   in: p_bef_mat = sel(is_t0, sel(dm0 > 0, pcount, ZERO), s_p_bef_mat)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=4, av_pp_init=-2, duration_mth=-23, has_surr_charge=True, is_wl=True, load_prem_rate=1, mort_table_last_age=2, policy_count=1/16, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "comparison",
+    "dm0 > 0  ->  dm0 >= 0   in: p_bef_mat = sel(is_t0, sel(dm0 > 0, pcount, ZERO), s_p_bef_mat)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=7, av_pp_init=1, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=0, mort_table_last_age=7, policy_count=-1, sum_assured=0, surr_charge_col=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "pcount  ->  sa   in: p_bef_mat = sel(is_t0, sel(dm0 > 0, pcount, ZERO), s_p_bef_mat)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-4, av_pp_init=1, duration_mth=132, has_surr_charge=True, is_wl=True, load_prem_rate=2, mort_table_last_age=7, policy_count=-1, sum_assured=0, surr_charge_col=6"
+    ]
+   ],
+   [
+    "constant",
+    "0  ->  1   in: p_bef_mat = sel(is_t0, sel(dm0 > 0, pcount, ZERO), s_p_bef_mat)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=7, av_pp_init=1, duration_mth=1, has_surr_charge=False, is_level=False, is_wl=False, load_prem_rate=1, mort_table_last_age=7, policy_count=-1, policy_term=2, sum_assured=0"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(dm == term12, p_bef_mat, ZERO * p_bef_mat)  ->  sel(dm == term12, ZERO * p_bef_mat, p_bef_mat)   in: p_mat = sel(dm == term12, p_bef_mat, ZERO * p_bef_mat)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=1200/1199, duration_mth=132, has_surr_charge=True, is_wl=True, load_prem_rate=1, mort_table_last_age=13, policy_count=1, sum_assured=0, surr_charge_col=6"
+    ]
+   ],
+   [
+    "comparison",
+    "dm == term12  ->  dm != term12   in: p_mat = sel(dm == term12, p_bef_mat, ZERO * p_bef_mat)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=7, av_pp_init=-1200/1199, duration_mth=72, has_surr_charge=True, is_wl=True, load_prem_rate=1, mort_table_last_age=13, policy_count=-1, sum_assured=0, surr_charge_col=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_bef_mat  ->  p_bef_nb   in: p_mat = sel(dm == term12, p_bef_mat, ZERO * p_bef_mat)",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`p_bef_nb` is used before it is defined')"
+    ]
+   ],
+   [
+    "operator",
+    "ZERO * p_bef_mat  ->  ZERO / p_bef_mat   in: p_mat = sel(dm == term12, p_bef_mat, ZERO * p_bef_mat)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=14, av_pp_init=-1200/1199, duration_mth=2, has_surr_charge=True, is_level=True, is_wl=False, load_prem_rate=-1/2, mort_table_last_age=14, policy_count=0, policy_term=2, premium_pp=1, sum_assured=-1, surr_charge_col=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dm  ->  dm0   in: p_mat = sel(dm == term12, p_bef_mat, ZERO * p_bef_mat)",
+    "refuted",
+    [
+     "month t>=1: av_change",
+     "age_at_entry=-5, duration_mth=120, has_surr_charge=True, is_wl=False, load_prem_rate=1, mort_table_last_age=-5, policy_term=10, sum_assured=0, surr_charge_col=15, t=12"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_bef_mat  ->  p_bef_nb   in: p_mat = sel(dm == term12, p_bef_mat, ZERO * p_bef_mat)",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`p_bef_nb` is used before it is defined')"
+    ]
+   ],
+   [
+    "operator",
+    "p_bef_mat - p_mat  ->  p_bef_mat + p_mat   in: p_bef_nb = p_bef_mat - p_mat",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-5, av_pp_init=-600/1199, duration_mth=132, has_surr_charge=True, is_wl=True, load_prem_rate=1, mort_table_last_age=6, policy_count=2, sum_assured=0, surr_charge_col=13"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_bef_mat  ->  p_bef_nb   in: p_bef_nb = p_bef_mat - p_mat",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`p_bef_nb` is used before it is defined')"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(dm == 0, pcount, ZERO)  ->  sel(dm == 0, ZERO, pcount)   in: p_nb = sel(dm == 0, pcount, ZERO)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-9, av_pp_init=-1200/1199, duration_mth=132, has_surr_charge=True, is_level=False, load_prem_rate=0, mort_table_last_age=-9, policy_count=1, sum_assured=0, surr_charge_col=8"
+    ]
+   ],
+   [
+    "comparison",
+    "dm == 0  ->  dm != 0   in: p_nb = sel(dm == 0, pcount, ZERO)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=8, av_pp_init=2400/1199, duration_mth=0, has_surr_charge=True, is_level=False, is_single=False, load_prem_rate=0, mort_table_last_age=8, policy_count=1, sum_assured=0, surr_charge_col=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "pcount  ->  sa   in: p_nb = sel(dm == 0, pcount, ZERO)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=13, av_pp_init=1800/1199, duration_mth=0, has_surr_charge=True, is_level=True, is_single=False, is_wl=False, load_prem_rate=1/4, mort_table_last_age=13, policy_count=-9, policy_term=2, premium_pp=2, sum_assured=-35/4, surr_charge_col=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dm  ->  dm0   in: p_nb = sel(dm == 0, pcount, ZERO)",
+    "refuted",
+    [
+     "month t>=1: av_change",
+     "age_at_entry=-4, duration_mth=0, has_surr_charge=True, is_level=False, load_prem_rate=1, mort_table_last_age=-4, policy_count=-1, sum_assured=1, surr_charge_col=3, t=132"
+    ]
+   ],
+   [
+    "constant",
+    "0  ->  1   in: p_nb = sel(dm == 0, pcount, ZERO)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=8, av_pp_init=2400/1199, duration_mth=0, has_surr_charge=True, is_level=False, is_single=True, load_prem_rate=-7/8, mort_table_last_age=8, policy_count=1, premium_pp=9/8, sum_assured=0, surr_charge_col=3"
+    ]
+   ],
+   [
+    "operator",
+    "p_bef_nb + p_nb  ->  p_bef_nb - p_nb   in: p_decr = p_bef_nb + p_nb",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=3, av_pp_init=-600/1199, duration_mth=0, has_surr_charge=True, is_level=False, is_single=False, load_prem_rate=1, mort_table_last_age=3, policy_count=12, sum_assured=0, surr_charge_col=8"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_bef_nb  ->  p_decr   in: p_decr = p_bef_nb + p_nb",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`p_decr` is used before it is defined')"
+    ]
+   ],
+   [
+    "operator",
+    "sel(band(is_single, dm == 0), prem, ZERO) + sel(band(is_level, dm < term12), prem, ZERO)  ->  sel(band(is_single, dm == 0), prem, ZERO) - sel(band(is_level, dm < term12), prem, ZERO)   in: prem_pp = sel(band(is_single, dm == 0), prem, ZERO) + sel(band(is_leve",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=3, av_pp_init=2400/1199, duration_mth=0, has_surr_charge=True, is_level=True, is_single=False, is_wl=True, load_prem_rate=0, mort_table_last_age=5, policy_count=-1, premium_pp=1, sum_assured=0, surr_charge_col=13"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(band(is_single, dm == 0), prem, ZERO)  ->  sel(band(is_single, dm == 0), ZERO, prem)   in: prem_pp = sel(band(is_single, dm == 0), prem, ZERO) + sel(band(is_leve",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-75/4796, duration_mth=0, has_surr_charge=True, is_level=False, is_single=False, load_prem_rate=2031/2048, mort_table_last_age=2, policy_count=-1, premium_pp=-1/32, sum_assured=0, surr_charge_col=8"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(band(is_level, dm < term12), prem, ZERO)  ->  sel(band(is_level, dm < term12), ZERO, prem)   in: prem_pp = sel(band(is_single, dm == 0), prem, ZERO) + sel(band(is_leve",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=2400/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=32769/16384, mort_table_last_age=0, policy_count=2, premium_pp=3/4, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "comparison",
+    "dm == 0  ->  dm != 0   in: prem_pp = sel(band(is_single, dm == 0), prem, ZERO) + sel(band(is_leve",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-2, av_pp_init=1200/1199, duration_mth=49, has_surr_charge=True, is_single=True, is_wl=True, load_prem_rate=0, mort_table_last_age=-2, policy_count=-1, premium_pp=-1, sum_assured=0, surr_charge_col=8"
+    ]
+   ],
+   [
+    "comparison",
+    "dm < term12  ->  dm <= term12   in: prem_pp = sel(band(is_single, dm == 0), prem, ZERO) + sel(band(is_leve",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=1200/1199, duration_mth=0, has_surr_charge=True, is_level=True, is_single=True, is_wl=True, load_prem_rate=0, mort_table_last_age=2, policy_count=-1, premium_pp=1, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dm  ->  dm0   in: prem_pp = sel(band(is_single, dm == 0), prem, ZERO) + sel(band(is_leve",
+    "refuted",
+    [
+     "month t>=1: av_change",
+     "age_at_entry=9, duration_mth=-2, has_surr_charge=True, is_level=False, is_single=True, is_wl=True, load_prem_rate=0, mort_table_last_age=11, policy_count=1, premium_pp=1, sum_assured=0, surr_charge_col=8, t=2"
+    ]
+   ],
+   [
+    "constant",
+    "0  ->  1   in: prem_pp = sel(band(is_single, dm == 0), prem, ZERO) + sel(band(is_leve",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=1200/1199, duration_mth=0, has_surr_charge=True, is_single=True, is_wl=True, load_prem_rate=0, mort_table_last_age=0, policy_count=1, premium_pp=1, sum_assured=0, surr_charge_col=11"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dm  ->  dm0   in: prem_pp = sel(band(is_single, dm == 0), prem, ZERO) + sel(band(is_leve",
+    "refuted",
+    [
+     "month t>=1: commissions",
+     "age_at_entry=0, duration_mth=-13, is_level=True, is_wl=True, mort_table_last_age=-1, policy_count=37/2, premium_pp=1, t=13"
+    ]
+   ],
+   [
+    "operator",
+    "(1 - load) * prem_pp  ->  (1 - load) / prem_pp   in: prem_av_pp = (1 - load) * prem_pp",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=14324253815030641939267200/496527860849520974756634649, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=420086755060839616034579/414118315971243515226551, mort_table_last_age=1, policy_count=5968439089596100808028/414118315971243515226551, sum_assured=0, surr_charge_col=11"
+    ]
+   ],
+   [
+    "operator",
+    "1 - load  ->  1 + load   in: prem_av_pp = (1 - load) * prem_pp",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=3, av_pp_init=-600/1199, duration_mth=73, has_surr_charge=True, is_level=True, is_wl=True, load_prem_rate=1/4, mort_table_last_age=11, policy_count=-1, premium_pp=1, sum_assured=0, surr_charge_col=11"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "prem_pp  ->  prem_av_pp   in: prem_av_pp = (1 - load) * prem_pp",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`prem_av_pp` is used before it is defined')"
+    ]
+   ],
+   [
+    "constant",
+    "1  ->  2   in: prem_av_pp = (1 - load) * prem_pp",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=6, av_pp_init=1200/1199, duration_mth=0, has_surr_charge=False, is_single=True, is_wl=True, load_prem_rate=-1, mort_table_last_age=4, policy_count=1, premium_pp=1, sum_assured=0"
+    ]
+   ],
+   [
+    "operator",
+    "av_prem + prem_av_pp  ->  av_prem - prem_av_pp   in: av_fee = av_prem + prem_av_pp",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-1200/1199, duration_mth=0, has_surr_charge=True, is_level=False, is_single=True, load_prem_rate=2, mort_table_last_age=2, policy_count=1, premium_pp=-1, sum_assured=0, surr_charge_col=8"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_prem  ->  av_fee   in: av_fee = av_prem + prem_av_pp",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`av_fee` is used before it is defined')"
+    ]
+   ],
+   [
+    "operator",
+    "FEE_RATE * av_fee  ->  FEE_RATE / av_fee   in: mfee_pp = FEE_RATE * av_fee",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=1, duration_mth=0, has_surr_charge=True, is_level=False, is_single=True, load_prem_rate=0, mort_table_last_age=2, policy_count=-1, premium_pp=-3/2, sum_assured=0, surr_charge_col=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_fee  ->  av_inv   in: mfee_pp = FEE_RATE * av_fee",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`av_inv` is used before it is defined')"
+    ]
+   ],
+   [
+    "min/max",
+    "fmax(sa - av_fee, ZERO)  ->  fmin(sa - av_fee, ZERO)   in: nar = fmax(sa - av_fee, ZERO)",
+    "refuted",
+    [
+     "month 0: net_amt_at_risk",
+     "age_at_entry=0, av_pp_init=0, duration_mth=0, is_level=False, is_single=False, is_wl=False, load_prem_rate=0, mort_table_last_age=0, policy_term=0, sum_assured=1"
+    ]
+   ],
+   [
+    "operator",
+    "sa - av_fee  ->  sa + av_fee   in: nar = fmax(sa - av_fee, ZERO)",
+    "refuted",
+    [
+     "month 0: net_amt_at_risk",
+     "age_at_entry=0, av_pp_init=1, duration_mth=-1, is_level=False, load_prem_rate=1, mort_table_last_age=0, sum_assured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "sa  ->  av_mid   in: nar = fmax(sa - av_fee, ZERO)",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`av_mid` is used before it is defined')"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_fee  ->  av_inv   in: nar = fmax(sa - av_fee, ZERO)",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`av_inv` is used before it is defined')"
+    ]
+   ],
+   [
+    "min/max",
+    "imin(dur, 5)  ->  imax(dur, 5)   in: d5 = imin(dur, 5)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=11, av_pp_init=538950724814208736737761380431272492029062856205049166746133749106527116167230282977001474496855917956643365694546899048201724853805614851615610636608141649124014101389282380922720719977742973641233601523034060041446502457513580310711600265153086919869606462412278027578061667829407394969419833786281716149999/27105473597177308532212758285118010415204494481765670773848900807233710260360706954784677503737843436650056931925734334785575484135131711079779465172201732496977139042087126752445864607173657258594949957143918504196464353601062845105734153453232464068608000000000000000000000000000000000000000000000000000000000000, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=171942848380699287577329826367095529143157323789079594725742438143189055392218511194497230134051692210399/171930433146307654684738817646240333343745268065892979094837722071428895836922603110400000000000000000000, mort_table_last_age=10, policy_count=-646201919052236275348575895137095717942846364589853950928614365178726012284509109289424767921730245630015395467761731958793868099712932207087117153293161837299692907565749574726342143253313825395839088226117837989694356446558782792543208717918551216923658148432321355066095939727459466568334380709751777663848801/32526568316612770238655309942141612498245393378118804928618680968680452312432848345741613004485412123980068318310881201742690580962158053295735358206642078996372566850504552102935037528608388710313939948572702205035757224321275414126880984143878956882329600000000000000000000000000000000000000000000000000000000000000, sum_assured=-2116018349520731460533538717709705592548840802521135155765625998112210658134025594923559948222550432458225258191203311584320266416834062300211148467525576916455959082575055518091992384347865063745173331585218532441525402566690859131809797512585855988201350760775497971901850388253925900708921417349172806251310203057429403462318187989811634753436078738967349551322469627105056177074044091856993134809354050612181366782653804696896952198656530417099807903824160663602728369855188983558170813709314279081645233471900061028146340379585748343800195084384182319969536706716274051823459254230762352763704089110831357150221778833984589137601/2115955292910555403831285225967656036088011262104255016470912820064763598242928810468401853687458580038927411378892497041801269808068233300540011222028900389938091516727380048476934512179473363629736159794787877417908408864537420652058110161905996507008008312999618900991640700355232766169318180458108646290758610319976808673406870491954978491794957519637467799681352403515924816306651941012499672286145759809684301408920933187604232926668023091019624940173817057989362623794492643714115908400120340601446072320000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, surr_charge_col=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dur  ->  dm   in: d5 = imin(dur, 5)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=14, av_pp_init=-1200/1199, duration_mth=2, has_surr_charge=True, is_wl=True, load_prem_rate=1, mort_table_last_age=12, policy_count=-1, sum_assured=0, surr_charge_col=3"
+    ]
+   ],
+   [
+    "constant",
+    "5  ->  6   in: d5 = imin(dur, 5)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-9, av_pp_init=-1200/1199, duration_mth=132, has_surr_charge=True, is_level=False, is_wl=True, load_prem_rate=2, mort_table_last_age=3, policy_count=-1, sum_assured=0, surr_charge_col=14"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_MORT, age - AGE_MIN, d5)  ->  lk2(TAB_MORT, age - AGE_MIN + 1, d5)   in: mort = lk2(TAB_MORT, age - AGE_MIN, d5)",
+    "refuted",
+    [
+     "month 0: mort_rate",
+     "age_at_entry=0, duration_mth=72"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_MORT, age - AGE_MIN, d5)  ->  lk2(TAB_MORT, age - AGE_MIN, d5 + 1)   in: mort = lk2(TAB_MORT, age - AGE_MIN, d5)",
+    "refuted",
+    [
+     "month 0: mort_rate",
+     "age_at_entry=-3, duration_mth=60"
+    ]
+   ],
+   [
+    "operator",
+    "age - AGE_MIN  ->  age + AGE_MIN   in: mort = lk2(TAB_MORT, age - AGE_MIN, d5)",
+    "refuted",
+    [
+     "month 0: mort_rate",
+     "AGE_MIN=-1, age_at_entry=0, duration_mth=29316"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_MORTMTH, age - AGE_MIN, d5)  ->  lk2(TAB_MORTMTH, age - AGE_MIN + 1, d5)   in: q = lk2(TAB_MORTMTH, age - AGE_MIN, d5)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=0, av_pp_init=-1500/1199, duration_mth=132, has_surr_charge=True, is_wl=True, load_prem_rate=0, mort_table_last_age=1, policy_count=-1/2, sum_assured=0, surr_charge_col=9"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_MORTMTH, age - AGE_MIN, d5)  ->  lk2(TAB_MORTMTH, age - AGE_MIN, d5 + 1)   in: q = lk2(TAB_MORTMTH, age - AGE_MIN, d5)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=11, av_pp_init=1200/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=9, policy_count=1, sum_assured=0, surr_charge_col=2"
+    ]
+   ],
+   [
+    "operator",
+    "age - AGE_MIN  ->  age + AGE_MIN   in: q = lk2(TAB_MORTMTH, age - AGE_MIN, d5)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "AGE_MIN=1, age_at_entry=0, av_pp_init=1200/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=0, mort_table_last_age=-1, policy_count=1, sum_assured=0, surr_charge_col=3"
+    ]
+   ],
+   [
+    "operator",
+    "coi_rate * nar  ->  coi_rate / nar   in: coi_pp = coi_rate * nar",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=7, av_pp_init=1, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=5, policy_count=-1, sum_assured=0, surr_charge_col=6"
+    ]
+   ],
+   [
+    "operator",
+    "av_fee - mfee_pp - coi_pp  ->  av_fee - mfee_pp + coi_pp   in: av_inv = av_fee - mfee_pp - coi_pp",
+    "proved",
+    null
+   ],
+   [
+    "operator",
+    "av_fee - mfee_pp  ->  av_fee + mfee_pp   in: av_inv = av_fee - mfee_pp - coi_pp",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-9, av_pp_init=1, duration_mth=132, has_surr_charge=True, is_level=False, is_wl=True, load_prem_rate=1, mort_table_last_age=3, policy_count=-1, sum_assured=0, surr_charge_col=13"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_fee  ->  av_inv   in: av_inv = av_fee - mfee_pp - coi_pp",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`av_inv` is used before it is defined')"
+    ]
+   ],
+   [
+    "operator",
+    "inv_ret * av_inv  ->  inv_ret / av_inv   in: iipp = inv_ret * av_inv",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-600/1199, duration_mth=0, has_surr_charge=False, is_single=True, is_wl=True, load_prem_rate=0, mort_table_last_age=0, policy_count=-1, premium_pp=1, sum_assured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_inv  ->  av_mid   in: iipp = inv_ret * av_inv",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`av_mid` is used before it is defined')"
+    ]
+   ],
+   [
+    "operator",
+    "av_inv + 0.5 * iipp  ->  av_inv - 0.5 * iipp   in: av_mid = av_inv + 0.5 * iipp",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-9, av_pp_init=-1200/1199, duration_mth=132, has_surr_charge=True, is_level=True, is_wl=True, load_prem_rate=2, mort_table_last_age=3, policy_count=-1, premium_pp=-3, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_inv  ->  av_mid   in: av_mid = av_inv + 0.5 * iipp",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`av_mid` is used before it is defined')"
+    ]
+   ],
+   [
+    "operator",
+    "0.5 * iipp  ->  0.5 / iipp   in: av_mid = av_inv + 0.5 * iipp",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=1200/1199, duration_mth=0, has_surr_charge=True, is_level=False, is_single=False, load_prem_rate=1, mort_table_last_age=2, policy_count=1, sum_assured=0, surr_charge_col=8"
+    ]
+   ],
+   [
+    "constant",
+    "0.5  ->  0.505   in: av_mid = av_inv + 0.5 * iipp",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-2400/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=0, policy_count=-1, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "iipp  ->  av_inv   in: av_mid = av_inv + 0.5 * iipp",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-1, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=0, policy_count=1, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "operator",
+    "p_decr * q  ->  p_decr / q   in: p_death = p_decr * q",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=6, av_pp_init=-1200/1199, duration_mth=0, has_surr_charge=False, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=4, policy_count=1, sum_assured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: p_death = p_decr * q",
+    "refuted",
+    [
+     "month 0: inv_income",
+     "age_at_entry=-5, av_pp_init=-600/1199, duration_mth=132, has_surr_charge=True, is_wl=True, load_prem_rate=3/2, mort_table_last_age=6, policy_count=-1/2, sum_assured=0, surr_charge_col=13"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "q  ->  lq   in: p_death = p_decr * q",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`lq` is used before it is defined')"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(has_sc, lk2(TAB_SC, imin(dur, 10), sc_col), ZERO)  ->  sel(has_sc, ZERO, lk2(TAB_SC, imin(dur, 10), sc_col))   in: sc_rate = sel(has_sc, lk2(TAB_SC, imin(dur, 10), sc_col), ZERO)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=3458878800/3457437599, duration_mth=0, has_surr_charge=True, is_single=True, is_wl=True, load_prem_rate=0, mort_table_last_age=1, policy_count=-13835517598/3455996401, premium_pp=-2882399/5767202, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_SC, imin(dur, 10), sc_col)  ->  lk2(TAB_SC, imin(dur, 10) + 1, sc_col)   in: sc_rate = sel(has_sc, lk2(TAB_SC, imin(dur, 10), sc_col), ZERO)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=1200/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=0, policy_count=-1, sum_assured=0, surr_charge_col=11"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_SC, imin(dur, 10), sc_col)  ->  lk2(TAB_SC, imin(dur, 10), sc_col + 1)   in: sc_rate = sel(has_sc, lk2(TAB_SC, imin(dur, 10), sc_col), ZERO)",
+    "refuted",
+    [
+     "month 0: csv_pp",
+     "age_at_entry=0, av_pp_init=1200/1199, duration_mth=-1, has_surr_charge=True, is_level=False, load_prem_rate=1, mort_table_last_age=0, surr_charge_col=0"
+    ]
+   ],
+   [
+    "min/max",
+    "imin(dur, 10)  ->  imax(dur, 10)   in: sc_rate = sel(has_sc, lk2(TAB_SC, imin(dur, 10), sc_col), ZERO)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-9, av_pp_init=1200/1199, duration_mth=132, has_surr_charge=True, is_level=False, is_wl=True, load_prem_rate=2, mort_table_last_age=3, policy_count=1, sum_assured=0, surr_charge_col=13"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dur  ->  dm   in: sc_rate = sel(has_sc, lk2(TAB_SC, imin(dur, 10), sc_col), ZERO)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=3, av_pp_init=-1200/1199, duration_mth=2, has_surr_charge=True, is_wl=False, load_prem_rate=1, mort_table_last_age=3, policy_count=-1, policy_term=-2, sum_assured=0, surr_charge_col=8"
+    ]
+   ],
+   [
+    "constant",
+    "10  ->  11   in: sc_rate = sel(has_sc, lk2(TAB_SC, imin(dur, 10), sc_col), ZERO)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-10, av_pp_init=-3600/1199, duration_mth=144, has_surr_charge=True, is_wl=True, load_prem_rate=1, mort_table_last_age=-11, policy_count=-1/3, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "operator",
+    "(1 - sc_rate) * av_mid  ->  (1 - sc_rate) / av_mid   in: csv = (1 - sc_rate) * av_mid",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-600/1199, duration_mth=0, has_surr_charge=True, is_level=False, is_single=True, load_prem_rate=2, mort_table_last_age=2, policy_count=-1, premium_pp=-1, sum_assured=-1, surr_charge_col=7"
+    ]
+   ],
+   [
+    "operator",
+    "1 - sc_rate  ->  1 + sc_rate   in: csv = (1 - sc_rate) * av_mid",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-1200/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=0, policy_count=-1, sum_assured=0, surr_charge_col=11"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_mid  ->  av_inv   in: csv = (1 - sc_rate) * av_mid",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-900/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=2, mort_table_last_age=0, policy_count=1/2, sum_assured=0, surr_charge_col=11"
+    ]
+   ],
+   [
+    "constant",
+    "1  ->  2   in: csv = (1 - sc_rate) * av_mid",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-1200/1199, duration_mth=0, has_surr_charge=True, is_level=False, is_single=False, load_prem_rate=0, mort_table_last_age=2, policy_count=-1, sum_assured=0, surr_charge_col=8"
+    ]
+   ],
+   [
+    "operator",
+    "csv / sa * fmax(0.1 - 0.01 * tof(dur), 0.02)  ->  csv / sa / fmax(0.1 - 0.01 * tof(dur), 0.02)   in: lapse_rate = csv / sa * fmax(0.1 - 0.01 * tof(dur), 0.02)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-1200/1199, duration_mth=0, has_surr_charge=False, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=0, policy_count=1, sum_assured=0"
+    ]
+   ],
+   [
+    "operator",
+    "csv / sa  ->  csv * sa   in: lapse_rate = csv / sa * fmax(0.1 - 0.01 * tof(dur), 0.02)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=1200/1199, duration_mth=0, has_surr_charge=True, is_level=False, is_single=False, load_prem_rate=0, mort_table_last_age=2, policy_count=-1, sum_assured=0, surr_charge_col=8"
+    ]
+   ],
+   [
+    "min/max",
+    "fmax(0.1 - 0.01 * tof(dur), 0.02)  ->  fmin(0.1 - 0.01 * tof(dur), 0.02)   in: lapse_rate = csv / sa * fmax(0.1 - 0.01 * tof(dur), 0.02)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-9, av_pp_init=2400/1199, duration_mth=145, has_surr_charge=True, is_wl=True, load_prem_rate=2, mort_table_last_age=-11, policy_count=-1, sum_assured=0, surr_charge_col=14"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "csv  ->  av_mid   in: lapse_rate = csv / sa * fmax(0.1 - 0.01 * tof(dur), 0.02)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-1200/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=0, policy_count=1, sum_assured=0, surr_charge_col=11"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "sa  ->  av_mid   in: lapse_rate = csv / sa * fmax(0.1 - 0.01 * tof(dur), 0.02)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=3, av_pp_init=0, duration_mth=0, has_surr_charge=True, is_level=True, is_single=True, is_wl=True, load_prem_rate=0, mort_table_last_age=5, policy_count=1, premium_pp=1, sum_assured=1, surr_charge_col=8"
+    ]
+   ],
+   [
+    "operator",
+    "0.1 - 0.01 * tof(dur)  ->  0.1 + 0.01 * tof(dur)   in: lapse_rate = csv / sa * fmax(0.1 - 0.01 * tof(dur), 0.02)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=1, av_pp_init=-1200/1199, duration_mth=13, has_surr_charge=True, is_wl=False, load_prem_rate=1, mort_table_last_age=1, policy_count=-1, policy_term=-2, sum_assured=0, surr_charge_col=11"
+    ]
+   ],
+   [
+    "constant",
+    "0.02  ->  0.0202   in: lapse_rate = csv / sa * fmax(0.1 - 0.01 * tof(dur), 0.02)",
+    "refuted",
+    [
+     "month 0: inv_income",
+     "age_at_entry=-6, av_pp_init=1200/1199, duration_mth=97, has_surr_charge=True, is_level=False, is_wl=True, load_prem_rate=1, mort_table_last_age=4, policy_count=1, sum_assured=0, surr_charge_col=14"
+    ]
+   ],
+   [
+    "constant",
+    "0.1  ->  0.101   in: lapse_rate = csv / sa * fmax(0.1 - 0.01 * tof(dur), 0.02)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=1200/1199, duration_mth=0, has_surr_charge=True, is_single=True, is_wl=True, load_prem_rate=1, mort_table_last_age=0, policy_count=-1, premium_pp=-1, sum_assured=0, surr_charge_col=11"
+    ]
+   ],
+   [
+    "operator",
+    "0.01 * tof(dur)  ->  0.01 / tof(dur)   in: lapse_rate = csv / sa * fmax(0.1 - 0.01 * tof(dur), 0.02)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-1296/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=2, mort_table_last_age=1, policy_count=-625/54, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "constant",
+    "0.01  ->  0.0101   in: lapse_rate = csv / sa * fmax(0.1 - 0.01 * tof(dur), 0.02)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=1, av_pp_init=-1200/1199, duration_mth=13, has_surr_charge=True, is_wl=True, load_prem_rate=1, mort_table_last_age=-1, policy_count=-1, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dur  ->  dm   in: lapse_rate = csv / sa * fmax(0.1 - 0.01 * tof(dur), 0.02)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=1200/1199, duration_mth=9, has_surr_charge=True, is_wl=True, load_prem_rate=2, mort_table_last_age=2, policy_count=1, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "operator",
+    "1 - fpow(1 - lapse_rate, TWELFTH)  ->  1 + fpow(1 - lapse_rate, TWELFTH)   in: lq = 1 - fpow(1 - lapse_rate, TWELFTH)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-900/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=2, mort_table_last_age=0, policy_count=-17/16, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "constant",
+    "1  ->  2   in: lq = 1 - fpow(1 - lapse_rate, TWELFTH)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-4, av_pp_init=1500/1199, duration_mth=132, has_surr_charge=True, is_wl=True, load_prem_rate=3/4, mort_table_last_age=-4, policy_count=5/4, sum_assured=0, surr_charge_col=6"
+    ]
+   ],
+   [
+    "operator",
+    "1 - lapse_rate  ->  1 + lapse_rate   in: lq = 1 - fpow(1 - lapse_rate, TWELFTH)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=4725/2398, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=2, mort_table_last_age=0, policy_count=2, sum_assured=0, surr_charge_col=11"
+    ]
+   ],
+   [
+    "constant",
+    "1  ->  2   in: lq = 1 - fpow(1 - lapse_rate, TWELFTH)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=1200/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=2, mort_table_last_age=0, policy_count=-1, sum_assured=0, surr_charge_col=11"
+    ]
+   ],
+   [
+    "operator",
+    "(p_decr - p_death) * lq  ->  (p_decr - p_death) / lq   in: p_lapse = (p_decr - p_death) * lq",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-1200/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=2, mort_table_last_age=1, policy_count=1, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "operator",
+    "p_decr - p_death  ->  p_decr + p_death   in: p_lapse = (p_decr - p_death) * lq",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-300/1199, duration_mth=0, has_surr_charge=True, is_level=False, is_single=False, load_prem_rate=2, mort_table_last_age=2, policy_count=-1, sum_assured=0, surr_charge_col=4"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "lq  ->  q   in: p_lapse = (p_decr - p_death) * lq",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-2400/1199, duration_mth=0, has_surr_charge=True, is_level=False, is_single=False, load_prem_rate=0, mort_table_last_age=2, policy_count=2, sum_assured=0, surr_charge_col=8"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: p_lapse = (p_decr - p_death) * lq",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-900/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=2, mort_table_last_age=0, policy_count=-1, sum_assured=0, surr_charge_col=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_death  ->  p_lapse   in: p_lapse = (p_decr - p_death) * lq",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`p_lapse` is used before it is defined')"
+    ]
+   ],
+   [
+    "operator",
+    "p_decr - p_lapse - p_death  ->  p_decr - p_lapse + p_death   in: p_next = p_decr - p_lapse - p_death",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-1200/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=0, policy_count=1, sum_assured=0, surr_charge_col=3"
+    ]
+   ],
+   [
+    "operator",
+    "p_decr - p_lapse  ->  p_decr + p_lapse   in: p_next = p_decr - p_lapse - p_death",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=6, av_pp_init=-1200/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=4, policy_count=-1, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_death  ->  p_lapse   in: p_next = p_decr - p_lapse - p_death",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=1200/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=0, policy_count=11/10, sum_assured=0, surr_charge_col=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: p_next = p_decr - p_lapse - p_death",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=6, av_pp_init=-1200/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=5, policy_count=1, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_lapse  ->  p_death   in: p_next = p_decr - p_lapse - p_death",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-1200/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=1, policy_count=1, sum_assured=0, surr_charge_col=3"
+    ]
+   ],
+   [
+    "operator",
+    "av_inv + iipp  ->  av_inv - iipp   in: av_next = av_inv + iipp",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=11, av_pp_init=1200/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=10, policy_count=-1, sum_assured=-1, surr_charge_col=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_inv  ->  av_mid   in: av_next = av_inv + iipp",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=8, av_pp_init=1200/1199, duration_mth=72, has_surr_charge=True, is_level=False, is_wl=True, load_prem_rate=0, mort_table_last_age=15, policy_count=-1, sum_assured=0, surr_charge_col=8"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "iipp  ->  av_inv   in: av_next = av_inv + iipp",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=1199/3598, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=2399/3598, mort_table_last_age=1, policy_count=1199/3598, sum_assured=0, surr_charge_col=11"
+    ]
+   ],
+   [
+    "operator",
+    "prem_pp * p_decr  ->  prem_pp / p_decr   in: premiums = prem_pp * p_decr",
+    "refuted",
+    [
+     "month 0: commissions",
+     "age_at_entry=0, duration_mth=0, is_level=False, is_single=True, mort_table_last_age=0, policy_count=1/2, premium_pp=39/2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "prem_pp  ->  prem_av_pp   in: premiums = prem_pp * p_decr",
+    "refuted",
+    [
+     "month 0: commissions",
+     "age_at_entry=0, duration_mth=0, is_level=True, is_single=False, is_wl=True, load_prem_rate=8679/8000, mort_table_last_age=1, policy_count=-4679/8000, premium_pp=-4679/8000"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: premiums = prem_pp * p_decr",
+    "refuted",
+    [
+     "month 0: commissions",
+     "age_at_entry=0, duration_mth=0, is_level=True, is_single=False, is_wl=False, mort_table_last_age=0, policy_count=-1, policy_term=1, premium_pp=1"
+    ]
+   ],
+   [
+    "min/max",
+    "fmax(sa, av_mid)  ->  fmin(sa, av_mid)   in: cl_death_pp = fmax(sa, av_mid)",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=6, av_pp_init=-4800/1199, duration_mth=0, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=5, policy_count=5/8, sum_assured=-5/2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "sa  ->  av_mid   in: cl_death_pp = fmax(sa, av_mid)",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=2, av_pp_init=1200/1199, duration_mth=0, is_level=True, is_single=True, is_wl=True, load_prem_rate=0, mort_table_last_age=3, policy_count=1, premium_pp=0, sum_assured=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_mid  ->  av_inv   in: cl_death_pp = fmax(sa, av_mid)",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=2, av_pp_init=-1200/1199, duration_mth=72, is_level=False, is_wl=False, load_prem_rate=1, mort_table_last_age=2, policy_count=1, policy_term=7, sum_assured=-2"
+    ]
+   ],
+   [
+    "min/max",
+    "fmax(sa, av_prem)  ->  fmin(sa, av_prem)   in: cl_mat_pp = fmax(sa, av_prem)",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=0, av_pp_init=-1/2, duration_mth=12, is_wl=True, mort_table_last_age=1, policy_count=5, sum_assured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "sa  ->  av_mid   in: cl_mat_pp = fmax(sa, av_prem)",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=0, av_pp_init=1, duration_mth=12, is_single=False, is_wl=True, load_prem_rate=10351128751/5035110575, mort_table_last_age=1, policy_count=3, sum_assured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_prem  ->  av_fee   in: cl_mat_pp = fmax(sa, av_prem)",
+    "refuted",
+    [
+     "month 0: claim_pp[MATURITY]",
+     "age_at_entry=0, av_pp_init=1, duration_mth=-1, is_level=True, is_single=False, is_wl=False, load_prem_rate=0, mort_table_last_age=0, policy_term=0, premium_pp=-2, sum_assured=0"
+    ]
+   ],
+   [
+    "operator",
+    "cl_death_pp * p_death  ->  cl_death_pp / p_death   in: cl_death = cl_death_pp * p_death",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=1, av_pp_init=-200/1199, duration_mth=72, is_wl=False, load_prem_rate=0, mort_table_last_age=1, policy_count=-1, policy_term=1, sum_assured=-2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cl_death_pp  ->  cl_mat_pp   in: cl_death = cl_death_pp * p_death",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=-4, av_pp_init=-1, duration_mth=72, is_single=False, is_wl=True, load_prem_rate=2, mort_table_last_age=1, policy_count=1, sum_assured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_death  ->  p_lapse   in: cl_death = cl_death_pp * p_death",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=7, av_pp_init=1200/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=7, policy_count=-1, policy_term=-1, sum_assured=0, surr_charge_col=6"
+    ]
+   ],
+   [
+    "operator",
+    "av_mid * p_death  ->  av_mid / p_death   in: cfa_death = av_mid * p_death",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=6, av_pp_init=0, duration_mth=0, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=5, policy_count=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_mid  ->  av_inv   in: cfa_death = av_mid * p_death",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=2, av_pp_init=1200/1199, duration_mth=0, is_level=False, is_single=False, is_wl=True, load_prem_rate=0, mort_table_last_age=3, policy_count=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_death  ->  p_lapse   in: cfa_death = av_mid * p_death",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=6, av_pp_init=-800/1199, duration_mth=0, has_surr_charge=False, is_single=False, is_wl=False, load_prem_rate=1/3, mort_table_last_age=6, policy_count=-1, policy_term=-1, sum_assured=0"
+    ]
+   ],
+   [
+    "operator",
+    "av_mid * p_lapse  ->  av_mid / p_lapse   in: cfa_lapse = av_mid * p_lapse",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=7, av_pp_init=0, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=6, policy_count=1, sum_assured=0, surr_charge_col=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_mid  ->  av_inv   in: cfa_lapse = av_mid * p_lapse",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=2, av_pp_init=1200/1199, duration_mth=0, has_surr_charge=True, is_level=False, is_single=False, load_prem_rate=2, mort_table_last_age=2, policy_count=-3/8, sum_assured=0, surr_charge_col=4"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_lapse  ->  p_death   in: cfa_lapse = av_mid * p_lapse",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=6, av_pp_init=-1200/1199, duration_mth=0, has_surr_charge=False, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=5, policy_count=1, sum_assured=0"
+    ]
+   ],
+   [
+    "operator",
+    "av_prem * p_mat  ->  av_prem / p_mat   in: cfa_mat = av_prem * p_mat",
+    "refuted",
+    [
+     "month 0: claims_from_av[MATURITY]",
+     "age_at_entry=0, av_pp_init=0, duration_mth=11, is_wl=True, mort_table_last_age=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_prem  ->  av_fee   in: cfa_mat = av_prem * p_mat",
+    "refuted",
+    [
+     "month t>=1: claims_from_av[MATURITY]",
+     "age_at_entry=0, duration_mth=-1, is_single=True, is_wl=False, load_prem_rate=-2, mort_table_last_age=0, policy_term=0, premium_pp=-1/2, t=1"
+    ]
+   ],
+   [
+    "operator",
+    "sc_rate * av_mid * p_lapse  ->  sc_rate * av_mid / p_lapse   in: surr = sc_rate * av_mid * p_lapse",
+    "refuted",
+    [
+     "month 0: margin_expense",
+     "age_at_entry=2, av_pp_init=-1200/1199, duration_mth=0, has_surr_charge=True, is_single=True, is_wl=True, load_prem_rate=0, mort_table_last_age=0, policy_count=1, premium_pp=-1, sum_assured=0, surr_charge_col=3"
+    ]
+   ],
+   [
+    "operator",
+    "sc_rate * av_mid  ->  sc_rate / av_mid   in: surr = sc_rate * av_mid * p_lapse",
+    "refuted",
+    [
+     "month 0: margin_expense",
+     "age_at_entry=2, av_pp_init=0, duration_mth=0, has_surr_charge=True, is_level=False, is_single=True, load_prem_rate=2, mort_table_last_age=2, policy_count=-1, premium_pp=1, sum_assured=0, surr_charge_col=8"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_lapse  ->  p_death   in: surr = sc_rate * av_mid * p_lapse",
+    "refuted",
+    [
+     "month 0: margin_expense",
+     "age_at_entry=7, av_pp_init=-1200/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=5, policy_count=1, sum_assured=0, surr_charge_col=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_mid  ->  av_inv   in: surr = sc_rate * av_mid * p_lapse",
+    "refuted",
+    [
+     "month 0: margin_expense",
+     "age_at_entry=2, av_pp_init=-1200/1199, duration_mth=132, has_surr_charge=True, is_level=False, is_wl=True, load_prem_rate=0, mort_table_last_age=14, policy_count=2, sum_assured=0, surr_charge_col=2"
+    ]
+   ],
+   [
+    "operator",
+    "cfa_lapse - surr  ->  cfa_lapse + surr   in: cl_lapse = cfa_lapse - surr",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=11, av_pp_init=1200/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=11, policy_count=1, policy_term=-1, sum_assured=0, surr_charge_col=2"
+    ]
+   ],
+   [
+    "operator",
+    "cl_mat_pp * p_mat  ->  cl_mat_pp / p_mat   in: cl_mat = cl_mat_pp * p_mat",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=0, av_pp_init=-1, duration_mth=-1, is_wl=True, mort_table_last_age=0, sum_assured=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cl_mat_pp  ->  cl_death_pp   in: cl_mat = cl_mat_pp * p_mat",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=0, av_pp_init=400/1197, duration_mth=12, is_wl=True, load_prem_rate=797/1197, mort_table_last_age=1, policy_count=2, sum_assured=1/4"
+    ]
+   ],
+   [
+    "operator",
+    "ZERO + cl_death + cl_lapse + cl_mat  ->  ZERO + cl_death + cl_lapse - cl_mat   in: cl_all = ZERO + cl_death + cl_lapse + cl_mat",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=0, av_pp_init=1/2, duration_mth=12, is_wl=False, mort_table_last_age=0, policy_count=1, policy_term=1, sum_assured=0"
+    ]
+   ],
+   [
+    "operator",
+    "ZERO + cl_death + cl_lapse  ->  ZERO + cl_death - cl_lapse   in: cl_all = ZERO + cl_death + cl_lapse + cl_mat",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=-6, av_pp_init=-1300/1199, duration_mth=96, has_surr_charge=True, is_level=False, is_wl=True, load_prem_rate=1/2, mort_table_last_age=3, policy_count=-1/2, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "operator",
+    "ZERO + cl_death  ->  ZERO - cl_death   in: cl_all = ZERO + cl_death + cl_lapse + cl_mat",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=3, av_pp_init=-2400/1199, duration_mth=0, is_level=False, is_single=False, load_prem_rate=1, mort_table_last_age=3, policy_count=1, sum_assured=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cl_death  ->  cl_lapse   in: cl_all = ZERO + cl_death + cl_lapse + cl_mat",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=1, av_pp_init=-1200/1199, duration_mth=13, has_surr_charge=True, is_wl=True, load_prem_rate=0, mort_table_last_age=2, policy_count=2, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "operator",
+    "5000.0 * p_nb + p_decr * 500.0 / 12.0 * infl  ->  5000.0 * p_nb - p_decr * 500.0 / 12.0 * infl   in: expenses = 5000.0 * p_nb + p_decr * 500.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "age_at_entry=0, duration_mth=11, is_wl=True, mort_table_last_age=1, policy_count=-1/2"
+    ]
+   ],
+   [
+    "operator",
+    "5000.0 * p_nb  ->  5000.0 / p_nb   in: expenses = 5000.0 * p_nb + p_decr * 500.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "duration_mth=0, policy_count=0"
+    ]
+   ],
+   [
+    "operator",
+    "p_decr * 500.0 / 12.0 * infl  ->  p_decr * 500.0 / 12.0 / infl   in: expenses = 5000.0 * p_nb + p_decr * 500.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "age_at_entry=0, duration_mth=0, mort_table_last_age=0, policy_count=1"
+    ]
+   ],
+   [
+    "constant",
+    "5000.0  ->  5050.0   in: expenses = 5000.0 * p_nb + p_decr * 500.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "duration_mth=0, policy_count=1"
+    ]
+   ],
+   [
+    "operator",
+    "p_decr * 500.0 / 12.0  ->  p_decr * 500.0 * 12.0   in: expenses = 5000.0 * p_nb + p_decr * 500.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "age_at_entry=0, duration_mth=11, is_wl=True, mort_table_last_age=1, policy_count=-1/2"
+    ]
+   ],
+   [
+    "operator",
+    "p_decr * 500.0  ->  p_decr / 500.0   in: expenses = 5000.0 * p_nb + p_decr * 500.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "age_at_entry=0, duration_mth=11, is_wl=True, mort_table_last_age=1, policy_count=-1000/83333"
+    ]
+   ],
+   [
+    "constant",
+    "12.0  ->  12.120000000000001   in: expenses = 5000.0 * p_nb + p_decr * 500.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "age_at_entry=0, duration_mth=11, is_wl=False, mort_table_last_age=0, policy_count=36360000000000003/30000000000000250, policy_term=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: expenses = 5000.0 * p_nb + p_decr * 500.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "age_at_entry=0, duration_mth=0, mort_table_last_age=0, policy_count=1/2"
+    ]
+   ],
+   [
+    "constant",
+    "500.0  ->  505.0   in: expenses = 5000.0 * p_nb + p_decr * 500.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "age_at_entry=0, duration_mth=11, is_wl=True, mort_table_last_age=1, policy_count=-6/5"
+    ]
+   ],
+   [
+    "operator",
+    "0.05 * premiums  ->  0.05 / premiums   in: commissions = 0.05 * premiums",
+    "refuted",
+    [
+     "month 0: commissions",
+     "age_at_entry=0, duration_mth=0, is_single=False, is_wl=True, mort_table_last_age=-1, policy_count=1"
+    ]
+   ],
+   [
+    "constant",
+    "0.05  ->  0.0505   in: commissions = 0.05 * premiums",
+    "refuted",
+    [
+     "month 0: commissions",
+     "age_at_entry=0, duration_mth=0, is_single=True, is_wl=True, mort_table_last_age=-1, policy_count=1/2, premium_pp=-1/2"
+    ]
+   ],
+   [
+    "operator",
+    "iipp * p_next + 0.5 * iipp * (p_death + p_lapse)  ->  iipp * p_next - 0.5 * iipp * (p_death + p_lapse)   in: inv_income = iipp * p_next + 0.5 * iipp * (p_death + p_lapse)",
+    "refuted",
+    [
+     "month 0: inv_income",
+     "age_at_entry=6, av_pp_init=-1200/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=6, policy_count=-1, policy_term=-1, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "operator",
+    "iipp * p_next  ->  iipp / p_next   in: inv_income = iipp * p_next + 0.5 * iipp * (p_death + p_lapse)",
+    "refuted",
+    [
+     "month 0: inv_income",
+     "age_at_entry=2, av_pp_init=1200/1199, duration_mth=0, has_surr_charge=False, is_single=False, is_wl=True, load_prem_rate=2, mort_table_last_age=1, policy_count=-1, sum_assured=0"
+    ]
+   ],
+   [
+    "operator",
+    "0.5 * iipp * (p_death + p_lapse)  ->  0.5 * iipp / (p_death + p_lapse)   in: inv_income = iipp * p_next + 0.5 * iipp * (p_death + p_lapse)",
+    "refuted",
+    [
+     "month 0: inv_income",
+     "age_at_entry=-4, av_pp_init=-1200/1199, duration_mth=132, has_surr_charge=True, is_level=False, is_wl=True, load_prem_rate=1, mort_table_last_age=-4, policy_count=1, sum_assured=0, surr_charge_col=6"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "iipp  ->  av_inv   in: inv_income = iipp * p_next + 0.5 * iipp * (p_death + p_lapse)",
+    "refuted",
+    [
+     "month 0: inv_income",
+     "age_at_entry=9, av_pp_init=1200/1199, duration_mth=0, has_surr_charge=False, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=8, policy_count=1, sum_assured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_next  ->  p_decr   in: inv_income = iipp * p_next + 0.5 * iipp * (p_death + p_lapse)",
+    "refuted",
+    [
+     "month 0: inv_income",
+     "age_at_entry=7, av_pp_init=-1200/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=6, policy_count=-1, sum_assured=0, surr_charge_col=6"
+    ]
+   ],
+   [
+    "operator",
+    "0.5 * iipp  ->  0.5 / iipp   in: inv_income = iipp * p_next + 0.5 * iipp * (p_death + p_lapse)",
+    "refuted",
+    [
+     "month 0: inv_income",
+     "age_at_entry=6, av_pp_init=1200/1199, duration_mth=0, has_surr_charge=False, is_single=False, is_wl=True, load_prem_rate=0, mort_table_last_age=5, policy_count=-1, sum_assured=0"
+    ]
+   ],
+   [
+    "operator",
+    "p_death + p_lapse  ->  p_death - p_lapse   in: inv_income = iipp * p_next + 0.5 * iipp * (p_death + p_lapse)",
+    "refuted",
+    [
+     "month 0: inv_income",
+     "age_at_entry=2, av_pp_init=-400/25179, duration_mth=132, has_surr_charge=True, is_wl=True, load_prem_rate=62/63, mort_table_last_age=2, policy_count=-1/63, sum_assured=0, surr_charge_col=2"
+    ]
+   ],
+   [
+    "constant",
+    "0.5  ->  0.505   in: inv_income = iipp * p_next + 0.5 * iipp * (p_death + p_lapse)",
+    "refuted",
+    [
+     "month 0: inv_income",
+     "age_at_entry=7, av_pp_init=-1200/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=6, policy_count=1, sum_assured=0, surr_charge_col=6"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "iipp  ->  av_inv   in: inv_income = iipp * p_next + 0.5 * iipp * (p_death + p_lapse)",
+    "refuted",
+    [
+     "month 0: inv_income",
+     "age_at_entry=-4, av_pp_init=1, duration_mth=132, has_surr_charge=True, is_wl=True, load_prem_rate=2, mort_table_last_age=6, policy_count=2, sum_assured=0, surr_charge_col=6"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_death  ->  p_lapse   in: inv_income = iipp * p_next + 0.5 * iipp * (p_death + p_lapse)",
+    "refuted",
+    [
+     "month 0: inv_income",
+     "age_at_entry=-9, av_pp_init=1200/1199, duration_mth=132, has_surr_charge=True, is_level=False, is_wl=True, load_prem_rate=2, mort_table_last_age=3, policy_count=1, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_lapse  ->  p_death   in: inv_income = iipp * p_next + 0.5 * iipp * (p_death + p_lapse)",
+    "refuted",
+    [
+     "month 0: inv_income",
+     "age_at_entry=6, av_pp_init=1200/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=2, mort_table_last_age=4, policy_count=2, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "operator",
+    "av_prem * p_bef_mat  ->  av_prem / p_bef_mat   in: av_bef_mat = av_prem * p_bef_mat",
+    "refuted",
+    [
+     "month 0: av_change",
+     "av_pp_init=-1, duration_mth=1, policy_count=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_prem  ->  av_fee   in: av_bef_mat = av_prem * p_bef_mat",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=0, duration_mth=11, is_level=True, is_wl=True, load_prem_rate=-1, mort_table_last_age=1, policy_count=3, premium_pp=-1/2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_bef_mat  ->  p_bef_nb   in: av_bef_mat = av_prem * p_bef_mat",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=0, av_pp_init=3, duration_mth=12, is_wl=True, mort_table_last_age=1, policy_count=2"
+    ]
+   ],
+   [
+    "operator",
+    "av_next * p_next - av_bef_mat  ->  av_next * p_next + av_bef_mat   in: av_change = av_next * p_next - av_bef_mat",
+    "refuted",
+    [
+     "month 0: av_change",
+     "av_pp_init=1, duration_mth=1, policy_count=1"
+    ]
+   ],
+   [
+    "operator",
+    "av_next * p_next  ->  av_next / p_next   in: av_change = av_next * p_next - av_bef_mat",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=7, av_pp_init=1200/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=6, policy_count=1, sum_assured=0, surr_charge_col=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_next  ->  av_inv   in: av_change = av_next * p_next - av_bef_mat",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-1200/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=1, policy_count=1, sum_assured=0, surr_charge_col=11"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_next  ->  p_decr   in: av_change = av_next * p_next - av_bef_mat",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=8, av_pp_init=1200/1199, duration_mth=0, has_surr_charge=True, is_level=True, is_single=False, is_wl=True, load_prem_rate=2, mort_table_last_age=10, policy_count=2, premium_pp=-1, sum_assured=0, surr_charge_col=3"
+    ]
+   ],
+   [
+    "operator",
+    "premiums + inv_income - cl_all - expenses - commissions - av_change  ->  premiums + inv_income - cl_all - expenses - commissions + av_change   in: net_cf = premiums + inv_income - cl_all - expenses - commissions - av_",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=7, av_pp_init=-1, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=1799/1199, mort_table_last_age=6, policy_count=-1, sum_assured=0, surr_charge_col=2"
+    ]
+   ],
+   [
+    "operator",
+    "premiums + inv_income - cl_all - expenses - commissions  ->  premiums + inv_income - cl_all - expenses + commissions   in: net_cf = premiums + inv_income - cl_all - expenses - commissions - av_",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=0, duration_mth=0, is_single=True, is_wl=True, mort_table_last_age=-1, policy_count=1/2, premium_pp=-1/2"
+    ]
+   ],
+   [
+    "operator",
+    "premiums + inv_income - cl_all - expenses  ->  premiums + inv_income - cl_all + expenses   in: net_cf = premiums + inv_income - cl_all - expenses - commissions - av_",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=0, duration_mth=23, is_wl=True, mort_table_last_age=2, policy_count=-7/3"
+    ]
+   ],
+   [
+    "operator",
+    "premiums + inv_income - cl_all  ->  premiums + inv_income + cl_all   in: net_cf = premiums + inv_income - cl_all - expenses - commissions - av_",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=-9, av_pp_init=1/2, duration_mth=132, has_surr_charge=True, is_level=False, is_wl=True, load_prem_rate=2, mort_table_last_age=3, policy_count=1, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "operator",
+    "premiums + inv_income  ->  premiums - inv_income   in: net_cf = premiums + inv_income - cl_all - expenses - commissions - av_",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=4, av_pp_init=-1200/1199, duration_mth=0, has_surr_charge=True, is_level=False, is_single=False, load_prem_rate=1, mort_table_last_age=4, policy_count=-8719/24576, sum_assured=-1, surr_charge_col=3"
+    ]
+   ],
+   [
+    "operator",
+    "coi_pp * p_decr  ->  coi_pp / p_decr   in: coi = coi_pp * p_decr",
+    "refuted",
+    [
+     "month 0: coi",
+     "age_at_entry=0, duration_mth=-1, mort_table_last_age=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: coi = coi_pp * p_decr",
+    "proved",
+    null
+   ],
+   [
+    "operator",
+    "mfee_pp * p_decr  ->  mfee_pp / p_decr   in: mfee = mfee_pp * p_decr",
+    "refuted",
+    [
+     "month 0: maint_fee",
+     "age_at_entry=0, av_pp_init=1200, duration_mth=-1, is_level=False, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=0, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: mfee = mfee_pp * p_decr",
+    "refuted",
+    [
+     "month 0: maint_fee",
+     "age_at_entry=0, av_pp_init=2400, duration_mth=0, is_level=False, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=0, policy_count=-1, policy_term=0"
+    ]
+   ],
+   [
+    "operator",
+    "load * prem_pp * p_decr + surr + mfee - commissions - expenses  ->  load * prem_pp * p_decr + surr + mfee - commissions + expenses   in: margin_exp = load * prem_pp * p_decr + surr + mfee - commissions - exp",
+    "refuted",
+    [
+     "month 0: margin_expense",
+     "age_at_entry=0, duration_mth=0, mort_table_last_age=0, policy_count=3/30250"
+    ]
+   ],
+   [
+    "operator",
+    "load * prem_pp * p_decr + surr + mfee - commissions  ->  load * prem_pp * p_decr + surr + mfee + commissions   in: margin_exp = load * prem_pp * p_decr + surr + mfee - commissions - exp",
+    "refuted",
+    [
+     "month 0: margin_expense",
+     "age_at_entry=0, duration_mth=0, is_single=True, is_wl=True, mort_table_last_age=-1, policy_count=-19451/2, premium_pp=-1/2"
+    ]
+   ],
+   [
+    "operator",
+    "load * prem_pp * p_decr + surr + mfee  ->  load * prem_pp * p_decr + surr - mfee   in: margin_exp = load * prem_pp * p_decr + surr + mfee - commissions - exp",
+    "refuted",
+    [
+     "month 0: margin_expense",
+     "age_at_entry=0, av_pp_init=1200, duration_mth=0, is_level=False, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=-1, policy_count=-1/2"
+    ]
+   ],
+   [
+    "operator",
+    "load * prem_pp * p_decr + surr  ->  load * prem_pp * p_decr - surr   in: margin_exp = load * prem_pp * p_decr + surr + mfee - commissions - exp",
+    "refuted",
+    [
+     "month 0: margin_expense",
+     "age_at_entry=-5, av_pp_init=-800/1199, duration_mth=132, has_surr_charge=True, is_wl=True, load_prem_rate=1/3, mort_table_last_age=-5, policy_count=1, sum_assured=0, surr_charge_col=13"
+    ]
+   ],
+   [
+    "operator",
+    "load * prem_pp * p_decr  ->  load * prem_pp / p_decr   in: margin_exp = load * prem_pp * p_decr + surr + mfee - commissions - exp",
+    "refuted",
+    [
+     "month 0: margin_expense",
+     "age_at_entry=0, duration_mth=0, is_level=False, is_single=True, load_prem_rate=1, mort_table_last_age=0, policy_count=0, premium_pp=1"
+    ]
+   ],
+   [
+    "operator",
+    "load * prem_pp  ->  load / prem_pp   in: margin_exp = load * prem_pp * p_decr + surr + mfee - commissions - exp",
+    "refuted",
+    [
+     "month 0: margin_expense",
+     "age_at_entry=0, duration_mth=0, is_single=False, is_wl=True, load_prem_rate=-1, mort_table_last_age=-1, policy_count=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: margin_exp = load * prem_pp * p_decr + surr + mfee - commissions - exp",
+    "refuted",
+    [
+     "month 0: margin_expense",
+     "age_at_entry=0, duration_mth=0, is_level=True, is_single=False, is_wl=True, load_prem_rate=2, mort_table_last_age=1, policy_count=-1, premium_pp=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "prem_pp  ->  prem_av_pp   in: margin_exp = load * prem_pp * p_decr + surr + mfee - commissions - exp",
+    "refuted",
+    [
+     "month 0: margin_expense",
+     "age_at_entry=0, duration_mth=11, is_level=True, is_wl=True, load_prem_rate=2, mort_table_last_age=1, policy_count=-1, premium_pp=1"
+    ]
+   ],
+   [
+    "operator",
+    "cl_death - cfa_death  ->  cl_death + cfa_death   in: coa_death = cl_death - cfa_death",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=2, av_pp_init=-1200/1199, duration_mth=0, is_single=True, is_wl=True, load_prem_rate=1, mort_table_last_age=1, policy_count=-1, premium_pp=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cl_death  ->  cl_lapse   in: coa_death = cl_death - cfa_death",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=8, av_pp_init=1200/1199, duration_mth=2, has_surr_charge=True, is_level=True, is_wl=True, load_prem_rate=2, mort_table_last_age=10, policy_count=-1, premium_pp=1, sum_assured=-2, surr_charge_col=7"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cfa_death  ->  cfa_lapse   in: coa_death = cl_death - cfa_death",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=-2, av_pp_init=21720/20383, duration_mth=96, has_surr_charge=True, is_wl=True, load_prem_rate=181/170, mort_table_last_age=5, policy_count=11/340, sum_assured=0, surr_charge_col=9"
+    ]
+   ],
+   [
+    "operator",
+    "coi - coa_death  ->  coi + coa_death   in: margin_mort = coi - coa_death",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=3, av_pp_init=0, duration_mth=0, is_level=False, is_single=False, load_prem_rate=1, mort_table_last_age=3, policy_count=1, sum_assured=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "csv  ->  av_mid   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: csv_pp",
+     "age_at_entry=0, av_pp_init=-1200/1199, duration_mth=-12, has_surr_charge=True, is_level=False, load_prem_rate=2, mort_table_last_age=0, surr_charge_col=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "iipp  ->  av_inv   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: inv_income_pp",
+     "age_at_entry=0, av_pp_init=2400/1199, duration_mth=0, is_level=False, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=0, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "q  ->  lq   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: mort_rate_mth",
+     "age_at_entry=-9, av_pp_init=0, duration_mth=132, has_surr_charge=True, is_level=False, load_prem_rate=1, mort_table_last_age=-9, sum_assured=-1, surr_charge_col=4"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_death  ->  p_lapse   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: pols_death",
+     "age_at_entry=2, av_pp_init=0, duration_mth=0, has_surr_charge=True, is_level=False, is_single=False, load_prem_rate=1, mort_table_last_age=2, policy_count=1, sum_assured=0, surr_charge_col=4"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_bef_mat  ->  p_bef_nb   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: pols_if",
+     "age_at_entry=0, duration_mth=12, is_wl=False, mort_table_last_age=0, policy_count=1, policy_term=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_lapse  ->  p_death   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: pols_lapse",
+     "age_at_entry=-9, av_pp_init=0, duration_mth=132, has_surr_charge=True, is_level=True, is_wl=True, load_prem_rate=1, mort_table_last_age=3, policy_count=-1, premium_pp=-1, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "operator",
+    "prem_av_pp * p_decr  ->  prem_av_pp / p_decr   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: prem_to_av",
+     "age_at_entry=0, duration_mth=-1, is_level=True, is_wl=True, load_prem_rate=0, mort_table_last_age=0, premium_pp=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "prem_pp  ->  prem_av_pp   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: premium_pp",
+     "age_at_entry=0, duration_mth=-1, is_level=True, is_wl=False, load_prem_rate=1, mort_table_last_age=0, policy_term=0, premium_pp=-1"
+    ]
+   ],
+   [
+    "operator",
+    "av_prem * p_bef_nb  ->  av_prem / p_bef_nb   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: av_at[BEF_NB]",
+     "age_at_entry=0, av_pp_init=1, duration_mth=0, mort_table_last_age=0"
+    ]
+   ],
+   [
+    "operator",
+    "av_fee * p_decr  ->  av_fee / p_decr   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: av_at[BEF_FEE]",
+     "age_at_entry=0, av_pp_init=-1, duration_mth=12, is_level=False, is_single=False, is_wl=True, load_prem_rate=0, mort_table_last_age=1, policy_count=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_prem  ->  av_fee   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: av_pp_at[BEF_PREM]",
+     "age_at_entry=0, duration_mth=0, is_level=False, is_single=True, load_prem_rate=2, mort_table_last_age=0, premium_pp=-1/2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_fee  ->  av_inv   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: av_pp_at[BEF_FEE]",
+     "age_at_entry=0, av_pp_init=-1200, duration_mth=0, is_level=False, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=0, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_inv  ->  av_mid   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: av_pp_at[BEF_INV]",
+     "age_at_entry=0, av_pp_init=1200/1199, duration_mth=0, is_level=False, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=0, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_mid  ->  av_inv   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: av_pp_at[MID_MTH]",
+     "age_at_entry=0, av_pp_init=1200/1199, duration_mth=0, is_level=False, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=0, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_bef_mat  ->  p_bef_nb   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: pols_if_at[BEF_MAT]",
+     "age_at_entry=0, duration_mth=12, is_wl=False, mort_table_last_age=0, policy_count=1, policy_term=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_bef_nb  ->  p_decr   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: pols_if_at[BEF_NB]",
+     "duration_mth=0, policy_count=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: pols_if_at[BEF_DECR]",
+     "age_at_entry=0, duration_mth=0, mort_table_last_age=0, policy_count=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cl_death_pp  ->  cl_mat_pp   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claim_pp[DEATH]",
+     "age_at_entry=0, av_pp_init=-1, duration_mth=0, is_level=False, is_single=True, load_prem_rate=0, mort_table_last_age=0, premium_pp=0, sum_assured=-2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_mid  ->  av_inv   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claim_pp[LAPSE]",
+     "age_at_entry=0, av_pp_init=1200/1199, duration_mth=0, is_level=False, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=0, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cl_mat_pp  ->  cl_death_pp   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claim_pp[MATURITY]",
+     "age_at_entry=0, av_pp_init=-1200, duration_mth=11, is_level=True, is_wl=True, load_prem_rate=1, mort_table_last_age=1, premium_pp=0, sum_assured=-1201"
+    ]
+   ],
+   [
+    "operator",
+    "cl_death_pp - av_mid  ->  cl_death_pp + av_mid   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claim_net_pp[DEATH]",
+     "age_at_entry=0, av_pp_init=-1, duration_mth=1, is_level=False, load_prem_rate=2, mort_table_last_age=0"
+    ]
+   ],
+   [
+    "operator",
+    "cl_mat_pp - av_prem  ->  cl_mat_pp + av_prem   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claim_net_pp[MATURITY]",
+     "av_pp_init=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cl_death  ->  cl_lapse   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claims[DEATH]",
+     "age_at_entry=-5, av_pp_init=-150/1199, duration_mth=132, has_surr_charge=True, is_level=False, is_wl=True, load_prem_rate=1, mort_table_last_age=5, policy_count=1, sum_assured=-1, surr_charge_col=7"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cfa_death  ->  cfa_lapse   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claims_from_av[DEATH]",
+     "age_at_entry=6, av_pp_init=-1800/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=2, mort_table_last_age=5, policy_count=-1, sum_assured=0, surr_charge_col=7"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cfa_mat  ->  cfa_death   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claims_from_av[MATURITY]",
+     "age_at_entry=3, av_pp_init=-1/32, duration_mth=0, is_level=False, is_single=False, load_prem_rate=865/1024, mort_table_last_age=3, policy_count=33/512"
+    ]
+   ],
+   [
+    "operator",
+    "cl_lapse - cfa_lapse  ->  cl_lapse + cfa_lapse   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claims_over_av[LAPSE]",
+     "age_at_entry=2, av_pp_init=-1200/1199, duration_mth=0, has_surr_charge=True, is_level=False, is_single=True, load_prem_rate=0, mort_table_last_age=2, policy_count=-1, premium_pp=1, sum_assured=0, surr_charge_col=8"
+    ]
+   ],
+   [
+    "operator",
+    "cl_mat - cfa_mat  ->  cl_mat + cfa_mat   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claims_over_av[MATURITY]",
+     "age_at_entry=0, av_pp_init=1, duration_mth=12, is_wl=False, mort_table_last_age=0, policy_count=1, policy_term=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_next  ->  av_inv   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: carried state: s_av_prem",
+     "age_at_entry=0, av_pp_init=3600/1199, duration_mth=0, is_level=False, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=0, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_next  ->  p_decr   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: carried state: s_p_bef_mat",
+     "age_at_entry=4, av_pp_init=0, duration_mth=0, has_surr_charge=True, is_level=False, is_single=False, load_prem_rate=1, mort_table_last_age=4, policy_count=1/3, sum_assured=0, surr_charge_col=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dur  ->  dm   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: duration",
+     "duration_mth=12"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dm  ->  dm0   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month t>=1: duration_mth",
+     "duration_mth=0, t=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: prem_to_av",
+     "age_at_entry=0, duration_mth=0, is_level=True, is_single=False, is_wl=True, load_prem_rate=-1, mort_table_last_age=1, policy_count=-1, premium_pp=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_prem  ->  av_fee   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: av_at[BEF_NB]",
+     "age_at_entry=0, duration_mth=11, is_level=True, is_wl=True, load_prem_rate=-1, mort_table_last_age=1, policy_count=-1, premium_pp=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_bef_nb  ->  p_decr   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: av_at[BEF_NB]",
+     "age_at_entry=0, av_pp_init=3, duration_mth=0, mort_table_last_age=0, policy_count=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_fee  ->  av_inv   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: av_at[BEF_FEE]",
+     "age_at_entry=0, av_pp_init=-1, duration_mth=0, is_level=False, is_single=False, load_prem_rate=0, mort_table_last_age=0, policy_count=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: av_at[BEF_FEE]",
+     "age_at_entry=0, av_pp_init=2, duration_mth=0, is_level=False, is_single=False, is_wl=False, load_prem_rate=0, mort_table_last_age=0, policy_count=1/2, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cl_death_pp  ->  cl_mat_pp   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claim_net_pp[DEATH]",
+     "age_at_entry=0, av_pp_init=1, duration_mth=1, is_level=False, load_prem_rate=0, mort_table_last_age=0, sum_assured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_mid  ->  av_inv   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claim_net_pp[DEATH]",
+     "age_at_entry=0, av_pp_init=1200/1199, duration_mth=0, is_level=False, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=0, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cl_mat_pp  ->  cl_death_pp   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claim_net_pp[MATURITY]",
+     "age_at_entry=0, av_pp_init=2, duration_mth=11, is_level=True, is_wl=True, load_prem_rate=-4, mort_table_last_age=1, premium_pp=7/32768, sum_assured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_prem  ->  av_fee   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claim_net_pp[MATURITY]",
+     "age_at_entry=0, duration_mth=11, is_level=True, is_wl=False, load_prem_rate=2, mort_table_last_age=0, policy_term=1, premium_pp=-1/2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cfa_mat  ->  cfa_death   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claims_over_av[MATURITY]",
+     "age_at_entry=3, av_pp_init=1, duration_mth=0, is_level=False, is_single=False, load_prem_rate=0, mort_table_last_age=3, policy_count=-1"
+    ]
+   ]
+  ]
+ },
+ "sim4": {
+  "tally": {
+   "refuted": 212,
+   "proved": 2,
+   "unknown": 0,
+   "invalid": 14
+  },
+  "defects": 228,
+  "seconds": 4.022841691970825,
+  "not_refuted": [
+   [
+    "wrong-variable",
+    "p_bef_mat  ->  p_bef_nb   in: p_mat = sel(dm == term12, p_bef_mat, ZERO * p_bef_mat)",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "p_bef_mat  ->  p_bef_nb   in: p_mat = sel(dm == term12, p_bef_mat, ZERO * p_bef_mat)",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "p_bef_mat  ->  p_bef_nb   in: p_bef_nb = p_bef_mat - p_mat",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "p_bef_nb  ->  p_decr   in: p_decr = p_bef_nb + p_nb",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "prem_pp  ->  prem_av_pp   in: prem_av_pp = (1 - load) * prem_pp",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "av_prem  ->  av_fee   in: av_fee = av_prem + prem_av_pp",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "av_fee  ->  av_inv   in: mfee_pp = FEE_RATE * av_fee",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "sa  ->  av_mid   in: nar = fmax(sa - av_fee, ZERO)",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "av_fee  ->  av_inv   in: nar = fmax(sa - av_fee, ZERO)",
+    "invalid"
+   ],
+   [
+    "operator",
+    "av_fee - mfee_pp - coi_pp  ->  av_fee - mfee_pp + coi_pp   in: av_inv = av_fee - mfee_pp - coi_pp",
+    "proved"
+   ],
+   [
+    "wrong-variable",
+    "av_fee  ->  av_inv   in: av_inv = av_fee - mfee_pp - coi_pp",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "av_inv  ->  av_mid   in: iipp = inv_ret * av_inv",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "av_inv  ->  av_mid   in: av_mid = av_inv + 0.5 * iipp",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "q  ->  lq   in: p_death = p_decr * q",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "p_death  ->  p_lapse   in: p_lapse = (p_decr - p_death) * lq",
+    "invalid"
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: coi = coi_pp * p_decr",
+    "proved"
+   ]
+  ],
+  "rows": [
+   [
+    "operator",
+    "dm0 + t  ->  dm0 - t   in: dm = dm0 + t",
+    "refuted",
+    [
+     "month t>=1: age",
+     "duration_mth=0, t=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dm  ->  dm0   in: dur = idiv(dm, 12)",
+    "refuted",
+    [
+     "month t>=1: age",
+     "duration_mth=-2, t=13"
+    ]
+   ],
+   [
+    "constant",
+    "12  ->  13   in: dur = idiv(dm, 12)",
+    "refuted",
+    [
+     "month 0: age",
+     "duration_mth=-156"
+    ]
+   ],
+   [
+    "operator",
+    "age0 + dur  ->  age0 - dur   in: age = age0 + dur",
+    "refuted",
+    [
+     "month 0: age",
+     "duration_mth=-12"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dur  ->  dm   in: age = age0 + dur",
+    "refuted",
+    [
+     "month 0: age",
+     "duration_mth=12"
+    ]
+   ],
+   [
+    "operator",
+    "term * 12  ->  term / 12   in: term12 = term * 12",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-2, av_pp_init=-1200/1199, duration_mth=96, is_level=False, is_wl=True, load_prem_rate=1, mort_table_last_age=6, policy_count=1"
+    ]
+   ],
+   [
+    "constant",
+    "12  ->  13   in: term12 = term * 12",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=6, av_pp_init=-300/1199, duration_mth=96, is_level=True, is_wl=True, load_prem_rate=3/2, mort_table_last_age=14, policy_count=-4095/4096, premium_pp=-481/512"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(is_t0, av0, s_av_prem)  ->  sel(is_t0, s_av_prem, av0)   in: av_prem = sel(is_t0, av0, s_av_prem)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=0, duration_mth=0, load_prem_rate=1, mort_table_last_age=2, policy_count=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "s_av_prem  ->  av0   in: av_prem = sel(is_t0, av0, s_av_prem)",
+    "refuted",
+    [
+     "month t>=1: av_change",
+     "age_at_entry=6, av_pp_init=1, duration_mth=-1, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=6, policy_count=1/2, t=1"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(is_t0, sel(dm0 > 0, pcount, ZERO), s_p_bef_mat)  ->  sel(is_t0, s_p_bef_mat, sel(dm0 > 0, pcount, ZERO))   in: p_bef_mat = sel(is_t0, sel(dm0 > 0, pcount, ZERO), s_p_bef_mat)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=7, av_pp_init=1, duration_mth=-12, is_level=False, is_wl=True, load_prem_rate=2, mort_table_last_age=6"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(dm0 > 0, pcount, ZERO)  ->  sel(dm0 > 0, ZERO, pcount)   in: p_bef_mat = sel(is_t0, sel(dm0 > 0, pcount, ZERO), s_p_bef_mat)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-2, av_pp_init=9/8, duration_mth=96, is_level=False, is_wl=True, load_prem_rate=0, mort_table_last_age=7, policy_count=9/8"
+    ]
+   ],
+   [
+    "comparison",
+    "dm0 > 0  ->  dm0 >= 0   in: p_bef_mat = sel(is_t0, sel(dm0 > 0, pcount, ZERO), s_p_bef_mat)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-1, duration_mth=0, is_level=False, is_single=False, is_wl=True, load_prem_rate=0, mort_table_last_age=3, policy_count=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "pcount  ->  sa   in: p_bef_mat = sel(is_t0, sel(dm0 > 0, pcount, ZERO), s_p_bef_mat)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=1, av_pp_init=2, duration_mth=72, is_wl=True, load_prem_rate=0, mort_table_last_age=7, policy_count=-2, sum_assured=-1/2"
+    ]
+   ],
+   [
+    "constant",
+    "0  ->  1   in: p_bef_mat = sel(is_t0, sel(dm0 > 0, pcount, ZERO), s_p_bef_mat)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=6, av_pp_init=4/25, duration_mth=1, is_wl=False, load_prem_rate=32/25, mort_table_last_age=6, policy_count=7/4, policy_term=-1"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(dm == term12, p_bef_mat, ZERO * p_bef_mat)  ->  sel(dm == term12, ZERO * p_bef_mat, p_bef_mat)   in: p_mat = sel(dm == term12, p_bef_mat, ZERO * p_bef_mat)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-6, av_pp_init=900/1199, duration_mth=96, is_level=False, is_wl=True, load_prem_rate=2, mort_table_last_age=3, policy_count=3/2"
+    ]
+   ],
+   [
+    "comparison",
+    "dm == term12  ->  dm != term12   in: p_mat = sel(dm == term12, p_bef_mat, ZERO * p_bef_mat)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-2, av_pp_init=-1200/1199, duration_mth=96, is_level=False, is_wl=True, load_prem_rate=157222063/78578863, mort_table_last_age=7, policy_count=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_bef_mat  ->  p_bef_nb   in: p_mat = sel(dm == term12, p_bef_mat, ZERO * p_bef_mat)",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`p_bef_nb` is used before it is defined')"
+    ]
+   ],
+   [
+    "operator",
+    "ZERO * p_bef_mat  ->  ZERO / p_bef_mat   in: p_mat = sel(dm == term12, p_bef_mat, ZERO * p_bef_mat)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=1200/1199, duration_mth=0, is_level=False, is_single=True, is_wl=True, load_prem_rate=2, mort_table_last_age=1, premium_pp=2400/1199"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dm  ->  dm0   in: p_mat = sel(dm == term12, p_bef_mat, ZERO * p_bef_mat)",
+    "refuted",
+    [
+     "month t>=1: av_change",
+     "age_at_entry=2, duration_mth=95, is_wl=True, load_prem_rate=1, mort_table_last_age=10, t=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_bef_mat  ->  p_bef_nb   in: p_mat = sel(dm == term12, p_bef_mat, ZERO * p_bef_mat)",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`p_bef_nb` is used before it is defined')"
+    ]
+   ],
+   [
+    "operator",
+    "p_bef_mat - p_mat  ->  p_bef_mat + p_mat   in: p_bef_nb = p_bef_mat - p_mat",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-600/1199, duration_mth=96, is_wl=True, load_prem_rate=1, mort_table_last_age=10, policy_count=15"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_bef_mat  ->  p_bef_nb   in: p_bef_nb = p_bef_mat - p_mat",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`p_bef_nb` is used before it is defined')"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(dm == 0, pcount, ZERO)  ->  sel(dm == 0, ZERO, pcount)   in: p_nb = sel(dm == 0, pcount, ZERO)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=7, av_pp_init=-2400/1199, duration_mth=0, is_level=False, is_single=False, load_prem_rate=0, mort_table_last_age=7, policy_count=2"
+    ]
+   ],
+   [
+    "comparison",
+    "dm == 0  ->  dm != 0   in: p_nb = sel(dm == 0, pcount, ZERO)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=6, av_pp_init=1200/1199, duration_mth=0, is_level=False, is_single=False, load_prem_rate=0, mort_table_last_age=6, policy_count=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "pcount  ->  sa   in: p_nb = sel(dm == 0, pcount, ZERO)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-1200/1199, duration_mth=0, is_level=False, is_single=False, load_prem_rate=2, mort_table_last_age=2, policy_count=0, sum_assured=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dm  ->  dm0   in: p_nb = sel(dm == 0, pcount, ZERO)",
+    "refuted",
+    [
+     "month t>=1: av_change",
+     "age_at_entry=-6, duration_mth=0, is_level=False, load_prem_rate=1, mort_table_last_age=-6, policy_count=-1, t=96"
+    ]
+   ],
+   [
+    "constant",
+    "0  ->  1   in: p_nb = sel(dm == 0, pcount, ZERO)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-8389120/8388607, duration_mth=1, is_level=False, load_prem_rate=-485845/4294966784, mort_table_last_age=2, policy_count=615087/8388607"
+    ]
+   ],
+   [
+    "operator",
+    "p_bef_nb + p_nb  ->  p_bef_nb - p_nb   in: p_decr = p_bef_nb + p_nb",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=7, av_pp_init=6141/38368, duration_mth=0, is_level=False, is_single=False, load_prem_rate=24569/20475, mort_table_last_age=7, policy_count=15"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_bef_nb  ->  p_decr   in: p_decr = p_bef_nb + p_nb",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`p_decr` is used before it is defined')"
+    ]
+   ],
+   [
+    "operator",
+    "sel(band(is_single, dm == 0), prem, ZERO) + sel(band(is_level, dm < term12), prem, ZERO)  ->  sel(band(is_single, dm == 0), prem, ZERO) - sel(band(is_level, dm < term12), prem, ZERO)   in: prem_pp = sel(band(is_single, dm == 0), prem, ZERO) + sel(band(is_leve",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-2, av_pp_init=0, duration_mth=96, is_level=True, is_wl=True, load_prem_rate=-1, mort_table_last_age=7, policy_count=-600/1199, premium_pp=18"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(band(is_single, dm == 0), prem, ZERO)  ->  sel(band(is_single, dm == 0), ZERO, prem)   in: prem_pp = sel(band(is_single, dm == 0), prem, ZERO) + sel(band(is_leve",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-6, av_pp_init=0, duration_mth=96, is_wl=False, load_prem_rate=-19, mort_table_last_age=-6, policy_count=-1200/1199, policy_term=9, premium_pp=-1"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(band(is_level, dm < term12), prem, ZERO)  ->  sel(band(is_level, dm < term12), ZERO, prem)   in: prem_pp = sel(band(is_single, dm == 0), prem, ZERO) + sel(band(is_leve",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-2, av_pp_init=0, duration_mth=96, is_level=True, is_wl=True, load_prem_rate=-1, mort_table_last_age=7, policy_count=-1200/1199, premium_pp=-1"
+    ]
+   ],
+   [
+    "comparison",
+    "dm == 0  ->  dm != 0   in: prem_pp = sel(band(is_single, dm == 0), prem, ZERO) + sel(band(is_leve",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=5, av_pp_init=0, duration_mth=72, is_single=True, is_wl=False, load_prem_rate=-21, mort_table_last_age=5, policy_count=-1, policy_term=7, premium_pp=1200/1199"
+    ]
+   ],
+   [
+    "comparison",
+    "dm < term12  ->  dm <= term12   in: prem_pp = sel(band(is_single, dm == 0), prem, ZERO) + sel(band(is_leve",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=0, duration_mth=0, is_level=True, is_wl=True, load_prem_rate=-4, mort_table_last_age=2, policy_count=1, premium_pp=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dm  ->  dm0   in: prem_pp = sel(band(is_single, dm == 0), prem, ZERO) + sel(band(is_leve",
+    "refuted",
+    [
+     "month t>=1: av_change",
+     "age_at_entry=3, duration_mth=-1, is_single=True, is_wl=True, load_prem_rate=-18, mort_table_last_age=3, policy_count=1, premium_pp=-1, t=1"
+    ]
+   ],
+   [
+    "constant",
+    "0  ->  1   in: prem_pp = sel(band(is_single, dm == 0), prem, ZERO) + sel(band(is_leve",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=6, av_pp_init=0, duration_mth=1, is_single=True, is_wl=True, load_prem_rate=-1, mort_table_last_age=7, policy_count=1, premium_pp=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dm  ->  dm0   in: prem_pp = sel(band(is_single, dm == 0), prem, ZERO) + sel(band(is_leve",
+    "refuted",
+    [
+     "month t>=1: av_change",
+     "age_at_entry=3, duration_mth=83, is_level=True, is_wl=False, load_prem_rate=-5, mort_table_last_age=3, policy_term=7, premium_pp=1, t=13"
+    ]
+   ],
+   [
+    "operator",
+    "(1 - load) * prem_pp  ->  (1 - load) / prem_pp   in: prem_av_pp = (1 - load) * prem_pp",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-2, av_pp_init=0, duration_mth=96, is_level=True, is_wl=True, load_prem_rate=3/4, mort_table_last_age=7, policy_count=-1, premium_pp=-1/2"
+    ]
+   ],
+   [
+    "operator",
+    "1 - load  ->  1 + load   in: prem_av_pp = (1 - load) * prem_pp",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=7, av_pp_init=0, duration_mth=0, is_level=False, is_single=True, load_prem_rate=13, mort_table_last_age=7, policy_count=-1, premium_pp=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "prem_pp  ->  prem_av_pp   in: prem_av_pp = (1 - load) * prem_pp",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`prem_av_pp` is used before it is defined')"
+    ]
+   ],
+   [
+    "constant",
+    "1  ->  2   in: prem_av_pp = (1 - load) * prem_pp",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-2, av_pp_init=0, duration_mth=96, is_level=True, is_wl=False, load_prem_rate=0, mort_table_last_age=-2, policy_count=-1, policy_term=9, premium_pp=1"
+    ]
+   ],
+   [
+    "operator",
+    "av_prem + prem_av_pp  ->  av_prem - prem_av_pp   in: av_fee = av_prem + prem_av_pp",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=6, av_pp_init=0, duration_mth=0, is_level=True, is_single=True, is_wl=False, load_prem_rate=-5, mort_table_last_age=6, policy_count=1/2, policy_term=1, premium_pp=-1/2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_prem  ->  av_fee   in: av_fee = av_prem + prem_av_pp",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`av_fee` is used before it is defined')"
+    ]
+   ],
+   [
+    "operator",
+    "FEE_RATE * av_fee  ->  FEE_RATE / av_fee   in: mfee_pp = FEE_RATE * av_fee",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-2, av_pp_init=0, duration_mth=96, is_wl=True, load_prem_rate=191/64, mort_table_last_age=-2, policy_count=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_fee  ->  av_inv   in: mfee_pp = FEE_RATE * av_fee",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`av_inv` is used before it is defined')"
+    ]
+   ],
+   [
+    "min/max",
+    "fmax(sa - av_fee, ZERO)  ->  fmin(sa - av_fee, ZERO)   in: nar = fmax(sa - av_fee, ZERO)",
+    "refuted",
+    [
+     "month 0: net_amt_at_risk",
+     "age_at_entry=0, av_pp_init=0, duration_mth=0, is_level=False, is_single=False, is_wl=False, load_prem_rate=0, mort_table_last_age=0, policy_term=0, sum_assured=1"
+    ]
+   ],
+   [
+    "operator",
+    "sa - av_fee  ->  sa + av_fee   in: nar = fmax(sa - av_fee, ZERO)",
+    "refuted",
+    [
+     "month 0: net_amt_at_risk",
+     "age_at_entry=0, av_pp_init=1, duration_mth=-1, is_level=False, load_prem_rate=1, mort_table_last_age=0, sum_assured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "sa  ->  av_mid   in: nar = fmax(sa - av_fee, ZERO)",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`av_mid` is used before it is defined')"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_fee  ->  av_inv   in: nar = fmax(sa - av_fee, ZERO)",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`av_inv` is used before it is defined')"
+    ]
+   ],
+   [
+    "min/max",
+    "imin(dur, 5)  ->  imax(dur, 5)   in: d5 = imin(dur, 5)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=6, av_pp_init=1200/1199, duration_mth=0, is_level=False, is_single=False, load_prem_rate=2, mort_table_last_age=6, policy_count=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dur  ->  dm   in: d5 = imin(dur, 5)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=6, av_pp_init=1200/1199, duration_mth=48, is_level=True, is_wl=True, load_prem_rate=1, mort_table_last_age=11, policy_count=-1, premium_pp=1"
+    ]
+   ],
+   [
+    "constant",
+    "5  ->  6   in: d5 = imin(dur, 5)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=4, av_pp_init=1200/1199, duration_mth=72, is_wl=False, load_prem_rate=5/4, mort_table_last_age=4, policy_count=1, policy_term=5"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_MORT, age - AGE_MIN, d5)  ->  lk2(TAB_MORT, age - AGE_MIN + 1, d5)   in: mort = lk2(TAB_MORT, age - AGE_MIN, d5)",
+    "refuted",
+    [
+     "month 0: mort_rate",
+     "age_at_entry=0, duration_mth=72"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_MORT, age - AGE_MIN, d5)  ->  lk2(TAB_MORT, age - AGE_MIN, d5 + 1)   in: mort = lk2(TAB_MORT, age - AGE_MIN, d5)",
+    "refuted",
+    [
+     "month 0: mort_rate",
+     "age_at_entry=-3, duration_mth=60"
+    ]
+   ],
+   [
+    "operator",
+    "age - AGE_MIN  ->  age + AGE_MIN   in: mort = lk2(TAB_MORT, age - AGE_MIN, d5)",
+    "refuted",
+    [
+     "month 0: mort_rate",
+     "AGE_MIN=-1, age_at_entry=0, duration_mth=29316"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_MORTMTH, age - AGE_MIN, d5)  ->  lk2(TAB_MORTMTH, age - AGE_MIN + 1, d5)   in: q = lk2(TAB_MORTMTH, age - AGE_MIN, d5)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=0, av_pp_init=75/872, duration_mth=0, is_level=False, is_single=False, load_prem_rate=117/128, mort_table_last_age=0, policy_count=-11/128"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_MORTMTH, age - AGE_MIN, d5)  ->  lk2(TAB_MORTMTH, age - AGE_MIN, d5 + 1)   in: q = lk2(TAB_MORTMTH, age - AGE_MIN, d5)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=6, av_pp_init=0, duration_mth=0, is_single=True, is_wl=True, load_prem_rate=0, mort_table_last_age=5, policy_count=1200/1199, premium_pp=1"
+    ]
+   ],
+   [
+    "operator",
+    "age - AGE_MIN  ->  age + AGE_MIN   in: q = lk2(TAB_MORTMTH, age - AGE_MIN, d5)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "AGE_MIN=-1, age_at_entry=2, av_pp_init=-1200/1199, duration_mth=0, is_level=False, is_single=True, load_prem_rate=2, mort_table_last_age=2, policy_count=-1, premium_pp=1"
+    ]
+   ],
+   [
+    "operator",
+    "coi_rate * nar  ->  coi_rate / nar   in: coi_pp = coi_rate * nar",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=0, duration_mth=0, is_level=False, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=2, policy_count=-1, policy_term=0, sum_assured=0"
+    ]
+   ],
+   [
+    "operator",
+    "av_fee - mfee_pp - coi_pp  ->  av_fee - mfee_pp + coi_pp   in: av_inv = av_fee - mfee_pp - coi_pp",
+    "proved",
+    null
+   ],
+   [
+    "operator",
+    "av_fee - mfee_pp  ->  av_fee + mfee_pp   in: av_inv = av_fee - mfee_pp - coi_pp",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-7/8, duration_mth=1, is_level=True, is_wl=True, load_prem_rate=1/2, mort_table_last_age=3, policy_count=-1, premium_pp=3/2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_fee  ->  av_inv   in: av_inv = av_fee - mfee_pp - coi_pp",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`av_inv` is used before it is defined')"
+    ]
+   ],
+   [
+    "operator",
+    "inv_ret * av_inv  ->  inv_ret / av_inv   in: iipp = inv_ret * av_inv",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=0, duration_mth=72, is_level=False, is_wl=True, load_prem_rate=0, mort_table_last_age=9, policy_count=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_inv  ->  av_mid   in: iipp = inv_ret * av_inv",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`av_mid` is used before it is defined')"
+    ]
+   ],
+   [
+    "operator",
+    "av_inv + 0.5 * iipp  ->  av_inv - 0.5 * iipp   in: av_mid = av_inv + 0.5 * iipp",
+    "refuted",
+    [
+     "month 0: csv_pp",
+     "age_at_entry=0, av_pp_init=1200/1199, duration_mth=-12, has_surr_charge=True, is_level=False, load_prem_rate=1, mort_table_last_age=0, surr_charge_col=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_inv  ->  av_mid   in: av_mid = av_inv + 0.5 * iipp",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`av_mid` is used before it is defined')"
+    ]
+   ],
+   [
+    "operator",
+    "0.5 * iipp  ->  0.5 / iipp   in: av_mid = av_inv + 0.5 * iipp",
+    "refuted",
+    [
+     "month 0: csv_pp",
+     "age_at_entry=0, av_pp_init=0, duration_mth=-12, has_surr_charge=True, is_level=False, load_prem_rate=2, mort_table_last_age=0, surr_charge_col=3"
+    ]
+   ],
+   [
+    "constant",
+    "0.5  ->  0.505   in: av_mid = av_inv + 0.5 * iipp",
+    "refuted",
+    [
+     "month 0: csv_pp",
+     "age_at_entry=0, av_pp_init=240000/1199, duration_mth=132, has_surr_charge=True, is_level=False, load_prem_rate=1, mort_table_last_age=0, surr_charge_col=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "iipp  ->  av_inv   in: av_mid = av_inv + 0.5 * iipp",
+    "refuted",
+    [
+     "month 0: csv_pp",
+     "age_at_entry=0, av_pp_init=-1, duration_mth=132, has_surr_charge=True, is_level=False, is_single=False, load_prem_rate=0, mort_table_last_age=0, surr_charge_col=2"
+    ]
+   ],
+   [
+    "operator",
+    "p_decr * q  ->  p_decr / q   in: p_death = p_decr * q",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=1200/1199, duration_mth=0, is_level=False, is_single=False, load_prem_rate=1, mort_table_last_age=2, policy_count=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: p_death = p_decr * q",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=9, av_pp_init=-1200/1199, duration_mth=0, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=9, policy_count=1, policy_term=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "q  ->  lq   in: p_death = p_decr * q",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`lq` is used before it is defined')"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(has_sc, lk2(TAB_SC, imin(dur, 10), sc_col), ZERO)  ->  sel(has_sc, ZERO, lk2(TAB_SC, imin(dur, 10), sc_col))   in: sc_rate = sel(has_sc, lk2(TAB_SC, imin(dur, 10), sc_col), ZERO)",
+    "refuted",
+    [
+     "month 0: csv_pp",
+     "age_at_entry=0, av_pp_init=1200/1199, duration_mth=132, has_surr_charge=True, is_level=False, is_single=False, load_prem_rate=1, mort_table_last_age=0, surr_charge_col=2"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_SC, imin(dur, 10), sc_col)  ->  lk2(TAB_SC, imin(dur, 10) + 1, sc_col)   in: sc_rate = sel(has_sc, lk2(TAB_SC, imin(dur, 10), sc_col), ZERO)",
+    "refuted",
+    [
+     "month 0: csv_pp",
+     "age_at_entry=0, av_pp_init=-1200/1199, duration_mth=120, has_surr_charge=True, is_level=True, is_single=False, is_wl=True, load_prem_rate=34/27, mort_table_last_age=11, premium_pp=-83/54, surr_charge_col=2"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_SC, imin(dur, 10), sc_col)  ->  lk2(TAB_SC, imin(dur, 10), sc_col + 1)   in: sc_rate = sel(has_sc, lk2(TAB_SC, imin(dur, 10), sc_col), ZERO)",
+    "refuted",
+    [
+     "month 0: csv_pp",
+     "age_at_entry=0, av_pp_init=-1200/1199, duration_mth=-1, has_surr_charge=True, is_level=True, is_wl=True, load_prem_rate=4, mort_table_last_age=0, premium_pp=-1, surr_charge_col=0"
+    ]
+   ],
+   [
+    "min/max",
+    "imin(dur, 10)  ->  imax(dur, 10)   in: sc_rate = sel(has_sc, lk2(TAB_SC, imin(dur, 10), sc_col), ZERO)",
+    "refuted",
+    [
+     "month 0: csv_pp",
+     "age_at_entry=0, av_pp_init=-2400/1199, duration_mth=132, has_surr_charge=True, is_level=False, is_single=False, load_prem_rate=0, mort_table_last_age=0, surr_charge_col=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dur  ->  dm   in: sc_rate = sel(has_sc, lk2(TAB_SC, imin(dur, 10), sc_col), ZERO)",
+    "refuted",
+    [
+     "month 0: csv_pp",
+     "age_at_entry=0, av_pp_init=-1200/1199, duration_mth=108, has_surr_charge=True, is_level=False, is_single=False, load_prem_rate=1, mort_table_last_age=0, surr_charge_col=2"
+    ]
+   ],
+   [
+    "constant",
+    "10  ->  11   in: sc_rate = sel(has_sc, lk2(TAB_SC, imin(dur, 10), sc_col), ZERO)",
+    "refuted",
+    [
+     "month 0: csv_pp",
+     "age_at_entry=0, av_pp_init=614325/613888, duration_mth=144, has_surr_charge=True, is_level=False, load_prem_rate=2, mort_table_last_age=0, surr_charge_col=2"
+    ]
+   ],
+   [
+    "operator",
+    "(1 - sc_rate) * av_mid  ->  (1 - sc_rate) / av_mid   in: csv = (1 - sc_rate) * av_mid",
+    "refuted",
+    [
+     "month 0: csv_pp",
+     "age_at_entry=0, av_pp_init=-1200/1199, duration_mth=-1, has_surr_charge=True, is_level=False, load_prem_rate=1, mort_table_last_age=0, surr_charge_col=3"
+    ]
+   ],
+   [
+    "operator",
+    "1 - sc_rate  ->  1 + sc_rate   in: csv = (1 - sc_rate) * av_mid",
+    "refuted",
+    [
+     "month 0: csv_pp",
+     "age_at_entry=0, av_pp_init=-600/1199, duration_mth=132, has_surr_charge=True, is_level=False, load_prem_rate=1, mort_table_last_age=0, surr_charge_col=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_mid  ->  av_inv   in: csv = (1 - sc_rate) * av_mid",
+    "refuted",
+    [
+     "month 0: csv_pp",
+     "age_at_entry=0, av_pp_init=-1200/1199, duration_mth=132, has_surr_charge=True, is_level=False, load_prem_rate=-2897/4912303, mort_table_last_age=0, surr_charge_col=2"
+    ]
+   ],
+   [
+    "constant",
+    "1  ->  2   in: csv = (1 - sc_rate) * av_mid",
+    "refuted",
+    [
+     "month 0: csv_pp",
+     "age_at_entry=0, av_pp_init=-1200/1199, duration_mth=1, is_level=False, load_prem_rate=2, mort_table_last_age=0"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(HAS_LAPSE, fmax(0.1 - 0.01 * tof(dur), 0.02), ZERO)  ->  sel(HAS_LAPSE, ZERO, fmax(0.1 - 0.01 * tof(dur), 0.02))   in: lapse_rate = sel(HAS_LAPSE, fmax(0.1 - 0.01 * tof(dur), 0.02), ZERO)",
+    "refuted",
+    [
+     "month 0: lapse_rate",
+     ""
+    ]
+   ],
+   [
+    "min/max",
+    "fmax(0.1 - 0.01 * tof(dur), 0.02)  ->  fmin(0.1 - 0.01 * tof(dur), 0.02)   in: lapse_rate = sel(HAS_LAPSE, fmax(0.1 - 0.01 * tof(dur), 0.02), ZERO)",
+    "refuted",
+    [
+     "month 0: lapse_rate",
+     "duration_mth=110"
+    ]
+   ],
+   [
+    "operator",
+    "0.1 - 0.01 * tof(dur)  ->  0.1 + 0.01 * tof(dur)   in: lapse_rate = sel(HAS_LAPSE, fmax(0.1 - 0.01 * tof(dur), 0.02), ZERO)",
+    "refuted",
+    [
+     "month 0: lapse_rate",
+     "duration_mth=96"
+    ]
+   ],
+   [
+    "constant",
+    "0.02  ->  0.0202   in: lapse_rate = sel(HAS_LAPSE, fmax(0.1 - 0.01 * tof(dur), 0.02), ZERO)",
+    "refuted",
+    [
+     "month 0: lapse_rate",
+     "duration_mth=96"
+    ]
+   ],
+   [
+    "constant",
+    "0.1  ->  0.101   in: lapse_rate = sel(HAS_LAPSE, fmax(0.1 - 0.01 * tof(dur), 0.02), ZERO)",
+    "refuted",
+    [
+     "month 0: lapse_rate",
+     "duration_mth=96"
+    ]
+   ],
+   [
+    "operator",
+    "0.01 * tof(dur)  ->  0.01 / tof(dur)   in: lapse_rate = sel(HAS_LAPSE, fmax(0.1 - 0.01 * tof(dur), 0.02), ZERO)",
+    "refuted",
+    [
+     "month 0: lapse_rate",
+     "duration_mth=0"
+    ]
+   ],
+   [
+    "constant",
+    "0.01  ->  0.0101   in: lapse_rate = sel(HAS_LAPSE, fmax(0.1 - 0.01 * tof(dur), 0.02), ZERO)",
+    "refuted",
+    [
+     "month 0: lapse_rate",
+     "duration_mth=-12"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dur  ->  dm   in: lapse_rate = sel(HAS_LAPSE, fmax(0.1 - 0.01 * tof(dur), 0.02), ZERO)",
+    "refuted",
+    [
+     "month 0: lapse_rate",
+     "duration_mth=7"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk1(TAB_LAPSEMTH, dur - DUR_MIN)  ->  lk1(TAB_LAPSEMTH, dur - DUR_MIN + 1)   in: lq = lk1(TAB_LAPSEMTH, dur - DUR_MIN)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-4, av_pp_init=-1200/1199, duration_mth=72, is_wl=True, load_prem_rate=0, mort_table_last_age=1, policy_count=1"
+    ]
+   ],
+   [
+    "operator",
+    "dur - DUR_MIN  ->  dur + DUR_MIN   in: lq = lk1(TAB_LAPSEMTH, dur - DUR_MIN)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "DUR_MIN=2, age_at_entry=-1, av_pp_init=1200/1199, duration_mth=48, is_wl=True, load_prem_rate=1, mort_table_last_age=-2, policy_count=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dur  ->  dm   in: lq = lk1(TAB_LAPSEMTH, dur - DUR_MIN)",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-1200/1199, duration_mth=1, is_level=False, is_wl=True, load_prem_rate=1, mort_table_last_age=3, policy_count=-1"
+    ]
+   ],
+   [
+    "operator",
+    "(p_decr - p_death) * lq  ->  (p_decr - p_death) / lq   in: p_lapse = (p_decr - p_death) * lq",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-1200/1199, duration_mth=0, is_single=False, is_wl=True, load_prem_rate=2, mort_table_last_age=1, policy_count=-1"
+    ]
+   ],
+   [
+    "operator",
+    "p_decr - p_death  ->  p_decr + p_death   in: p_lapse = (p_decr - p_death) * lq",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=6, av_pp_init=-2400/1199, duration_mth=0, is_single=False, is_wl=True, load_prem_rate=0, mort_table_last_age=5, policy_count=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "lq  ->  q   in: p_lapse = (p_decr - p_death) * lq",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-2400/1199, duration_mth=0, is_single=False, is_wl=True, load_prem_rate=2, mort_table_last_age=1, policy_count=-2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: p_lapse = (p_decr - p_death) * lq",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=1200/1199, duration_mth=0, is_level=False, is_single=False, load_prem_rate=1, mort_table_last_age=2, policy_count=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_death  ->  p_lapse   in: p_lapse = (p_decr - p_death) * lq",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`p_lapse` is used before it is defined')"
+    ]
+   ],
+   [
+    "operator",
+    "p_decr - p_lapse - p_death  ->  p_decr - p_lapse + p_death   in: p_next = p_decr - p_lapse - p_death",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=-1200/1199, duration_mth=11, is_level=False, is_wl=True, load_prem_rate=1, mort_table_last_age=3, policy_count=-1"
+    ]
+   ],
+   [
+    "operator",
+    "p_decr - p_lapse  ->  p_decr + p_lapse   in: p_next = p_decr - p_lapse - p_death",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-6, av_pp_init=-1200/1199, duration_mth=96, is_wl=True, load_prem_rate=0, mort_table_last_age=-7, policy_count=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_death  ->  p_lapse   in: p_next = p_decr - p_lapse - p_death",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=7, av_pp_init=-75/109, duration_mth=2, is_level=False, is_wl=True, load_prem_rate=1/2, mort_table_last_age=7, policy_count=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: p_next = p_decr - p_lapse - p_death",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=600/1199, duration_mth=0, is_level=False, is_single=False, is_wl=True, load_prem_rate=0, mort_table_last_age=3, policy_count=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_lapse  ->  p_death   in: p_next = p_decr - p_lapse - p_death",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=6, av_pp_init=2400/1199, duration_mth=0, is_single=False, is_wl=True, load_prem_rate=0, mort_table_last_age=4, policy_count=1"
+    ]
+   ],
+   [
+    "operator",
+    "av_inv + iipp  ->  av_inv - iipp   in: av_next = av_inv + iipp",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=-2, av_pp_init=-600/1199, duration_mth=96, is_level=False, is_wl=True, load_prem_rate=3/2, mort_table_last_age=7, policy_count=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_inv  ->  av_mid   in: av_next = av_inv + iipp",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=6, av_pp_init=3599/1199, duration_mth=0, is_level=True, is_single=False, is_wl=True, load_prem_rate=2, mort_table_last_age=7, policy_count=-1, premium_pp=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "iipp  ->  av_inv   in: av_next = av_inv + iipp",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=6, av_pp_init=1200/1199, duration_mth=0, is_level=False, is_single=False, load_prem_rate=2, mort_table_last_age=6, policy_count=-1"
+    ]
+   ],
+   [
+    "operator",
+    "prem_pp * p_decr  ->  prem_pp / p_decr   in: premiums = prem_pp * p_decr",
+    "refuted",
+    [
+     "month 0: commissions",
+     "age_at_entry=0, duration_mth=-1, is_level=True, is_wl=True, mort_table_last_age=0, premium_pp=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "prem_pp  ->  prem_av_pp   in: premiums = prem_pp * p_decr",
+    "refuted",
+    [
+     "month 0: commissions",
+     "age_at_entry=0, duration_mth=0, is_level=False, is_single=True, load_prem_rate=-20, mort_table_last_age=0, policy_count=-1, premium_pp=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: premiums = prem_pp * p_decr",
+    "refuted",
+    [
+     "month 0: commissions",
+     "age_at_entry=0, duration_mth=0, is_level=True, is_single=False, is_wl=False, mort_table_last_age=0, policy_count=-1, policy_term=1, premium_pp=1"
+    ]
+   ],
+   [
+    "min/max",
+    "fmax(sa, av_mid)  ->  fmin(sa, av_mid)   in: cl_death_pp = fmax(sa, av_mid)",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=6, av_pp_init=1200/1199, duration_mth=0, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=5, policy_count=1, sum_assured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "sa  ->  av_mid   in: cl_death_pp = fmax(sa, av_mid)",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=6, av_pp_init=0, duration_mth=0, is_single=True, is_wl=True, load_prem_rate=0, mort_table_last_age=5, policy_count=1, premium_pp=-1, sum_assured=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_mid  ->  av_inv   in: cl_death_pp = fmax(sa, av_mid)",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=6, av_pp_init=-2400/1199, duration_mth=0, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=5, policy_count=1, sum_assured=-2"
+    ]
+   ],
+   [
+    "min/max",
+    "fmax(sa, av_prem)  ->  fmin(sa, av_prem)   in: cl_mat_pp = fmax(sa, av_prem)",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=0, av_pp_init=0, duration_mth=12, is_wl=True, mort_table_last_age=1, policy_count=5, sum_assured=1/2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "sa  ->  av_mid   in: cl_mat_pp = fmax(sa, av_prem)",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=0, av_pp_init=-1, duration_mth=12, is_wl=True, load_prem_rate=0, mort_table_last_age=1, policy_count=22, sum_assured=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_prem  ->  av_fee   in: cl_mat_pp = fmax(sa, av_prem)",
+    "refuted",
+    [
+     "month 0: claim_pp[MATURITY]",
+     "age_at_entry=0, av_pp_init=1, duration_mth=-1, is_level=True, is_single=False, is_wl=False, load_prem_rate=0, mort_table_last_age=0, policy_term=0, premium_pp=-2, sum_assured=0"
+    ]
+   ],
+   [
+    "operator",
+    "cl_death_pp * p_death  ->  cl_death_pp / p_death   in: cl_death = cl_death_pp * p_death",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=3, av_pp_init=-1200/1199, duration_mth=0, is_level=False, is_single=True, load_prem_rate=1, mort_table_last_age=3, policy_count=1, premium_pp=-1, sum_assured=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cl_death_pp  ->  cl_mat_pp   in: cl_death = cl_death_pp * p_death",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=1, av_pp_init=-1, duration_mth=72, is_wl=True, load_prem_rate=2, mort_table_last_age=0, policy_count=-1, sum_assured=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_death  ->  p_lapse   in: cl_death = cl_death_pp * p_death",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=3, av_pp_init=-2400/1199, duration_mth=0, is_level=False, is_single=False, load_prem_rate=1, mort_table_last_age=3, policy_count=1, sum_assured=-1"
+    ]
+   ],
+   [
+    "operator",
+    "av_mid * p_death  ->  av_mid / p_death   in: cfa_death = av_mid * p_death",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=2, av_pp_init=0, duration_mth=0, is_level=False, is_single=False, load_prem_rate=1, mort_table_last_age=2, policy_count=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_mid  ->  av_inv   in: cfa_death = av_mid * p_death",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=2, av_pp_init=-600/1199, duration_mth=0, is_level=False, is_single=False, is_wl=True, load_prem_rate=1/2, mort_table_last_age=3, policy_count=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_death  ->  p_lapse   in: cfa_death = av_mid * p_death",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=6, av_pp_init=-1200/1199, duration_mth=0, is_single=False, is_wl=False, load_prem_rate=0, mort_table_last_age=6, policy_count=1, policy_term=-1"
+    ]
+   ],
+   [
+    "operator",
+    "av_mid * p_lapse  ->  av_mid / p_lapse   in: cfa_lapse = av_mid * p_lapse",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=-2, av_pp_init=0, duration_mth=96, is_wl=True, load_prem_rate=1, mort_table_last_age=-1, policy_count=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_mid  ->  av_inv   in: cfa_lapse = av_mid * p_lapse",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=-2, av_pp_init=1200/1199, duration_mth=96, is_wl=True, load_prem_rate=0, mort_table_last_age=-2, policy_count=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_lapse  ->  p_death   in: cfa_lapse = av_mid * p_lapse",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=6, av_pp_init=-1200/1199, duration_mth=0, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=5, policy_count=-1"
+    ]
+   ],
+   [
+    "operator",
+    "av_prem * p_mat  ->  av_prem / p_mat   in: cfa_mat = av_prem * p_mat",
+    "refuted",
+    [
+     "month 0: claims_from_av[MATURITY]",
+     "age_at_entry=0, av_pp_init=0, duration_mth=11, is_wl=True, mort_table_last_age=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_prem  ->  av_fee   in: cfa_mat = av_prem * p_mat",
+    "refuted",
+    [
+     "month t>=1: claims_from_av[MATURITY]",
+     "age_at_entry=0, duration_mth=-1, is_single=True, is_wl=True, load_prem_rate=-2, mort_table_last_age=0, premium_pp=-1/2, t=1"
+    ]
+   ],
+   [
+    "operator",
+    "sc_rate * av_mid * p_lapse  ->  sc_rate * av_mid / p_lapse   in: surr = sc_rate * av_mid * p_lapse",
+    "refuted",
+    [
+     "month 0: margin_expense",
+     "age_at_entry=3, av_pp_init=0, duration_mth=0, has_surr_charge=False, is_level=False, is_single=False, load_prem_rate=1, mort_table_last_age=3, policy_count=-1"
+    ]
+   ],
+   [
+    "operator",
+    "sc_rate * av_mid  ->  sc_rate / av_mid   in: surr = sc_rate * av_mid * p_lapse",
+    "refuted",
+    [
+     "month 0: margin_expense",
+     "age_at_entry=2, av_pp_init=0, duration_mth=0, has_surr_charge=True, is_level=False, is_single=False, is_wl=True, load_prem_rate=9/8, mort_table_last_age=3, policy_count=1/2, surr_charge_col=7"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_lapse  ->  p_death   in: surr = sc_rate * av_mid * p_lapse",
+    "refuted",
+    [
+     "month 0: margin_expense",
+     "age_at_entry=2, av_pp_init=-1200/1199, duration_mth=132, has_surr_charge=True, is_wl=True, load_prem_rate=1, mort_table_last_age=12, policy_count=-1, surr_charge_col=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_mid  ->  av_inv   in: surr = sc_rate * av_mid * p_lapse",
+    "refuted",
+    [
+     "month 0: margin_expense",
+     "age_at_entry=-2, av_pp_init=1200/1199, duration_mth=132, has_surr_charge=True, is_wl=False, load_prem_rate=2, mort_table_last_age=-2, policy_count=1, policy_term=-1, surr_charge_col=13"
+    ]
+   ],
+   [
+    "operator",
+    "cfa_lapse - surr  ->  cfa_lapse + surr   in: cl_lapse = cfa_lapse - surr",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=7, av_pp_init=-1200/1199, duration_mth=0, has_surr_charge=True, is_level=False, is_single=False, load_prem_rate=0, mort_table_last_age=7, policy_count=-1, surr_charge_col=2"
+    ]
+   ],
+   [
+    "operator",
+    "cl_mat_pp * p_mat  ->  cl_mat_pp / p_mat   in: cl_mat = cl_mat_pp * p_mat",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=0, av_pp_init=-1, duration_mth=-1, is_wl=True, mort_table_last_age=0, sum_assured=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cl_mat_pp  ->  cl_death_pp   in: cl_mat = cl_mat_pp * p_mat",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=0, av_pp_init=-1, duration_mth=12, is_wl=True, load_prem_rate=2, mort_table_last_age=1, policy_count=3, sum_assured=-3"
+    ]
+   ],
+   [
+    "operator",
+    "ZERO + cl_death + cl_lapse + cl_mat  ->  ZERO + cl_death + cl_lapse - cl_mat   in: cl_all = ZERO + cl_death + cl_lapse + cl_mat",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=0, av_pp_init=1/2, duration_mth=12, is_wl=False, mort_table_last_age=0, policy_count=1, policy_term=1, sum_assured=0"
+    ]
+   ],
+   [
+    "operator",
+    "ZERO + cl_death + cl_lapse  ->  ZERO + cl_death - cl_lapse   in: cl_all = ZERO + cl_death + cl_lapse + cl_mat",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=9, av_pp_init=-1200/1199, duration_mth=0, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=8, policy_count=-1/2, surr_charge_col=11"
+    ]
+   ],
+   [
+    "operator",
+    "ZERO + cl_death  ->  ZERO - cl_death   in: cl_all = ZERO + cl_death + cl_lapse + cl_mat",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=3, av_pp_init=-2400/1199, duration_mth=0, is_level=False, is_single=False, load_prem_rate=1, mort_table_last_age=3, policy_count=-1, sum_assured=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cl_death  ->  cl_lapse   in: cl_all = ZERO + cl_death + cl_lapse + cl_mat",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=6, av_pp_init=-1200/1199, duration_mth=1, has_surr_charge=True, is_wl=True, load_prem_rate=1, mort_table_last_age=6, policy_count=-7/6, sum_assured=-7/6, surr_charge_col=7"
+    ]
+   ],
+   [
+    "operator",
+    "5000.0 * p_nb + p_decr * 500.0 / 12.0 * infl  ->  5000.0 * p_nb - p_decr * 500.0 / 12.0 * infl   in: expenses = 5000.0 * p_nb + p_decr * 500.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "age_at_entry=0, duration_mth=11, is_wl=True, mort_table_last_age=1, policy_count=-1/2"
+    ]
+   ],
+   [
+    "operator",
+    "5000.0 * p_nb  ->  5000.0 / p_nb   in: expenses = 5000.0 * p_nb + p_decr * 500.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "duration_mth=0, policy_count=0"
+    ]
+   ],
+   [
+    "operator",
+    "p_decr * 500.0 / 12.0 * infl  ->  p_decr * 500.0 / 12.0 / infl   in: expenses = 5000.0 * p_nb + p_decr * 500.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "age_at_entry=0, duration_mth=0, mort_table_last_age=0, policy_count=1"
+    ]
+   ],
+   [
+    "constant",
+    "5000.0  ->  5050.0   in: expenses = 5000.0 * p_nb + p_decr * 500.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "duration_mth=0, policy_count=1"
+    ]
+   ],
+   [
+    "operator",
+    "p_decr * 500.0 / 12.0  ->  p_decr * 500.0 * 12.0   in: expenses = 5000.0 * p_nb + p_decr * 500.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "age_at_entry=0, duration_mth=11, is_wl=False, mort_table_last_age=0, policy_count=1/2, policy_term=1"
+    ]
+   ],
+   [
+    "operator",
+    "p_decr * 500.0  ->  p_decr / 500.0   in: expenses = 5000.0 * p_nb + p_decr * 500.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "age_at_entry=0, duration_mth=11, is_wl=True, mort_table_last_age=1, policy_count=-1/2"
+    ]
+   ],
+   [
+    "constant",
+    "12.0  ->  12.120000000000001   in: expenses = 5000.0 * p_nb + p_decr * 500.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "age_at_entry=0, duration_mth=11, is_wl=False, mort_table_last_age=0, policy_count=36360000000000003/30000000000000250, policy_term=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: expenses = 5000.0 * p_nb + p_decr * 500.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "age_at_entry=0, duration_mth=0, mort_table_last_age=0, policy_count=-1"
+    ]
+   ],
+   [
+    "constant",
+    "500.0  ->  505.0   in: expenses = 5000.0 * p_nb + p_decr * 500.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "age_at_entry=0, duration_mth=11, is_wl=True, mort_table_last_age=1, policy_count=-6/5"
+    ]
+   ],
+   [
+    "operator",
+    "0.05 * premiums  ->  0.05 / premiums   in: commissions = 0.05 * premiums",
+    "refuted",
+    [
+     "month 0: commissions",
+     "age_at_entry=0, duration_mth=0, is_single=False, is_wl=True, mort_table_last_age=-1, policy_count=-1"
+    ]
+   ],
+   [
+    "constant",
+    "0.05  ->  0.0505   in: commissions = 0.05 * premiums",
+    "refuted",
+    [
+     "month 0: commissions",
+     "age_at_entry=0, duration_mth=0, is_single=True, is_wl=True, mort_table_last_age=-1, policy_count=-56201/2, premium_pp=-1/2"
+    ]
+   ],
+   [
+    "operator",
+    "iipp * p_next + 0.5 * iipp * (p_death + p_lapse)  ->  iipp * p_next - 0.5 * iipp * (p_death + p_lapse)   in: inv_income = iipp * p_next + 0.5 * iipp * (p_death + p_lapse)",
+    "refuted",
+    [
+     "month 0: inv_income",
+     "age_at_entry=-6, av_pp_init=1200/1199, duration_mth=96, is_level=False, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=-6, policy_count=-1, policy_term=9"
+    ]
+   ],
+   [
+    "operator",
+    "iipp * p_next  ->  iipp / p_next   in: inv_income = iipp * p_next + 0.5 * iipp * (p_death + p_lapse)",
+    "refuted",
+    [
+     "month 0: inv_income",
+     "age_at_entry=2, av_pp_init=1200/1199, duration_mth=0, is_level=False, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=2, policy_count=-1, policy_term=0"
+    ]
+   ],
+   [
+    "operator",
+    "0.5 * iipp * (p_death + p_lapse)  ->  0.5 * iipp / (p_death + p_lapse)   in: inv_income = iipp * p_next + 0.5 * iipp * (p_death + p_lapse)",
+    "refuted",
+    [
+     "month 0: inv_income",
+     "age_at_entry=-6, av_pp_init=1200/1199, duration_mth=96, is_level=False, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=2, policy_count=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "iipp  ->  av_inv   in: inv_income = iipp * p_next + 0.5 * iipp * (p_death + p_lapse)",
+    "refuted",
+    [
+     "month 0: inv_income",
+     "age_at_entry=5, av_pp_init=1200/109, duration_mth=72, is_level=False, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=12, policy_count=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_next  ->  p_decr   in: inv_income = iipp * p_next + 0.5 * iipp * (p_death + p_lapse)",
+    "refuted",
+    [
+     "month 0: inv_income",
+     "age_at_entry=-2, av_pp_init=1200/109, duration_mth=96, is_level=False, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=7, policy_count=1"
+    ]
+   ],
+   [
+    "operator",
+    "0.5 * iipp  ->  0.5 / iipp   in: inv_income = iipp * p_next + 0.5 * iipp * (p_death + p_lapse)",
+    "refuted",
+    [
+     "month 0: inv_income",
+     "age_at_entry=-2, av_pp_init=0, duration_mth=96, is_level=False, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=7, policy_count=-1"
+    ]
+   ],
+   [
+    "operator",
+    "p_death + p_lapse  ->  p_death - p_lapse   in: inv_income = iipp * p_next + 0.5 * iipp * (p_death + p_lapse)",
+    "refuted",
+    [
+     "month 0: inv_income",
+     "age_at_entry=3, av_pp_init=12000/1199, duration_mth=96, is_level=False, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=3, policy_count=-1, policy_term=9"
+    ]
+   ],
+   [
+    "constant",
+    "0.5  ->  0.505   in: inv_income = iipp * p_next + 0.5 * iipp * (p_death + p_lapse)",
+    "refuted",
+    [
+     "month 0: inv_income",
+     "age_at_entry=-6, av_pp_init=1200/1199, duration_mth=96, is_level=False, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=3, policy_count=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "iipp  ->  av_inv   in: inv_income = iipp * p_next + 0.5 * iipp * (p_death + p_lapse)",
+    "refuted",
+    [
+     "month 0: inv_income",
+     "age_at_entry=-6, av_pp_init=1, duration_mth=96, is_wl=True, load_prem_rate=2, mort_table_last_age=1, policy_count=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_death  ->  p_lapse   in: inv_income = iipp * p_next + 0.5 * iipp * (p_death + p_lapse)",
+    "refuted",
+    [
+     "month 0: inv_income",
+     "age_at_entry=-6, av_pp_init=2400/1199, duration_mth=96, is_level=False, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=-6, policy_count=1, policy_term=9"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_lapse  ->  p_death   in: inv_income = iipp * p_next + 0.5 * iipp * (p_death + p_lapse)",
+    "refuted",
+    [
+     "month 0: inv_income",
+     "age_at_entry=-2, av_pp_init=2400/1199, duration_mth=96, is_level=False, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=7, policy_count=2817/2882"
+    ]
+   ],
+   [
+    "operator",
+    "av_prem * p_bef_mat  ->  av_prem / p_bef_mat   in: av_bef_mat = av_prem * p_bef_mat",
+    "refuted",
+    [
+     "month 0: av_change",
+     "av_pp_init=-1, duration_mth=1, policy_count=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_prem  ->  av_fee   in: av_bef_mat = av_prem * p_bef_mat",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=0, duration_mth=11, is_level=True, is_wl=False, load_prem_rate=-2, mort_table_last_age=0, policy_count=2, policy_term=1, premium_pp=-1/2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_bef_mat  ->  p_bef_nb   in: av_bef_mat = av_prem * p_bef_mat",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=0, av_pp_init=2, duration_mth=12, is_wl=True, mort_table_last_age=1, policy_count=3"
+    ]
+   ],
+   [
+    "operator",
+    "av_next * p_next - av_bef_mat  ->  av_next * p_next + av_bef_mat   in: av_change = av_next * p_next - av_bef_mat",
+    "refuted",
+    [
+     "month 0: av_change",
+     "av_pp_init=1, duration_mth=1, policy_count=1"
+    ]
+   ],
+   [
+    "operator",
+    "av_next * p_next  ->  av_next / p_next   in: av_change = av_next * p_next - av_bef_mat",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=6, av_pp_init=0, duration_mth=0, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=5, policy_count=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_next  ->  av_inv   in: av_change = av_next * p_next - av_bef_mat",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=3, av_pp_init=-1200/1199, duration_mth=96, is_wl=True, load_prem_rate=32781/16384, mort_table_last_age=10, policy_count=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_next  ->  p_decr   in: av_change = av_next * p_next - av_bef_mat",
+    "refuted",
+    [
+     "month 0: av_change",
+     "age_at_entry=2, av_pp_init=1200/1199, duration_mth=0, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=1, policy_count=-1"
+    ]
+   ],
+   [
+    "operator",
+    "premiums + inv_income - cl_all - expenses - commissions - av_change  ->  premiums + inv_income - cl_all - expenses - commissions + av_change   in: net_cf = premiums + inv_income - cl_all - expenses - commissions - av_",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=2, av_pp_init=-2515502/8982009, duration_mth=0, is_single=False, is_wl=True, load_prem_rate=1798/2997, mort_table_last_age=1, policy_count=11497511/8982009"
+    ]
+   ],
+   [
+    "operator",
+    "premiums + inv_income - cl_all - expenses - commissions  ->  premiums + inv_income - cl_all - expenses + commissions   in: net_cf = premiums + inv_income - cl_all - expenses - commissions - av_",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=0, duration_mth=0, is_single=True, is_wl=True, mort_table_last_age=-1, policy_count=1/2, premium_pp=-1/2"
+    ]
+   ],
+   [
+    "operator",
+    "premiums + inv_income - cl_all - expenses  ->  premiums + inv_income - cl_all + expenses   in: net_cf = premiums + inv_income - cl_all - expenses - commissions - av_",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=0, duration_mth=0, is_wl=True, mort_table_last_age=-1, policy_count=-1"
+    ]
+   ],
+   [
+    "operator",
+    "premiums + inv_income - cl_all  ->  premiums + inv_income + cl_all   in: net_cf = premiums + inv_income - cl_all - expenses - commissions - av_",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=-9, av_pp_init=-1800/1199, duration_mth=132, has_surr_charge=True, is_single=False, is_wl=True, load_prem_rate=-16809/9592, mort_table_last_age=1, policy_count=-1800/1199, sum_assured=-1800/1199, surr_charge_col=3"
+    ]
+   ],
+   [
+    "operator",
+    "premiums + inv_income  ->  premiums - inv_income   in: net_cf = premiums + inv_income - cl_all - expenses - commissions - av_",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=-2, av_pp_init=1200/1199, duration_mth=96, is_level=False, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=7, policy_count=-1"
+    ]
+   ],
+   [
+    "operator",
+    "coi_pp * p_decr  ->  coi_pp / p_decr   in: coi = coi_pp * p_decr",
+    "refuted",
+    [
+     "month 0: coi",
+     "age_at_entry=0, duration_mth=-1, is_wl=False, mort_table_last_age=0, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: coi = coi_pp * p_decr",
+    "proved",
+    null
+   ],
+   [
+    "operator",
+    "mfee_pp * p_decr  ->  mfee_pp / p_decr   in: mfee = mfee_pp * p_decr",
+    "refuted",
+    [
+     "month 0: maint_fee",
+     "age_at_entry=0, av_pp_init=1200, duration_mth=-1, is_level=False, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=0, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: mfee = mfee_pp * p_decr",
+    "refuted",
+    [
+     "month 0: maint_fee",
+     "age_at_entry=0, av_pp_init=2400, duration_mth=0, is_level=False, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=0, policy_count=-1, policy_term=0"
+    ]
+   ],
+   [
+    "operator",
+    "load * prem_pp * p_decr + surr + mfee - commissions - expenses  ->  load * prem_pp * p_decr + surr + mfee - commissions + expenses   in: margin_exp = load * prem_pp * p_decr + surr + mfee - commissions - exp",
+    "refuted",
+    [
+     "month 0: margin_expense",
+     "age_at_entry=0, duration_mth=0, is_wl=True, mort_table_last_age=-1, policy_count=1"
+    ]
+   ],
+   [
+    "operator",
+    "load * prem_pp * p_decr + surr + mfee - commissions  ->  load * prem_pp * p_decr + surr + mfee + commissions   in: margin_exp = load * prem_pp * p_decr + surr + mfee - commissions - exp",
+    "refuted",
+    [
+     "month 0: margin_expense",
+     "age_at_entry=0, duration_mth=0, is_single=True, is_wl=True, mort_table_last_age=-1, policy_count=-57763/2, premium_pp=-1/2"
+    ]
+   ],
+   [
+    "operator",
+    "load * prem_pp * p_decr + surr + mfee  ->  load * prem_pp * p_decr + surr - mfee   in: margin_exp = load * prem_pp * p_decr + surr + mfee - commissions - exp",
+    "refuted",
+    [
+     "month 0: margin_expense",
+     "age_at_entry=0, av_pp_init=1200, duration_mth=0, is_level=False, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=-1, policy_count=-1/2"
+    ]
+   ],
+   [
+    "operator",
+    "load * prem_pp * p_decr + surr  ->  load * prem_pp * p_decr - surr   in: margin_exp = load * prem_pp * p_decr + surr + mfee - commissions - exp",
+    "refuted",
+    [
+     "month 0: margin_expense",
+     "age_at_entry=-5, av_pp_init=6141/38368, duration_mth=132, has_surr_charge=True, is_level=False, is_single=False, is_wl=True, load_prem_rate=24569/20475, mort_table_last_age=7, policy_count=-1, surr_charge_col=13"
+    ]
+   ],
+   [
+    "operator",
+    "load * prem_pp * p_decr  ->  load * prem_pp / p_decr   in: margin_exp = load * prem_pp * p_decr + surr + mfee - commissions - exp",
+    "refuted",
+    [
+     "month 0: margin_expense",
+     "age_at_entry=0, duration_mth=11, is_level=True, is_wl=False, load_prem_rate=-1, mort_table_last_age=0, policy_count=0, policy_term=1, premium_pp=1"
+    ]
+   ],
+   [
+    "operator",
+    "load * prem_pp  ->  load / prem_pp   in: margin_exp = load * prem_pp * p_decr + surr + mfee - commissions - exp",
+    "refuted",
+    [
+     "month 0: margin_expense",
+     "age_at_entry=0, duration_mth=0, is_single=False, is_wl=True, load_prem_rate=-1, mort_table_last_age=-1, policy_count=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: margin_exp = load * prem_pp * p_decr + surr + mfee - commissions - exp",
+    "refuted",
+    [
+     "month 0: margin_expense",
+     "age_at_entry=0, duration_mth=0, is_level=False, is_single=True, load_prem_rate=2, mort_table_last_age=0, policy_count=-1, premium_pp=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "prem_pp  ->  prem_av_pp   in: margin_exp = load * prem_pp * p_decr + surr + mfee - commissions - exp",
+    "refuted",
+    [
+     "month 0: margin_expense",
+     "age_at_entry=0, duration_mth=11, is_level=True, is_wl=False, load_prem_rate=2, mort_table_last_age=0, policy_count=1, policy_term=1, premium_pp=1"
+    ]
+   ],
+   [
+    "operator",
+    "cl_death - cfa_death  ->  cl_death + cfa_death   in: coa_death = cl_death - cfa_death",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=2, av_pp_init=-1200/1199, duration_mth=0, is_single=True, is_wl=True, load_prem_rate=1, mort_table_last_age=1, policy_count=-1, premium_pp=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cl_death  ->  cl_lapse   in: coa_death = cl_death - cfa_death",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=-9, av_pp_init=6000/1199, duration_mth=132, has_surr_charge=True, is_wl=True, load_prem_rate=-2, mort_table_last_age=1, policy_count=-2, sum_assured=0, surr_charge_col=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cfa_death  ->  cfa_lapse   in: coa_death = cl_death - cfa_death",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=6, av_pp_init=-1200/1199, duration_mth=0, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=6, policy_count=1, policy_term=-1"
+    ]
+   ],
+   [
+    "operator",
+    "coi - coa_death  ->  coi + coa_death   in: margin_mort = coi - coa_death",
+    "refuted",
+    [
+     "month 0: margin_mortality",
+     "age_at_entry=2, av_pp_init=0, duration_mth=0, is_level=False, is_single=True, load_prem_rate=1, mort_table_last_age=2, policy_count=-1, premium_pp=0, sum_assured=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "csv  ->  av_mid   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: csv_pp",
+     "age_at_entry=0, av_pp_init=-1200/1199, duration_mth=132, has_surr_charge=True, is_level=False, load_prem_rate=0, mort_table_last_age=0, surr_charge_col=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "iipp  ->  av_inv   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: inv_income_pp",
+     "age_at_entry=0, av_pp_init=2400/1199, duration_mth=0, is_level=False, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=0, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "q  ->  lq   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: mort_rate_mth",
+     "age_at_entry=-6, duration_mth=96"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_death  ->  p_lapse   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: pols_death",
+     "age_at_entry=-6, duration_mth=96, is_wl=True, mort_table_last_age=3, policy_count=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_bef_mat  ->  p_bef_nb   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: pols_if",
+     "age_at_entry=0, duration_mth=12, is_wl=False, mort_table_last_age=0, policy_count=1, policy_term=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_lapse  ->  p_death   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: pols_lapse",
+     "age_at_entry=3, duration_mth=0, mort_table_last_age=3, policy_count=1"
+    ]
+   ],
+   [
+    "operator",
+    "prem_av_pp * p_decr  ->  prem_av_pp / p_decr   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: prem_to_av",
+     "age_at_entry=0, duration_mth=-1, is_level=True, is_wl=True, load_prem_rate=2, mort_table_last_age=0, premium_pp=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "prem_pp  ->  prem_av_pp   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: premium_pp",
+     "age_at_entry=0, duration_mth=0, is_level=False, is_single=True, load_prem_rate=1, mort_table_last_age=0, premium_pp=1"
+    ]
+   ],
+   [
+    "operator",
+    "av_prem * p_bef_nb  ->  av_prem / p_bef_nb   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: av_at[BEF_NB]",
+     "age_at_entry=0, av_pp_init=1, duration_mth=0, mort_table_last_age=0"
+    ]
+   ],
+   [
+    "operator",
+    "av_fee * p_decr  ->  av_fee / p_decr   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: av_at[BEF_FEE]",
+     "age_at_entry=0, av_pp_init=-1, duration_mth=-1, is_level=False, is_single=False, is_wl=False, load_prem_rate=0, mort_table_last_age=0, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_prem  ->  av_fee   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: av_pp_at[BEF_PREM]",
+     "age_at_entry=0, duration_mth=11, is_level=True, is_wl=False, load_prem_rate=2, mort_table_last_age=0, policy_term=1, premium_pp=-1/2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_fee  ->  av_inv   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: av_pp_at[BEF_FEE]",
+     "age_at_entry=0, av_pp_init=-1200, duration_mth=0, is_level=False, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=0, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_inv  ->  av_mid   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: av_pp_at[BEF_INV]",
+     "age_at_entry=0, av_pp_init=1200/1199, duration_mth=0, is_level=False, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=0, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_mid  ->  av_inv   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: av_pp_at[MID_MTH]",
+     "age_at_entry=0, av_pp_init=1200/1199, duration_mth=0, is_level=False, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=0, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_bef_mat  ->  p_bef_nb   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: pols_if_at[BEF_MAT]",
+     "age_at_entry=0, duration_mth=12, is_wl=False, mort_table_last_age=0, policy_count=1, policy_term=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_bef_nb  ->  p_decr   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: pols_if_at[BEF_NB]",
+     "duration_mth=0, policy_count=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: pols_if_at[BEF_DECR]",
+     "age_at_entry=0, duration_mth=0, mort_table_last_age=0, policy_count=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cl_death_pp  ->  cl_mat_pp   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claim_pp[DEATH]",
+     "age_at_entry=0, av_pp_init=1, duration_mth=1, is_level=False, load_prem_rate=0, mort_table_last_age=0, sum_assured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_mid  ->  av_inv   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claim_pp[LAPSE]",
+     "age_at_entry=0, av_pp_init=1200/1199, duration_mth=0, is_level=False, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=0, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cl_mat_pp  ->  cl_death_pp   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claim_pp[MATURITY]",
+     "age_at_entry=0, av_pp_init=-1200, duration_mth=11, is_level=True, is_wl=True, load_prem_rate=1, mort_table_last_age=1, premium_pp=0, sum_assured=-1201"
+    ]
+   ],
+   [
+    "operator",
+    "cl_death_pp - av_mid  ->  cl_death_pp + av_mid   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claim_net_pp[DEATH]",
+     "age_at_entry=0, av_pp_init=-1, duration_mth=-1, is_level=False, load_prem_rate=0, mort_table_last_age=0"
+    ]
+   ],
+   [
+    "operator",
+    "cl_mat_pp - av_prem  ->  cl_mat_pp + av_prem   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claim_net_pp[MATURITY]",
+     "av_pp_init=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cl_death  ->  cl_lapse   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claims[DEATH]",
+     "age_at_entry=-4, av_pp_init=-1200/1199, duration_mth=132, has_surr_charge=True, is_wl=True, load_prem_rate=1, mort_table_last_age=-3, policy_count=1, sum_assured=-1, surr_charge_col=6"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cfa_death  ->  cfa_lapse   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claims_from_av[DEATH]",
+     "age_at_entry=6, av_pp_init=-1200/1199, duration_mth=0, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=6, policy_count=1, policy_term=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cfa_mat  ->  cfa_death   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claims_from_av[MATURITY]",
+     "age_at_entry=3, av_pp_init=1, duration_mth=0, is_level=False, is_single=False, load_prem_rate=0, mort_table_last_age=3, policy_count=-1"
+    ]
+   ],
+   [
+    "operator",
+    "cl_lapse - cfa_lapse  ->  cl_lapse + cfa_lapse   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claims_over_av[LAPSE]",
+     "age_at_entry=6, av_pp_init=-1200/1199, duration_mth=0, is_single=False, is_wl=True, load_prem_rate=0, mort_table_last_age=5, policy_count=-1"
+    ]
+   ],
+   [
+    "operator",
+    "cl_mat - cfa_mat  ->  cl_mat + cfa_mat   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claims_over_av[MATURITY]",
+     "age_at_entry=0, av_pp_init=1, duration_mth=12, is_wl=False, mort_table_last_age=0, policy_count=1, policy_term=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_next  ->  av_inv   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: carried state: s_av_prem",
+     "age_at_entry=0, av_pp_init=3600/1199, duration_mth=0, is_level=False, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=0, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_next  ->  p_decr   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: carried state: s_p_bef_mat",
+     "age_at_entry=-2, duration_mth=96, is_wl=True, mort_table_last_age=7, policy_count=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dur  ->  dm   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: duration",
+     "duration_mth=12"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dm  ->  dm0   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month t>=1: duration_mth",
+     "duration_mth=0, t=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: prem_to_av",
+     "age_at_entry=0, duration_mth=0, is_level=True, is_single=False, is_wl=True, load_prem_rate=-1, mort_table_last_age=1, policy_count=-1, premium_pp=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_prem  ->  av_fee   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: av_at[BEF_NB]",
+     "age_at_entry=0, duration_mth=11, is_level=True, is_wl=True, load_prem_rate=-1, mort_table_last_age=1, policy_count=1, premium_pp=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_bef_nb  ->  p_decr   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: av_at[BEF_NB]",
+     "age_at_entry=0, av_pp_init=2, duration_mth=0, mort_table_last_age=0, policy_count=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_fee  ->  av_inv   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: av_at[BEF_FEE]",
+     "age_at_entry=0, av_pp_init=-1, duration_mth=0, is_single=False, is_wl=True, load_prem_rate=1, mort_table_last_age=-1, policy_count=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: av_at[BEF_FEE]",
+     "age_at_entry=0, av_pp_init=2, duration_mth=0, is_level=False, is_single=False, is_wl=False, load_prem_rate=0, mort_table_last_age=0, policy_count=-1, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cl_death_pp  ->  cl_mat_pp   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claim_net_pp[DEATH]",
+     "age_at_entry=0, av_pp_init=1, duration_mth=1, is_level=False, load_prem_rate=0, mort_table_last_age=0, sum_assured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_mid  ->  av_inv   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claim_net_pp[DEATH]",
+     "age_at_entry=0, av_pp_init=1200/1199, duration_mth=0, is_level=False, is_single=False, is_wl=False, load_prem_rate=1, mort_table_last_age=0, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cl_mat_pp  ->  cl_death_pp   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claim_net_pp[MATURITY]",
+     "age_at_entry=0, av_pp_init=204885/306944, duration_mth=-1, is_level=False, load_prem_rate=341/256, mort_table_last_age=0, sum_assured=171/512"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "av_prem  ->  av_fee   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claim_net_pp[MATURITY]",
+     "age_at_entry=0, duration_mth=0, is_level=False, is_single=True, load_prem_rate=2, mort_table_last_age=0, premium_pp=-1/2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cfa_mat  ->  cfa_death   in: return (tof(age), av_change, coi, coi_pp, coi_rate, commissions, csv, ",
+    "refuted",
+    [
+     "month 0: claims_over_av[MATURITY]",
+     "age_at_entry=3, av_pp_init=1, duration_mth=0, is_level=False, is_single=False, load_prem_rate=0, mort_table_last_age=3, policy_count=-1"
+    ]
+   ]
+  ]
+ }
+}

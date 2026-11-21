@@ -1,0 +1,34 @@
+{
+ "float64": {
+  "arguments": 2622100,
+  "nan_results_numpy": 57494,
+  "numba_cpu": {
+   "differing": 0,
+   "differing_share": 0.0,
+   "max_ulps": 0,
+   "nan_or_inf_mismatch": 0
+  },
+  "cuda": {
+   "differing": 5075,
+   "differing_share": 0.0019354715685900613,
+   "max_ulps": 1,
+   "nan_or_inf_mismatch": 0
+  }
+ },
+ "float32": {
+  "arguments": 2622100,
+  "nan_results_numpy": 57494,
+  "numba_cpu": {
+   "differing": 0,
+   "differing_share": 0.0,
+   "max_ulps": 0,
+   "nan_or_inf_mismatch": 0
+  },
+  "cuda": {
+   "differing": 5393,
+   "differing_share": 0.0020567484077647687,
+   "max_ulps": 1,
+   "nan_or_inf_mismatch": 0
+  }
+ }
+}

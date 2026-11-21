@@ -1,0 +1,2539 @@
+{
+ "reference": {
+  "proved": 158,
+  "total": 158,
+  "seconds": 0.04737257957458496,
+  "refuted": [],
+  "unknown": []
+ },
+ "rearranged": {
+  "proved": 158,
+  "total": 158,
+  "seconds": 189.85530066490173,
+  "refuted": [],
+  "unknown": []
+ },
+ "formulas_projection": 89,
+ "axiomatised_projection": [
+  "BaseMortRate",
+  "pol_ReserveNLP_Rate",
+  "pol_SurrCharge",
+  "pol_CashValueRate",
+  "asmp_MortFactor",
+  "asmp_SurrRate",
+  "pvflow_prem",
+  "pvflow_exps",
+  "pvflow_ben"
+ ],
+ "axioms": {
+  "Projection": [
+   "BaseMortRate (pandas row lookup): If(t <= last_t, Q(mortality column, IssueAge + t), 0)"
+  ],
+  "Policy": [
+   "IssueAge, PolicyTerm, PolicyCount, SumAssured, PremFreq (model point)",
+   "GrossPremRate, AnnPremRate, InitSurrCharge (per-policy values computed in prep; uninterpreted)",
+   "ReserveNLP_Rate('PREM', t): NOT executed symbolically (row-wise apply with Python branches over LifeTable item spaces); replaced by a hand transcription of Policy.ReserveNLP_Rate + LifeTable.Axn/AnnDuenx over uninterpreted commutation columns M, N, D",
+   "table fact: the commutation column D is non-zero exactly at ages below the policy's `dz` (asserted by prep)"
+  ],
+  "Assumptions": [
+   "CommInitPrem, CommRenPrem, CommRenTerm, ExpsAcqAnnPrem, ExpsAcqSA, ExpsAcqPol, ExpsMaintAnnPrem, ExpsMaintSA, ExpsMaintPol, CnsmpTax, LastAge (dictionary lookups; uninterpreted)",
+   "MortFactor(y), SurrRate(y) (dictionary lookups with carry-forward; uninterpreted functions of the year)"
+  ],
+  "Economic": [
+   "DiscRate(t) (scenario data; uninterpreted function of the year)",
+   "AsmpLookup('InflRate') (uninterpreted)"
+  ],
+  "definitions": [
+   "pvflow_prem, pvflow_exps, pvflow_ben: the three terms the PV cells discount, defined from Projection cells"
+  ]
+ },
+ "early_exit_lemmas": [
+  [
+   "exit after period 0: pvflow_prem is zero in the next period",
+   "proved"
+  ],
+  [
+   "exit after period 0: pvflow_exps is zero in the next period",
+   "proved"
+  ],
+  [
+   "exit after period 0: pvflow_ben is zero in the next period",
+   "proved"
+  ],
+  [
+   "exit after period 0: the exit rule holds again in the next period",
+   "proved"
+  ],
+  [
+   "exit after period t>=1: pvflow_prem is zero in the next period",
+   "proved"
+  ],
+  [
+   "exit after period t>=1: pvflow_exps is zero in the next period",
+   "proved"
+  ],
+  [
+   "exit after period t>=1: pvflow_ben is zero in the next period",
+   "proved"
+  ],
+  [
+   "exit after period t>=1: the exit rule holds again in the next period",
+   "proved"
+  ],
+  [
+   "early exit (1) in year 0: nothing in force -> nothing carried forward",
+   "proved"
+  ],
+  [
+   "early exit (1) in a year t>=1: nothing in force -> nothing carried forward",
+   "proved"
+  ],
+  [
+   "early exit (2): pvflow_prem is zero",
+   "proved"
+  ],
+  [
+   "early exit (2): pvflow_exps is zero",
+   "proved"
+  ],
+  [
+   "early exit (2): pvflow_ben is zero",
+   "proved"
+  ],
+  [
+   "early exit (2): PolsIF_Beg1 is zero",
+   "proved"
+  ]
+ ],
+ "defects": {
+  "tally": {
+   "refuted": 253,
+   "proved": 9,
+   "unknown": 0,
+   "invalid": 10
+  },
+  "rows": [
+   [
+    "operator",
+    "age0 + t  ->  age0 - t   in: age = age0 + t",
+    "refuted",
+    [
+     "month t>=1: AttAge",
+     "t=1"
+    ]
+   ],
+   [
+    "operator",
+    "age + 1  ->  age - 1   in: age1 = age + 1",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, IssueAge=0, LoadMaintSA2=1, NetPremRate_PREM=3/8, PolicyCount=28, PolicyTerm=2, SumAssured=27, dz=3, pk=4"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "age  ->  age1   in: age1 = age + 1",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`age1` is used before it is defined')"
+    ]
+   ],
+   [
+    "constant",
+    "1  ->  2   in: age1 = age + 1",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, IssueAge=0, LoadMaintSA2=0, NetPremRate_PREM=0, PolicyCount=25, PolicyTerm=9, SumAssured=26, dz=3, pk=4"
+    ]
+   ],
+   [
+    "operator",
+    "age0 + term  ->  age0 - term   in: agen = age0 + term",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, IssueAge=-3, LoadMaintSA2=0, NetPremRate_PREM=-1/16, PolicyCount=9, PolicyTerm=2, SumAssured=8, dz=0, pk=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "term  ->  last_t   in: agen = age0 + term",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, IssueAge=0, LastAge=-1, LoadMaintSA2=1, NetPremRate_PREM=1, PolicyCount=5, PolicyTerm=0, SumAssured=4, dz=1, pk=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "last_t  ->  term   in: exist = t <= last_t",
+    "refuted",
+    [
+     "month 0: BaseMortRate",
+     "IssueAge=3, LastAge=2, PolicyTerm=0, pk=2"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(exist, lk2(TAB_Q, pk, age), ZERO)  ->  sel(exist, ZERO, lk2(TAB_Q, pk, age))   in: q = sel(exist, lk2(TAB_Q, pk, age), ZERO)",
+    "refuted",
+    [
+     "month 0: BaseMortRate",
+     "IssueAge=3, LastAge=3, pk=2"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_Q, pk, age)  ->  lk2(TAB_Q, pk + 1, age)   in: q = sel(exist, lk2(TAB_Q, pk, age), ZERO)",
+    "refuted",
+    [
+     "month 0: BaseMortRate",
+     "IssueAge=4, LastAge=4, PolicyTerm=1, pk=0"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_Q, pk, age)  ->  lk2(TAB_Q, pk, age + 1)   in: q = sel(exist, lk2(TAB_Q, pk, age), ZERO)",
+    "refuted",
+    [
+     "month 0: BaseMortRate",
+     "IssueAge=2437, LastAge=2437, PolicyTerm=1, pk=4"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "age  ->  age1   in: q = sel(exist, lk2(TAB_Q, pk, age), ZERO)",
+    "refuted",
+    [
+     "month 0: BaseMortRate",
+     "IssueAge=2437, LastAge=2437, PolicyTerm=1, pk=4"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_MF, pk, t)  ->  lk2(TAB_MF, pk + 1, t)   in: mf = lk2(TAB_MF, pk, t)",
+    "refuted",
+    [
+     "month 0: BenefitDeath",
+     "IssueAge=4, LastAge=4, PolicyCount=2, PolicyTerm=1, SumAssured=3, pk=11797"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_MF, pk, t)  ->  lk2(TAB_MF, pk, t + 1)   in: mf = lk2(TAB_MF, pk, t)",
+    "refuted",
+    [
+     "month 0: BenefitDeath",
+     "IssueAge=3, LastAge=3, PolicyCount=2, PolicyTerm=0, SumAssured=3, pk=2"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_SR, pk, t)  ->  lk2(TAB_SR, pk + 1, t)   in: sr = lk2(TAB_SR, pk, t)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-5/4, IssueAge=-3, LoadMaintSA2=-1, NetPremRate_PREM=-1/2, PolicyCount=3, PolicyTerm=2, SumAssured=29, dz=0, pk=0"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_SR, pk, t)  ->  lk2(TAB_SR, pk, t + 1)   in: sr = lk2(TAB_SR, pk, t)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, PolicyCount=2, PolicyTerm=-2, SumAssured=3, pk=2"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_KF, pk, 0)  ->  lk2(TAB_KF, pk + 1, 0)   in: cip = lk2(TAB_KF, pk, 0)",
+    "refuted",
+    [
+     "month 0: ExpsAcqTotal",
+     "CnsmpTax=4, CommInitPrem=1/2, GrossPremRate=4, PolicyCount=6, PremFreq=7, SumAssured=8, pk=1"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_KF, pk, 0)  ->  lk2(TAB_KF, pk, 0 + 1)   in: cip = lk2(TAB_KF, pk, 0)",
+    "refuted",
+    [
+     "month 0: ExpsAcqTotal",
+     "CnsmpTax=-2, CommInitPrem=0, CommRenPrem=-1, GrossPremRate=-1, PolicyCount=-1, PremFreq=-1, SumAssured=-1"
+    ]
+   ],
+   [
+    "constant",
+    "0  ->  1   in: cip = lk2(TAB_KF, pk, 0)",
+    "refuted",
+    [
+     "month 0: ExpsAcqTotal",
+     "CnsmpTax=-2, CommInitPrem=0, CommRenPrem=-1, GrossPremRate=-1, PolicyCount=-1, PremFreq=-1, SumAssured=-1"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_KF, pk, 1)  ->  lk2(TAB_KF, pk + 1, 1)   in: crp = lk2(TAB_KF, pk, 1)",
+    "refuted",
+    [
+     "month t>=1: ExpsAcqTotal",
+     "CnsmpTax=1, CommRenPrem=0, CommRenTerm=2, GrossPremRate=3, PolicyTerm=2, PremFreq=1, SumAssured=1, pk=1, t=1"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_KF, pk, 1)  ->  lk2(TAB_KF, pk, 1 + 1)   in: crp = lk2(TAB_KF, pk, 1)",
+    "refuted",
+    [
+     "month t>=1: ExpsAcqTotal",
+     "CnsmpTax=1, CommRenPrem=1, CommRenTerm=2, ExpsAcqAnnPrem=0, GrossPremRate=3, PolicyTerm=2, PremFreq=1, SumAssured=1, t=1"
+    ]
+   ],
+   [
+    "constant",
+    "1  ->  2   in: crp = lk2(TAB_KF, pk, 1)",
+    "refuted",
+    [
+     "month t>=1: ExpsAcqTotal",
+     "CnsmpTax=7, CommRenPrem=-1, CommRenTerm=2, ExpsAcqAnnPrem=0, GrossPremRate=2, PolicyTerm=2, PremFreq=1, SumAssured=1, t=1"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_KF, pk, 2)  ->  lk2(TAB_KF, pk + 1, 2)   in: acq_ap = lk2(TAB_KF, pk, 2)",
+    "refuted",
+    [
+     "month 0: ExpsAcq",
+     "AnnPremRate=2, ExpsAcqAnnPrem=0, PolicyCount=3, SumAssured=4, pk=2"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_KF, pk, 2)  ->  lk2(TAB_KF, pk, 2 + 1)   in: acq_ap = lk2(TAB_KF, pk, 2)",
+    "refuted",
+    [
+     "month 0: ExpsAcq",
+     "AnnPremRate=-1, ExpsAcqAnnPrem=-1, ExpsAcqSA=0, PolicyCount=-1, SumAssured=-1"
+    ]
+   ],
+   [
+    "constant",
+    "2  ->  3   in: acq_ap = lk2(TAB_KF, pk, 2)",
+    "refuted",
+    [
+     "month 0: ExpsAcq",
+     "AnnPremRate=-1, ExpsAcqAnnPrem=-1, ExpsAcqSA=0, PolicyCount=-1, SumAssured=-1"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_KF, pk, 3)  ->  lk2(TAB_KF, pk + 1, 3)   in: acq_sa = lk2(TAB_KF, pk, 3)",
+    "refuted",
+    [
+     "month 0: ExpsAcq",
+     "ExpsAcqSA=0, PolicyCount=3, SumAssured=2, pk=1"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_KF, pk, 3)  ->  lk2(TAB_KF, pk, 3 + 1)   in: acq_sa = lk2(TAB_KF, pk, 3)",
+    "refuted",
+    [
+     "month 0: ExpsAcq",
+     "ExpsAcqPol=0, ExpsAcqSA=-1, PolicyCount=-1, SumAssured=-1"
+    ]
+   ],
+   [
+    "constant",
+    "3  ->  4   in: acq_sa = lk2(TAB_KF, pk, 3)",
+    "refuted",
+    [
+     "month 0: ExpsAcq",
+     "ExpsAcqPol=0, ExpsAcqSA=-1, PolicyCount=-1, SumAssured=-1"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_KF, pk, 4)  ->  lk2(TAB_KF, pk + 1, 4)   in: acq_pol = lk2(TAB_KF, pk, 4)",
+    "refuted",
+    [
+     "month 0: ExpsAcq",
+     "AnnPremRate=0, ExpsAcqAnnPrem=0, ExpsAcqPol=0, ExpsAcqSA=0, PolicyCount=2, SumAssured=0, pk=1"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_KF, pk, 4)  ->  lk2(TAB_KF, pk, 4 + 1)   in: acq_pol = lk2(TAB_KF, pk, 4)",
+    "refuted",
+    [
+     "month 0: ExpsAcq",
+     "AnnPremRate=0, ExpsAcqAnnPrem=0, ExpsAcqPol=0, ExpsAcqSA=0, ExpsMaintAnnPrem=-1, PolicyCount=-1, SumAssured=0"
+    ]
+   ],
+   [
+    "constant",
+    "4  ->  5   in: acq_pol = lk2(TAB_KF, pk, 4)",
+    "refuted",
+    [
+     "month 0: ExpsAcq",
+     "AnnPremRate=0, ExpsAcqAnnPrem=0, ExpsAcqPol=0, ExpsAcqSA=0, ExpsMaintAnnPrem=-1, PolicyCount=-1, SumAssured=0"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_KF, pk, 5)  ->  lk2(TAB_KF, pk + 1, 5)   in: mnt_ap = lk2(TAB_KF, pk, 5)",
+    "refuted",
+    [
+     "month 0: ExpsMaint",
+     "AnnPremRate=2, ExpsMaintAnnPrem=0, PolicyCount=3, SumAssured=4, pk=1"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_KF, pk, 5)  ->  lk2(TAB_KF, pk, 5 + 1)   in: mnt_ap = lk2(TAB_KF, pk, 5)",
+    "refuted",
+    [
+     "month 0: ExpsMaint",
+     "AnnPremRate=-1, ExpsMaintAnnPrem=-1, ExpsMaintSA=0, PolicyCount=-1, SumAssured=-1"
+    ]
+   ],
+   [
+    "constant",
+    "5  ->  6   in: mnt_ap = lk2(TAB_KF, pk, 5)",
+    "refuted",
+    [
+     "month 0: ExpsMaint",
+     "AnnPremRate=-1, ExpsMaintAnnPrem=-1, ExpsMaintSA=0, PolicyCount=-1, SumAssured=-1"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_KF, pk, 6)  ->  lk2(TAB_KF, pk + 1, 6)   in: mnt_sa = lk2(TAB_KF, pk, 6)",
+    "refuted",
+    [
+     "month 0: ExpsMaint",
+     "ExpsMaintSA=0, PolicyCount=5, SumAssured=2, pk=1"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_KF, pk, 6)  ->  lk2(TAB_KF, pk, 6 + 1)   in: mnt_sa = lk2(TAB_KF, pk, 6)",
+    "refuted",
+    [
+     "month 0: ExpsMaint",
+     "ExpsMaintPol=0, ExpsMaintSA=-1, PolicyCount=-1, SumAssured=-1"
+    ]
+   ],
+   [
+    "constant",
+    "6  ->  7   in: mnt_sa = lk2(TAB_KF, pk, 6)",
+    "refuted",
+    [
+     "month 0: ExpsMaint",
+     "ExpsMaintPol=0, ExpsMaintSA=-1, PolicyCount=-1, SumAssured=-1"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_KF, pk, 7)  ->  lk2(TAB_KF, pk + 1, 7)   in: mnt_pol = lk2(TAB_KF, pk, 7)",
+    "refuted",
+    [
+     "month 0: ExpsMaint",
+     "AnnPremRate=0, ExpsMaintAnnPrem=0, ExpsMaintPol=1, ExpsMaintSA=0, PolicyCount=2, SumAssured=0, pk=1"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_KF, pk, 7)  ->  lk2(TAB_KF, pk, 7 + 1)   in: mnt_pol = lk2(TAB_KF, pk, 7)",
+    "refuted",
+    [
+     "month 0: ExpsMaint",
+     "AnnPremRate=0, ExpsMaintAnnPrem=0, ExpsMaintPol=0, ExpsMaintSA=0, LoadMaintSA2=-1, PolicyCount=-1, SumAssured=0"
+    ]
+   ],
+   [
+    "constant",
+    "7  ->  8   in: mnt_pol = lk2(TAB_KF, pk, 7)",
+    "refuted",
+    [
+     "month 0: ExpsMaint",
+     "AnnPremRate=0, ExpsMaintAnnPrem=0, ExpsMaintPol=0, ExpsMaintSA=0, LoadMaintSA2=-1, PolicyCount=-1, SumAssured=0"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_KF, pk, 8)  ->  lk2(TAB_KF, pk + 1, 8)   in: g2 = lk2(TAB_KF, pk, 8)",
+    "proved",
+    null
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_KF, pk, 8)  ->  lk2(TAB_KF, pk, 8 + 1)   in: g2 = lk2(TAB_KF, pk, 8)",
+    "invalid",
+    [
+     "not a valid program",
+     "IndexError('list index out of range')"
+    ]
+   ],
+   [
+    "constant",
+    "8  ->  9   in: g2 = lk2(TAB_KF, pk, 8)",
+    "invalid",
+    [
+     "not a valid program",
+     "IndexError('list index out of range')"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_M, pk, agen)  ->  lk2(TAB_M, pk + 1, agen)   in: m_n = lk2(TAB_M, pk, agen)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, IssueAge=0, LoadMaintSA2=64, NetPremRate_PREM=0, PolicyCount=5, PolicyTerm=0, SumAssured=3, dz=1, pk=0"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_M, pk, agen)  ->  lk2(TAB_M, pk, agen + 1)   in: m_n = lk2(TAB_M, pk, agen)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=1, IssueAge=-3, LoadMaintSA2=0, NetPremRate_PREM=1, PolicyCount=36, PolicyTerm=2, SumAssured=37, dz=0, pk=5"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_N, pk, agen)  ->  lk2(TAB_N, pk + 1, agen)   in: n_n = lk2(TAB_N, pk, agen)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, IssueAge=0, LoadMaintSA2=9, NetPremRate_PREM=-2, PolicyCount=29, PolicyTerm=0, SumAssured=27, dz=1, pk=0"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_N, pk, agen)  ->  lk2(TAB_N, pk, agen + 1)   in: n_n = lk2(TAB_N, pk, agen)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1/5, IssueAge=-1, LoadMaintSA2=279/125, NetPremRate_PREM=-6468/15625, PolicyCount=3, PolicyTerm=0, SumAssured=30, dz=0, pk=2"
+    ]
+   ],
+   [
+    "comparison",
+    "age < dz  ->  age <= dz   in: ok0 = age < dz",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=0, IssueAge=0, LoadMaintSA2=0, NetPremRate_PREM=-1, PolicyCount=24, PolicyTerm=0, SumAssured=3, dz=0, pk=4"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "age  ->  age1   in: ok0 = age < dz",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-5/2, IssueAge=0, LoadMaintSA2=9/8, NetPremRate_PREM=13/10, PolicyCount=3, PolicyTerm=9, SumAssured=2, dz=1, pk=2"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(ok0, lk2(TAB_D, pk, age), ONE)  ->  sel(ok0, ONE, lk2(TAB_D, pk, age))   in: dd0 = sel(ok0, lk2(TAB_D, pk, age), ONE)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-3, IssueAge=0, LoadMaintSA2=0, NetPremRate_PREM=0, PolicyCount=4, PolicyTerm=2, SumAssured=21, dz=2, pk=5"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "ok0  ->  ok1   in: dd0 = sel(ok0, lk2(TAB_D, pk, age), ONE)",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`ok1` is used before it is defined')"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_D, pk, age)  ->  lk2(TAB_D, pk + 1, age)   in: dd0 = sel(ok0, lk2(TAB_D, pk, age), ONE)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-2, IssueAge=0, LoadMaintSA2=-1, NetPremRate_PREM=1/2, PolicyCount=24, PolicyTerm=11, SumAssured=25, dz=2, pk=0"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_D, pk, age)  ->  lk2(TAB_D, pk, age + 1)   in: dd0 = sel(ok0, lk2(TAB_D, pk, age), ONE)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=1/3, IssueAge=0, LoadMaintSA2=-1, NetPremRate_PREM=1, PolicyCount=3, PolicyTerm=10, SumAssured=23, dz=2, pk=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "age  ->  age1   in: dd0 = sel(ok0, lk2(TAB_D, pk, age), ONE)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-8, IssueAge=0, LoadMaintSA2=0, NetPremRate_PREM=-5/4, PolicyCount=22, PolicyTerm=11, SumAssured=23, dz=3, pk=4"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(ok0, (lk2(TAB_M, pk, age) - m_n) / dd0, ZERO)  ->  sel(ok0, ZERO, (lk2(TAB_M, pk, age) - m_n) / dd0)   in: axn0 = sel(ok0, (lk2(TAB_M, pk, age) - m_n) / dd0, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, IssueAge=-1, LoadMaintSA2=0, NetPremRate_PREM=0, PolicyCount=2, PolicyTerm=9, SumAssured=4, dz=-1, pk=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "ok0  ->  ok1   in: axn0 = sel(ok0, (lk2(TAB_M, pk, age) - m_n) / dd0, ZERO)",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`ok1` is used before it is defined')"
+    ]
+   ],
+   [
+    "operator",
+    "(lk2(TAB_M, pk, age) - m_n) / dd0  ->  (lk2(TAB_M, pk, age) - m_n) * dd0   in: axn0 = sel(ok0, (lk2(TAB_M, pk, age) - m_n) / dd0, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-3, IssueAge=-1, LoadMaintSA2=0, NetPremRate_PREM=0, PolicyCount=4, PolicyTerm=9, SumAssured=3, dz=0, pk=2"
+    ]
+   ],
+   [
+    "operator",
+    "lk2(TAB_M, pk, age) - m_n  ->  lk2(TAB_M, pk, age) + m_n   in: axn0 = sel(ok0, (lk2(TAB_M, pk, age) - m_n) / dd0, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=0, IssueAge=0, LoadMaintSA2=0, NetPremRate_PREM=0, PolicyCount=21, PolicyTerm=10, SumAssured=19, dz=1, pk=4"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_M, pk, age)  ->  lk2(TAB_M, pk + 1, age)   in: axn0 = sel(ok0, (lk2(TAB_M, pk, age) - m_n) / dd0, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=0, IssueAge=0, LoadMaintSA2=0, NetPremRate_PREM=0, PolicyCount=19, PolicyTerm=10, SumAssured=20, dz=1, pk=0"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_M, pk, age)  ->  lk2(TAB_M, pk, age + 1)   in: axn0 = sel(ok0, (lk2(TAB_M, pk, age) - m_n) / dd0, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1/3, IssueAge=-1, LoadMaintSA2=0, NetPremRate_PREM=-1/3, PolicyCount=2, PolicyTerm=10, SumAssured=20, dz=0, pk=4"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "m_n  ->  n_n   in: axn0 = sel(ok0, (lk2(TAB_M, pk, age) - m_n) / dd0, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-289/1089, IssueAge=0, LoadMaintSA2=989/528, NetPremRate_PREM=-1/32, PolicyCount=4, PolicyTerm=9, SumAssured=23, dz=1, pk=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "age  ->  age1   in: axn0 = sel(ok0, (lk2(TAB_M, pk, age) - m_n) / dd0, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=0, IssueAge=1, LoadMaintSA2=0, NetPremRate_PREM=0, PolicyCount=4, PolicyTerm=0, SumAssured=20, dz=2, pk=3"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(ok0, (n_n - n_n) / dd0, ZERO)  ->  sel(ok0, ZERO, (n_n - n_n) / dd0)   in: w0 = sel(ok0, (n_n - n_n) / dd0, ZERO)",
+    "proved",
+    null
+   ],
+   [
+    "wrong-variable",
+    "ok0  ->  ok1   in: w0 = sel(ok0, (n_n - n_n) / dd0, ZERO)",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`ok1` is used before it is defined')"
+    ]
+   ],
+   [
+    "operator",
+    "(n_n - n_n) / dd0  ->  (n_n - n_n) * dd0   in: w0 = sel(ok0, (n_n - n_n) / dd0, ZERO)",
+    "proved",
+    null
+   ],
+   [
+    "operator",
+    "n_n - n_n  ->  n_n + n_n   in: w0 = sel(ok0, (n_n - n_n) / dd0, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=0, IssueAge=1, LoadMaintSA2=-2, NetPremRate_PREM=0, PolicyCount=21, PolicyTerm=0, SumAssured=22, dz=2, pk=5"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "n_n  ->  m_n   in: w0 = sel(ok0, (n_n - n_n) / dd0, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-2, IssueAge=0, LoadMaintSA2=-1/8, NetPremRate_PREM=-1845603/129514, PolicyCount=2, PolicyTerm=0, SumAssured=18, dz=1, pk=4"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "n_n  ->  m_n   in: w0 = sel(ok0, (n_n - n_n) / dd0, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-3, IssueAge=0, LoadMaintSA2=-2, NetPremRate_PREM=1, PolicyCount=23, PolicyTerm=10, SumAssured=5, dz=1, pk=2"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(ok0, (lk2(TAB_N, pk, age) - n_n) / dd0, ZERO)  ->  sel(ok0, ZERO, (lk2(TAB_N, pk, age) - n_n) / dd0)   in: ann0 = sel(ok0, (lk2(TAB_N, pk, age) - n_n) / dd0, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-3, IssueAge=1, LoadMaintSA2=-1/3, NetPremRate_PREM=2/3, PolicyCount=19, PolicyTerm=10, SumAssured=20, dz=1, pk=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "ok0  ->  ok1   in: ann0 = sel(ok0, (lk2(TAB_N, pk, age) - n_n) / dd0, ZERO)",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`ok1` is used before it is defined')"
+    ]
+   ],
+   [
+    "operator",
+    "(lk2(TAB_N, pk, age) - n_n) / dd0  ->  (lk2(TAB_N, pk, age) - n_n) * dd0   in: ann0 = sel(ok0, (lk2(TAB_N, pk, age) - n_n) / dd0, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, IssueAge=1, LoadMaintSA2=1, NetPremRate_PREM=1/16, PolicyCount=5, PolicyTerm=3, SumAssured=23, dz=3, pk=7"
+    ]
+   ],
+   [
+    "operator",
+    "lk2(TAB_N, pk, age) - n_n  ->  lk2(TAB_N, pk, age) + n_n   in: ann0 = sel(ok0, (lk2(TAB_N, pk, age) - n_n) / dd0, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, IssueAge=0, LoadMaintSA2=0, NetPremRate_PREM=-2, PolicyCount=19, PolicyTerm=0, SumAssured=21, dz=1, pk=4"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_N, pk, age)  ->  lk2(TAB_N, pk + 1, age)   in: ann0 = sel(ok0, (lk2(TAB_N, pk, age) - n_n) / dd0, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-9/32, IssueAge=1, LoadMaintSA2=3/4, NetPremRate_PREM=-3/4, PolicyCount=19, PolicyTerm=1, SumAssured=20, dz=2, pk=0"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_N, pk, age)  ->  lk2(TAB_N, pk, age + 1)   in: ann0 = sel(ok0, (lk2(TAB_N, pk, age) - n_n) / dd0, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=0, IssueAge=-1, LoadMaintSA2=0, NetPremRate_PREM=53/36, PolicyCount=3, PolicyTerm=10, SumAssured=2, dz=0, pk=4"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "n_n  ->  m_n   in: ann0 = sel(ok0, (lk2(TAB_N, pk, age) - n_n) / dd0, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=2/5, IssueAge=0, LoadMaintSA2=7/5, NetPremRate_PREM=5/2, PolicyCount=21, PolicyTerm=10, SumAssured=20, dz=1, pk=4"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "age  ->  age1   in: ann0 = sel(ok0, (lk2(TAB_N, pk, age) - n_n) / dd0, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=5/7, IssueAge=0, LoadMaintSA2=3/8, NetPremRate_PREM=-11/3, PolicyCount=2, PolicyTerm=0, SumAssured=19, dz=1, pk=4"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(t <= term, axn0 + (g2 * w0 - netp * ann0), ZERO)  ->  sel(t <= term, ZERO, axn0 + (g2 * w0 - netp * ann0))   in: rsv0 = sel(t <= term, axn0 + (g2 * w0 - netp * ann0), ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-3, IssueAge=-1, LoadMaintSA2=17/9, NetPremRate_PREM=13/9, PolicyCount=5, PolicyTerm=-1, SumAssured=20, dz=0, pk=4"
+    ]
+   ],
+   [
+    "operator",
+    "axn0 + (g2 * w0 - netp * ann0)  ->  axn0 - (g2 * w0 - netp * ann0)   in: rsv0 = sel(t <= term, axn0 + (g2 * w0 - netp * ann0), ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-13982/269001, IssueAge=0, LoadMaintSA2=161/81, NetPremRate_PREM=10/81, PolicyCount=20, PolicyTerm=9, SumAssured=2, dz=1, pk=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "term  ->  last_t   in: rsv0 = sel(t <= term, axn0 + (g2 * w0 - netp * ann0), ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1/3, IssueAge=-3, LastAge=-4, LoadMaintSA2=0, NetPremRate_PREM=-1/2, PolicyCount=17, PolicyTerm=1, SumAssured=18, dz=-2, pk=5"
+    ]
+   ],
+   [
+    "operator",
+    "g2 * w0 - netp * ann0  ->  g2 * w0 + netp * ann0   in: rsv0 = sel(t <= term, axn0 + (g2 * w0 - netp * ann0), ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, IssueAge=1, LoadMaintSA2=1/9, NetPremRate_PREM=22/45, PolicyCount=4, PolicyTerm=1, SumAssured=2, dz=2, pk=3"
+    ]
+   ],
+   [
+    "operator",
+    "g2 * w0  ->  g2 / w0   in: rsv0 = sel(t <= term, axn0 + (g2 * w0 - netp * ann0), ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=0, IssueAge=-1, LoadMaintSA2=3/4, NetPremRate_PREM=-1/32, PolicyCount=3, PolicyTerm=0, SumAssured=21, dz=0, pk=4"
+    ]
+   ],
+   [
+    "operator",
+    "netp * ann0  ->  netp / ann0   in: rsv0 = sel(t <= term, axn0 + (g2 * w0 - netp * ann0), ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, IssueAge=-2, LoadMaintSA2=0, NetPremRate_PREM=0, PolicyCount=3, PolicyTerm=0, SumAssured=5, dz=0, pk=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "ann0  ->  axn0   in: rsv0 = sel(t <= term, axn0 + (g2 * w0 - netp * ann0), ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-3, IssueAge=0, LoadMaintSA2=0, NetPremRate_PREM=-3/2, PolicyCount=5, PolicyTerm=2, SumAssured=27, dz=2, pk=5"
+    ]
+   ],
+   [
+    "comparison",
+    "age1 < dz  ->  age1 <= dz   in: ok1 = age1 < dz",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-10/3, IssueAge=0, LoadMaintSA2=-27/47, NetPremRate_PREM=0, PolicyCount=4, PolicyTerm=10, SumAssured=5, dz=1, pk=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "age1  ->  age   in: ok1 = age1 < dz",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-27/8, IssueAge=0, LoadMaintSA2=0, NetPremRate_PREM=0, PolicyCount=25, PolicyTerm=9, SumAssured=5, dz=1, pk=2"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(ok1, lk2(TAB_D, pk, age1), ONE)  ->  sel(ok1, ONE, lk2(TAB_D, pk, age1))   in: dd1 = sel(ok1, lk2(TAB_D, pk, age1), ONE)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-3, IssueAge=0, LoadMaintSA2=0, NetPremRate_PREM=2, PolicyCount=24, PolicyTerm=2, SumAssured=25, dz=3, pk=4"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_D, pk, age1)  ->  lk2(TAB_D, pk + 1, age1)   in: dd1 = sel(ok1, lk2(TAB_D, pk, age1), ONE)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=0, IssueAge=0, LoadMaintSA2=2/27, NetPremRate_PREM=1, PolicyCount=3, PolicyTerm=9, SumAssured=4, dz=2, pk=0"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_D, pk, age1)  ->  lk2(TAB_D, pk, age1 + 1)   in: dd1 = sel(ok1, lk2(TAB_D, pk, age1), ONE)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=0, IssueAge=0, LoadMaintSA2=-1/4, NetPremRate_PREM=-5/4, PolicyCount=3, PolicyTerm=2, SumAssured=23, dz=2, pk=5"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "age1  ->  age   in: dd1 = sel(ok1, lk2(TAB_D, pk, age1), ONE)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=12976193/118229220, IssueAge=0, LoadMaintSA2=0, NetPremRate_PREM=12976193/118229220, PolicyCount=2, PolicyTerm=7, SumAssured=25, dz=2, pk=5"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(ok1, (lk2(TAB_M, pk, age1) - m_n) / dd1, ZERO)  ->  sel(ok1, ZERO, (lk2(TAB_M, pk, age1) - m_n) / dd1)   in: axn1 = sel(ok1, (lk2(TAB_M, pk, age1) - m_n) / dd1, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-27/8, IssueAge=1, LoadMaintSA2=0, NetPremRate_PREM=0, PolicyCount=6, PolicyTerm=9, SumAssured=5, dz=2, pk=3"
+    ]
+   ],
+   [
+    "operator",
+    "(lk2(TAB_M, pk, age1) - m_n) / dd1  ->  (lk2(TAB_M, pk, age1) - m_n) * dd1   in: axn1 = sel(ok1, (lk2(TAB_M, pk, age1) - m_n) / dd1, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, IssueAge=0, LoadMaintSA2=11/8, NetPremRate_PREM=-1, PolicyCount=23, PolicyTerm=2, SumAssured=7, dz=2, pk=3"
+    ]
+   ],
+   [
+    "operator",
+    "lk2(TAB_M, pk, age1) - m_n  ->  lk2(TAB_M, pk, age1) + m_n   in: axn1 = sel(ok1, (lk2(TAB_M, pk, age1) - m_n) / dd1, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=0, IssueAge=0, LoadMaintSA2=0, NetPremRate_PREM=0, PolicyCount=20, PolicyTerm=10, SumAssured=21, dz=2, pk=5"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dd1  ->  dd0   in: axn1 = sel(ok1, (lk2(TAB_M, pk, age1) - m_n) / dd1, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-4, IssueAge=-3, LoadMaintSA2=-1/8, NetPremRate_PREM=3/32, PolicyCount=22, PolicyTerm=11, SumAssured=3, dz=0, pk=3"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_M, pk, age1)  ->  lk2(TAB_M, pk + 1, age1)   in: axn1 = sel(ok1, (lk2(TAB_M, pk, age1) - m_n) / dd1, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1/4, IssueAge=0, LoadMaintSA2=1/3, NetPremRate_PREM=7/3, PolicyCount=21, PolicyTerm=9, SumAssured=20, dz=2, pk=0"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_M, pk, age1)  ->  lk2(TAB_M, pk, age1 + 1)   in: axn1 = sel(ok1, (lk2(TAB_M, pk, age1) - m_n) / dd1, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=0, IssueAge=0, LoadMaintSA2=-1/2, NetPremRate_PREM=-4, PolicyCount=4, PolicyTerm=9, SumAssured=2, dz=2, pk=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "m_n  ->  n_n   in: axn1 = sel(ok1, (lk2(TAB_M, pk, age1) - m_n) / dd1, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-14493883617/2070672500, IssueAge=0, LoadMaintSA2=-3/2, NetPremRate_PREM=-4423/264, PolicyCount=4, PolicyTerm=2, SumAssured=3, dz=2, pk=5"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "age1  ->  age   in: axn1 = sel(ok1, (lk2(TAB_M, pk, age1) - m_n) / dd1, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-36837/8192, IssueAge=0, LoadMaintSA2=-31/32, NetPremRate_PREM=-2099/32, PolicyCount=21, PolicyTerm=9, SumAssured=22, dz=2, pk=5"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(ok1, (n_n - n_n) / dd1, ZERO)  ->  sel(ok1, ZERO, (n_n - n_n) / dd1)   in: w1 = sel(ok1, (n_n - n_n) / dd1, ZERO)",
+    "proved",
+    null
+   ],
+   [
+    "operator",
+    "(n_n - n_n) / dd1  ->  (n_n - n_n) * dd1   in: w1 = sel(ok1, (n_n - n_n) / dd1, ZERO)",
+    "proved",
+    null
+   ],
+   [
+    "operator",
+    "n_n - n_n  ->  n_n + n_n   in: w1 = sel(ok1, (n_n - n_n) / dd1, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, IssueAge=0, LoadMaintSA2=1/16, NetPremRate_PREM=-319/8192, PolicyCount=29, PolicyTerm=4, SumAssured=28, dz=3, pk=5"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dd1  ->  dd0   in: w1 = sel(ok1, (n_n - n_n) / dd1, ZERO)",
+    "proved",
+    null
+   ],
+   [
+    "wrong-variable",
+    "n_n  ->  m_n   in: w1 = sel(ok1, (n_n - n_n) / dd1, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-9/4, IssueAge=0, LoadMaintSA2=17/9, NetPremRate_PREM=0, PolicyCount=19, PolicyTerm=9, SumAssured=20, dz=2, pk=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "n_n  ->  m_n   in: w1 = sel(ok1, (n_n - n_n) / dd1, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=1, IssueAge=0, LoadMaintSA2=1, NetPremRate_PREM=-2, PolicyCount=32, PolicyTerm=3, SumAssured=6, dz=3, pk=6"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(ok1, (lk2(TAB_N, pk, age1) - n_n) / dd1, ZERO)  ->  sel(ok1, ZERO, (lk2(TAB_N, pk, age1) - n_n) / dd1)   in: ann1 = sel(ok1, (lk2(TAB_N, pk, age1) - n_n) / dd1, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-27/32, IssueAge=0, LoadMaintSA2=1/5, NetPremRate_PREM=-1, PolicyCount=18, PolicyTerm=9, SumAssured=2, dz=1, pk=4"
+    ]
+   ],
+   [
+    "operator",
+    "(lk2(TAB_N, pk, age1) - n_n) / dd1  ->  (lk2(TAB_N, pk, age1) - n_n) * dd1   in: ann1 = sel(ok1, (lk2(TAB_N, pk, age1) - n_n) / dd1, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=46745/41472, IssueAge=10, LoadMaintSA2=-1/2, NetPremRate_PREM=-19/18, PolicyCount=20, PolicyTerm=10, SumAssured=21, dz=12, pk=4"
+    ]
+   ],
+   [
+    "operator",
+    "lk2(TAB_N, pk, age1) - n_n  ->  lk2(TAB_N, pk, age1) + n_n   in: ann1 = sel(ok1, (lk2(TAB_N, pk, age1) - n_n) / dd1, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-27/8, IssueAge=0, LoadMaintSA2=-1, NetPremRate_PREM=-1, PolicyCount=5, PolicyTerm=9, SumAssured=24, dz=2, pk=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dd1  ->  dd0   in: ann1 = sel(ok1, (lk2(TAB_N, pk, age1) - n_n) / dd1, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-5/3, IssueAge=0, LoadMaintSA2=-1/2, NetPremRate_PREM=3/4, PolicyCount=23, PolicyTerm=10, SumAssured=24, dz=2, pk=5"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_N, pk, age1)  ->  lk2(TAB_N, pk + 1, age1)   in: ann1 = sel(ok1, (lk2(TAB_N, pk, age1) - n_n) / dd1, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-9/2, IssueAge=0, LoadMaintSA2=1, NetPremRate_PREM=2, PolicyCount=23, PolicyTerm=9, SumAssured=4, dz=2, pk=0"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_N, pk, age1)  ->  lk2(TAB_N, pk, age1 + 1)   in: ann1 = sel(ok1, (lk2(TAB_N, pk, age1) - n_n) / dd1, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=0, IssueAge=-3, LoadMaintSA2=64, NetPremRate_PREM=-1/2, PolicyCount=19, PolicyTerm=9, SumAssured=20, dz=-1, pk=5"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "n_n  ->  m_n   in: ann1 = sel(ok1, (lk2(TAB_N, pk, age1) - n_n) / dd1, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-369/40, IssueAge=0, LoadMaintSA2=1/5, NetPremRate_PREM=1/5, PolicyCount=21, PolicyTerm=9, SumAssured=20, dz=2, pk=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "age1  ->  age   in: ann1 = sel(ok1, (lk2(TAB_N, pk, age1) - n_n) / dd1, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=0, IssueAge=-2, LoadMaintSA2=0, NetPremRate_PREM=1, PolicyCount=4, PolicyTerm=1, SumAssured=3, dz=0, pk=3"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(t + 1 <= term, axn1 + (g2 * w1 - netp * ann1), ZERO)  ->  sel(t + 1 <= term, ZERO, axn1 + (g2 * w1 - netp * ann1))   in: rsv1 = sel(t + 1 <= term, axn1 + (g2 * w1 - netp * ann1), ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-160/147, IssueAge=0, LoadMaintSA2=-1/5, NetPremRate_PREM=3/2, PolicyCount=16, PolicyTerm=0, SumAssured=17, dz=2, pk=5"
+    ]
+   ],
+   [
+    "operator",
+    "axn1 + (g2 * w1 - netp * ann1)  ->  axn1 - (g2 * w1 - netp * ann1)   in: rsv1 = sel(t + 1 <= term, axn1 + (g2 * w1 - netp * ann1), ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-10/9, IssueAge=0, LoadMaintSA2=-1/2, NetPremRate_PREM=1, PolicyCount=20, PolicyTerm=10, SumAssured=22, dz=2, pk=5"
+    ]
+   ],
+   [
+    "operator",
+    "t + 1  ->  t - 1   in: rsv1 = sel(t + 1 <= term, axn1 + (g2 * w1 - netp * ann1), ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=0, IssueAge=0, LoadMaintSA2=-1, NetPremRate_PREM=3, PolicyCount=5, PolicyTerm=0, SumAssured=6, dz=2, pk=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "term  ->  last_t   in: rsv1 = sel(t + 1 <= term, axn1 + (g2 * w1 - netp * ann1), ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=1, IssueAge=0, LastAge=0, LoadMaintSA2=1, NetPremRate_PREM=7/32, PolicyCount=17, PolicyTerm=2, SumAssured=18, dz=3, pk=6"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "axn1  ->  ann1   in: rsv1 = sel(t + 1 <= term, axn1 + (g2 * w1 - netp * ann1), ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-27/4, IssueAge=-10, LoadMaintSA2=1, NetPremRate_PREM=2, PolicyCount=25, PolicyTerm=9, SumAssured=26, dz=-8, pk=4"
+    ]
+   ],
+   [
+    "operator",
+    "g2 * w1 - netp * ann1  ->  g2 * w1 + netp * ann1   in: rsv1 = sel(t + 1 <= term, axn1 + (g2 * w1 - netp * ann1), ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-6, IssueAge=0, LoadMaintSA2=1/2, NetPremRate_PREM=-3/8, PolicyCount=5, PolicyTerm=10, SumAssured=2, dz=2, pk=3"
+    ]
+   ],
+   [
+    "constant",
+    "1  ->  2   in: rsv1 = sel(t + 1 <= term, axn1 + (g2 * w1 - netp * ann1), ZERO)",
+    "proved",
+    null
+   ],
+   [
+    "operator",
+    "g2 * w1  ->  g2 / w1   in: rsv1 = sel(t + 1 <= term, axn1 + (g2 * w1 - netp * ann1), ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=0, IssueAge=0, LoadMaintSA2=0, NetPremRate_PREM=2/3, PolicyCount=5, PolicyTerm=2, SumAssured=6, dz=2, pk=3"
+    ]
+   ],
+   [
+    "operator",
+    "netp * ann1  ->  netp / ann1   in: rsv1 = sel(t + 1 <= term, axn1 + (g2 * w1 - netp * ann1), ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-207/64, IssueAge=0, LoadMaintSA2=0, NetPremRate_PREM=0, PolicyCount=17, PolicyTerm=9, SumAssured=3, dz=0, pk=2"
+    ]
+   ],
+   [
+    "min/max",
+    "imin(term, 10)  ->  imax(term, 10)   in: m10 = imin(term, 10)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-9/10, IssueAge=-1, LoadMaintSA2=10/99, NetPremRate_PREM=1/2, PolicyCount=30, PolicyTerm=1, SumAssured=2, dz=-1, pk=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "term  ->  last_t   in: m10 = imin(term, 10)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, IssueAge=-1, LastAge=-2, LoadMaintSA2=1, NetPremRate_PREM=-1, PolicyCount=5, PolicyTerm=0, SumAssured=3, dz=0, pk=2"
+    ]
+   ],
+   [
+    "constant",
+    "10  ->  11   in: m10 = imin(term, 10)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=1, IssueAge=-3, LoadMaintSA2=1, NetPremRate_PREM=-1, PolicyCount=38, PolicyTerm=13, SumAssured=3, dz=0, pk=4"
+    ]
+   ],
+   [
+    "operator",
+    "isc * fmax(tof(m10 - t) / tof(m10), ZERO)  ->  isc / fmax(tof(m10 - t) / tof(m10), ZERO)   in: sc0 = isc * fmax(tof(m10 - t) / tof(m10), ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1/2, IssueAge=0, LoadMaintSA2=0, NetPremRate_PREM=0, PolicyCount=4, PolicyTerm=0, SumAssured=23, dz=2, pk=5"
+    ]
+   ],
+   [
+    "min/max",
+    "fmax(tof(m10 - t) / tof(m10), ZERO)  ->  fmin(tof(m10 - t) / tof(m10), ZERO)   in: sc0 = isc * fmax(tof(m10 - t) / tof(m10), ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=2, IssueAge=-1, LoadMaintSA2=-8, NetPremRate_PREM=0, PolicyCount=19, PolicyTerm=0, SumAssured=20, dz=0, pk=4"
+    ]
+   ],
+   [
+    "operator",
+    "tof(m10 - t) / tof(m10)  ->  tof(m10 - t) * tof(m10)   in: sc0 = isc * fmax(tof(m10 - t) / tof(m10), ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, IssueAge=1, LoadMaintSA2=1, NetPremRate_PREM=0, PolicyCount=19, PolicyTerm=0, SumAssured=18, dz=2, pk=5"
+    ]
+   ],
+   [
+    "operator",
+    "m10 - t  ->  m10 + t   in: sc0 = isc * fmax(tof(m10 - t) / tof(m10), ZERO)",
+    "refuted",
+    [
+     "month t>=1: BenefitSurr",
+     "InitSurrCharge=1/2, IssueAge=0, LoadMaintSA2=0, NetPremRate_PREM=2, PolicyTerm=11, SumAssured=34, dz=4, pk=7, t=2"
+    ]
+   ],
+   [
+    "operator",
+    "isc * fmax(tof(m10 - (t + 1)) / tof(m10), ZERO)  ->  isc / fmax(tof(m10 - (t + 1)) / tof(m10), ZERO)   in: sc1 = isc * fmax(tof(m10 - (t + 1)) / tof(m10), ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, PolicyCount=17, PolicyTerm=0, SumAssured=16, pk=3"
+    ]
+   ],
+   [
+    "min/max",
+    "fmax(tof(m10 - (t + 1)) / tof(m10), ZERO)  ->  fmin(tof(m10 - (t + 1)) / tof(m10), ZERO)   in: sc1 = isc * fmax(tof(m10 - (t + 1)) / tof(m10), ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=1, PolicyCount=13, PolicyTerm=0, SumAssured=12, pk=2"
+    ]
+   ],
+   [
+    "operator",
+    "tof(m10 - (t + 1)) / tof(m10)  ->  tof(m10 - (t + 1)) * tof(m10)   in: sc1 = isc * fmax(tof(m10 - (t + 1)) / tof(m10), ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, PolicyCount=2, PolicyTerm=0, SumAssured=12, pk=2"
+    ]
+   ],
+   [
+    "operator",
+    "m10 - (t + 1)  ->  m10 + (t + 1)   in: sc1 = isc * fmax(tof(m10 - (t + 1)) / tof(m10), ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, PolicyCount=16, PolicyTerm=0, SumAssured=2, pk=4"
+    ]
+   ],
+   [
+    "operator",
+    "t + 1  ->  t - 1   in: sc1 = isc * fmax(tof(m10 - (t + 1)) / tof(m10), ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, PolicyCount=19, PolicyTerm=-3, SumAssured=18, pk=3"
+    ]
+   ],
+   [
+    "constant",
+    "1  ->  2   in: sc1 = isc * fmax(tof(m10 - (t + 1)) / tof(m10), ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, PolicyCount=15, PolicyTerm=0, SumAssured=4, pk=3"
+    ]
+   ],
+   [
+    "min/max",
+    "fmax(rsv0 - sc0, ZERO)  ->  fmin(rsv0 - sc0, ZERO)   in: cv0 = fmax(rsv0 - sc0, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, IssueAge=-1, LoadMaintSA2=0, NetPremRate_PREM=0, PolicyCount=4, PolicyTerm=0, SumAssured=3, dz=0, pk=2"
+    ]
+   ],
+   [
+    "operator",
+    "rsv0 - sc0  ->  rsv0 + sc0   in: cv0 = fmax(rsv0 - sc0, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-127/120, IssueAge=0, LoadMaintSA2=0, NetPremRate_PREM=0, PolicyCount=3, PolicyTerm=0, SumAssured=2, dz=0, pk=4"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "rsv0  ->  rsv1   in: cv0 = fmax(rsv0 - sc0, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-9/4, IssueAge=-1, LoadMaintSA2=1/2, NetPremRate_PREM=-3, PolicyCount=4, PolicyTerm=9, SumAssured=2, dz=1, pk=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "sc0  ->  sc1   in: cv0 = fmax(rsv0 - sc0, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, IssueAge=0, LoadMaintSA2=0, NetPremRate_PREM=0, PolicyCount=4, PolicyTerm=0, SumAssured=2, dz=0, pk=2"
+    ]
+   ],
+   [
+    "min/max",
+    "fmax(rsv1 - sc1, ZERO)  ->  fmin(rsv1 - sc1, ZERO)   in: cv1 = fmax(rsv1 - sc1, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=0, IssueAge=0, LoadMaintSA2=0, NetPremRate_PREM=-2, PolicyCount=4, PolicyTerm=9, SumAssured=3, dz=2, pk=3"
+    ]
+   ],
+   [
+    "operator",
+    "rsv1 - sc1  ->  rsv1 + sc1   in: cv1 = fmax(rsv1 - sc1, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=1, PolicyCount=9, PolicyTerm=0, SumAssured=10, pk=3"
+    ]
+   ],
+   [
+    "operator",
+    "sa * gpr * freq  ->  sa * gpr / freq   in: sp = sa * gpr * freq",
+    "refuted",
+    [
+     "month 0: ExpsAcqTotal",
+     "CnsmpTax=-2, CommInitPrem=-1, GrossPremRate=0, PolicyCount=-1, PremFreq=0, SumAssured=0"
+    ]
+   ],
+   [
+    "operator",
+    "sa * gpr  ->  sa / gpr   in: sp = sa * gpr * freq",
+    "refuted",
+    [
+     "month 0: ExpsAcqTotal",
+     "CnsmpTax=-2, CommInitPrem=-1, GrossPremRate=0, PolicyCount=-1, PremFreq=-1, SumAssured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "gpr  ->  apr   in: sp = sa * gpr * freq",
+    "refuted",
+    [
+     "month 0: ExpsAcqTotal",
+     "AnnPremRate=-1, CnsmpTax=-2, CommInitPrem=-1, GrossPremRate=0, PolicyCount=-1, PremFreq=-1, SumAssured=-1"
+    ]
+   ],
+   [
+    "operator",
+    "sa * apr  ->  sa / apr   in: sap = sa * apr",
+    "refuted",
+    [
+     "month 0: ExpsAcq",
+     "AnnPremRate=0, ExpsAcqAnnPrem=-1, PolicyCount=-1, SumAssured=0"
+    ]
+   ],
+   [
+    "operator",
+    "sa * (cv0 + cv1) / 2.0  ->  sa * (cv0 + cv1) * 2.0   in: sbs = sa * (cv0 + cv1) / 2.0",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, IssueAge=-1, LoadMaintSA2=64, NetPremRate_PREM=0, PolicyCount=1, PolicyTerm=0, SumAssured=1, dz=1, pk=2"
+    ]
+   ],
+   [
+    "operator",
+    "sa * (cv0 + cv1)  ->  sa / (cv0 + cv1)   in: sbs = sa * (cv0 + cv1) / 2.0",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=0, IssueAge=-1, LoadMaintSA2=-1/10, NetPremRate_PREM=4930/6161, PolicyCount=21, PolicyTerm=0, SumAssured=1/10, dz=0, pk=4"
+    ]
+   ],
+   [
+    "constant",
+    "2.0  ->  2.02   in: sbs = sa * (cv0 + cv1) / 2.0",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, PolicyCount=1, PolicyTerm=-1, SumAssured=1, pk=2"
+    ]
+   ],
+   [
+    "operator",
+    "cv0 + cv1  ->  cv0 - cv1   in: sbs = sa * (cv0 + cv1) / 2.0",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, PolicyCount=6, PolicyTerm=0, SumAssured=4, pk=4"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cv0  ->  cv1   in: sbs = sa * (cv0 + cv1) / 2.0",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, PolicyCount=15, PolicyTerm=-1, SumAssured=16, pk=5"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cv1  ->  cv0   in: sbs = sa * (cv0 + cv1) / 2.0",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-10/9, IssueAge=1, LoadMaintSA2=0, NetPremRate_PREM=1, PolicyCount=5, PolicyTerm=10, SumAssured=4, dz=3, pk=6"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(is_t0, sap * acq_ap + (sa * acq_sa + acq_pol) * infl / infl, ZERO)  ->  sel(is_t0, ZERO, sap * acq_ap + (sa * acq_sa + acq_pol) * infl / infl)   in: s_acq = sel(is_t0, sap * acq_ap + (sa * acq_sa + acq_pol) * infl / inf",
+    "refuted",
+    [
+     "month 0: ExpsAcq",
+     "AnnPremRate=0, ExpsAcqAnnPrem=0, ExpsAcqPol=1, ExpsAcqSA=0, PolicyCount=1, SumAssured=0"
+    ]
+   ],
+   [
+    "operator",
+    "sap * acq_ap + (sa * acq_sa + acq_pol) * infl / infl  ->  sap * acq_ap - (sa * acq_sa + acq_pol) * infl / infl   in: s_acq = sel(is_t0, sap * acq_ap + (sa * acq_sa + acq_pol) * infl / inf",
+    "refuted",
+    [
+     "month 0: ExpsAcq",
+     "ExpsAcqPol=-1, ExpsAcqSA=0, PolicyCount=-1, SumAssured=0"
+    ]
+   ],
+   [
+    "operator",
+    "sap * acq_ap  ->  sap / acq_ap   in: s_acq = sel(is_t0, sap * acq_ap + (sa * acq_sa + acq_pol) * infl / inf",
+    "refuted",
+    [
+     "month 0: ExpsAcq",
+     "AnnPremRate=0, ExpsAcqAnnPrem=0, PolicyCount=-1, SumAssured=0"
+    ]
+   ],
+   [
+    "operator",
+    "(sa * acq_sa + acq_pol) * infl / infl  ->  (sa * acq_sa + acq_pol) * infl * infl   in: s_acq = sel(is_t0, sap * acq_ap + (sa * acq_sa + acq_pol) * infl / inf",
+    "proved",
+    null
+   ],
+   [
+    "wrong-variable",
+    "sap  ->  sp   in: s_acq = sel(is_t0, sap * acq_ap + (sa * acq_sa + acq_pol) * infl / inf",
+    "refuted",
+    [
+     "month 0: ExpsAcq",
+     "AnnPremRate=0, ExpsAcqAnnPrem=-1, GrossPremRate=-1, PolicyCount=-1, PremFreq=-1, SumAssured=-1"
+    ]
+   ],
+   [
+    "operator",
+    "(sa * acq_sa + acq_pol) * infl  ->  (sa * acq_sa + acq_pol) / infl   in: s_acq = sel(is_t0, sap * acq_ap + (sa * acq_sa + acq_pol) * infl / inf",
+    "proved",
+    null
+   ],
+   [
+    "operator",
+    "sa * acq_sa + acq_pol  ->  sa * acq_sa - acq_pol   in: s_acq = sel(is_t0, sap * acq_ap + (sa * acq_sa + acq_pol) * infl / inf",
+    "refuted",
+    [
+     "month 0: ExpsAcq",
+     "ExpsAcqPol=-1, PolicyCount=-1"
+    ]
+   ],
+   [
+    "operator",
+    "sa * acq_sa  ->  sa / acq_sa   in: s_acq = sel(is_t0, sap * acq_ap + (sa * acq_sa + acq_pol) * infl / inf",
+    "refuted",
+    [
+     "month 0: ExpsAcq",
+     "ExpsAcqSA=0, PolicyCount=-1, SumAssured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "acq_pol  ->  mnt_pol   in: s_acq = sel(is_t0, sap * acq_ap + (sa * acq_sa + acq_pol) * infl / inf",
+    "refuted",
+    [
+     "month 0: ExpsAcq",
+     "AnnPremRate=0, ExpsAcqAnnPrem=0, ExpsAcqPol=0, ExpsAcqSA=0, ExpsMaintPol=-1, PolicyCount=-1, SumAssured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "acq_sa  ->  mnt_sa   in: s_acq = sel(is_t0, sap * acq_ap + (sa * acq_sa + acq_pol) * infl / inf",
+    "refuted",
+    [
+     "month 0: ExpsAcq",
+     "ExpsAcqSA=-1, ExpsMaintSA=0, PolicyCount=-1, SumAssured=-1"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(is_t0, sp * cip * (1 + TAX), ZERO)  ->  sel(is_t0, ZERO, sp * cip * (1 + TAX))   in: s_ci = sel(is_t0, sp * cip * (1 + TAX), ZERO)",
+    "refuted",
+    [
+     "month 0: ExpsAcqTotal",
+     "CnsmpTax=0, CommInitPrem=1, GrossPremRate=1, PolicyCount=1, PremFreq=1, SumAssured=1"
+    ]
+   ],
+   [
+    "operator",
+    "sp * cip * (1 + TAX)  ->  sp * cip / (1 + TAX)   in: s_ci = sel(is_t0, sp * cip * (1 + TAX), ZERO)",
+    "refuted",
+    [
+     "month 0: ExpsAcqTotal",
+     "CnsmpTax=-1, CommInitPrem=0, GrossPremRate=0, PolicyCount=-1, PremFreq=0, SumAssured=0"
+    ]
+   ],
+   [
+    "operator",
+    "sp * cip  ->  sp / cip   in: s_ci = sel(is_t0, sp * cip * (1 + TAX), ZERO)",
+    "refuted",
+    [
+     "month 0: ExpsAcqTotal",
+     "CnsmpTax=-2, CommInitPrem=0, GrossPremRate=0, PolicyCount=-1, PremFreq=0, SumAssured=0"
+    ]
+   ],
+   [
+    "operator",
+    "1 + TAX  ->  1 - TAX   in: s_ci = sel(is_t0, sp * cip * (1 + TAX), ZERO)",
+    "refuted",
+    [
+     "month 0: ExpsAcqTotal",
+     "CnsmpTax=-1, CommInitPrem=-1, GrossPremRate=-1, PolicyCount=-1, PremFreq=-1, SumAssured=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "sp  ->  sap   in: s_ci = sel(is_t0, sp * cip * (1 + TAX), ZERO)",
+    "refuted",
+    [
+     "month 0: ExpsAcqTotal",
+     "AnnPremRate=-1, CnsmpTax=-2, CommInitPrem=-1, GrossPremRate=0, PolicyCount=-1, PremFreq=0, SumAssured=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cip  ->  crp   in: s_ci = sel(is_t0, sp * cip * (1 + TAX), ZERO)",
+    "refuted",
+    [
+     "month 0: ExpsAcqTotal",
+     "CnsmpTax=-2, CommInitPrem=0, CommRenPrem=-1, GrossPremRate=-1, PolicyCount=-1, PremFreq=-1, SumAssured=-1"
+    ]
+   ],
+   [
+    "constant",
+    "1  ->  2   in: s_ci = sel(is_t0, sp * cip * (1 + TAX), ZERO)",
+    "refuted",
+    [
+     "month 0: ExpsAcqTotal",
+     "CommInitPrem=-1, GrossPremRate=-1, PolicyCount=-1, PremFreq=-1, SumAssured=-1"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(is_t0, ZERO, sel(t < crt, sp, ZERO) * crp * (1 + TAX))  ->  sel(is_t0, sel(t < crt, sp, ZERO) * crp * (1 + TAX), ZERO)   in: s_cr = sel(is_t0, ZERO, sel(t < crt, sp, ZERO) * crp * (1 + TAX))",
+    "refuted",
+    [
+     "month 0: ExpsAcqTotal",
+     "CnsmpTax=0, CommRenPrem=1, CommRenTerm=1, GrossPremRate=1, PolicyCount=1, PremFreq=1, SumAssured=1"
+    ]
+   ],
+   [
+    "operator",
+    "sel(t < crt, sp, ZERO) * crp * (1 + TAX)  ->  sel(t < crt, sp, ZERO) * crp / (1 + TAX)   in: s_cr = sel(is_t0, ZERO, sel(t < crt, sp, ZERO) * crp * (1 + TAX))",
+    "refuted",
+    [
+     "month t>=1: ExpsAcqTotal",
+     "CnsmpTax=-1, CommRenPrem=-1, CommRenTerm=2, GrossPremRate=-1, PolicyTerm=2, PremFreq=1, SumAssured=1, t=1"
+    ]
+   ],
+   [
+    "operator",
+    "sel(t < crt, sp, ZERO) * crp  ->  sel(t < crt, sp, ZERO) / crp   in: s_cr = sel(is_t0, ZERO, sel(t < crt, sp, ZERO) * crp * (1 + TAX))",
+    "refuted",
+    [
+     "month t>=1: ExpsAcqTotal",
+     "CnsmpTax=1, CommRenPrem=0, CommRenTerm=2, GrossPremRate=-1, PolicyTerm=2, PremFreq=1, SumAssured=1, t=1"
+    ]
+   ],
+   [
+    "operator",
+    "1 + TAX  ->  1 - TAX   in: s_cr = sel(is_t0, ZERO, sel(t < crt, sp, ZERO) * crp * (1 + TAX))",
+    "refuted",
+    [
+     "month t>=1: ExpsAcqTotal",
+     "CnsmpTax=8, CommRenPrem=9, CommRenTerm=2, GrossPremRate=10, PolicyTerm=2, PremFreq=1, SumAssured=1, t=1"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(t < crt, sp, ZERO)  ->  sel(t < crt, ZERO, sp)   in: s_cr = sel(is_t0, ZERO, sel(t < crt, sp, ZERO) * crp * (1 + TAX))",
+    "refuted",
+    [
+     "month t>=1: ExpsAcqTotal",
+     "CnsmpTax=2, CommRenPrem=2, CommRenTerm=2, GrossPremRate=-1, PolicyTerm=2, PremFreq=1, SumAssured=1, t=1"
+    ]
+   ],
+   [
+    "constant",
+    "1  ->  2   in: s_cr = sel(is_t0, ZERO, sel(t < crt, sp, ZERO) * crp * (1 + TAX))",
+    "refuted",
+    [
+     "month t>=1: ExpsAcqTotal",
+     "CommRenPrem=5, CommRenTerm=2, GrossPremRate=4, PolicyTerm=2, PremFreq=1, SumAssured=1, t=1"
+    ]
+   ],
+   [
+    "comparison",
+    "t < crt  ->  t <= crt   in: s_cr = sel(is_t0, ZERO, sel(t < crt, sp, ZERO) * crp * (1 + TAX))",
+    "refuted",
+    [
+     "month t>=1: ExpsAcqTotal",
+     "CnsmpTax=2, CommRenPrem=9, CommRenTerm=1, GrossPremRate=1, PolicyTerm=2, PremFreq=1, SumAssured=1, t=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "sp  ->  sap   in: s_cr = sel(is_t0, ZERO, sel(t < crt, sp, ZERO) * crp * (1 + TAX))",
+    "refuted",
+    [
+     "month t>=1: ExpsAcqTotal",
+     "AnnPremRate=1/5, CnsmpTax=6, CommRenPrem=8, CommRenTerm=2, GrossPremRate=-39/32, PolicyTerm=2, PremFreq=-8/65, SumAssured=-5, t=1"
+    ]
+   ],
+   [
+    "operator",
+    "sap * mnt_ap + (sa * mnt_sa + mnt_pol) * infl  ->  sap * mnt_ap - (sa * mnt_sa + mnt_pol) * infl   in: s_maint = sap * mnt_ap + (sa * mnt_sa + mnt_pol) * infl",
+    "refuted",
+    [
+     "month 0: ExpsMaint",
+     "ExpsMaintPol=-1, ExpsMaintSA=0, PolicyCount=-1, SumAssured=0"
+    ]
+   ],
+   [
+    "operator",
+    "sap * mnt_ap  ->  sap / mnt_ap   in: s_maint = sap * mnt_ap + (sa * mnt_sa + mnt_pol) * infl",
+    "refuted",
+    [
+     "month 0: ExpsMaint",
+     "AnnPremRate=0, ExpsMaintAnnPrem=0, PolicyCount=-1, SumAssured=0"
+    ]
+   ],
+   [
+    "operator",
+    "(sa * mnt_sa + mnt_pol) * infl  ->  (sa * mnt_sa + mnt_pol) / infl   in: s_maint = sap * mnt_ap + (sa * mnt_sa + mnt_pol) * infl",
+    "refuted",
+    [
+     "month t>=1: ExpsMaint",
+     "AnnPremRate=0, ExpsMaintAnnPrem=1, ExpsMaintPol=1, ExpsMaintSA=0, InflRate=-1, PolicyTerm=2, SumAssured=1, t=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "sap  ->  sp   in: s_maint = sap * mnt_ap + (sa * mnt_sa + mnt_pol) * infl",
+    "refuted",
+    [
+     "month 0: ExpsMaint",
+     "AnnPremRate=0, ExpsMaintAnnPrem=-1, GrossPremRate=-1, PolicyCount=-1, PremFreq=-1, SumAssured=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "mnt_ap  ->  acq_ap   in: s_maint = sap * mnt_ap + (sa * mnt_sa + mnt_pol) * infl",
+    "refuted",
+    [
+     "month 0: ExpsMaint",
+     "AnnPremRate=-1, ExpsAcqAnnPrem=0, ExpsMaintAnnPrem=-1, PolicyCount=-1, SumAssured=-1"
+    ]
+   ],
+   [
+    "operator",
+    "sa * mnt_sa + mnt_pol  ->  sa * mnt_sa - mnt_pol   in: s_maint = sap * mnt_ap + (sa * mnt_sa + mnt_pol) * infl",
+    "refuted",
+    [
+     "month 0: ExpsMaint",
+     "ExpsMaintPol=-1, PolicyCount=-1"
+    ]
+   ],
+   [
+    "operator",
+    "sa * mnt_sa  ->  sa / mnt_sa   in: s_maint = sap * mnt_ap + (sa * mnt_sa + mnt_pol) * infl",
+    "refuted",
+    [
+     "month 0: ExpsMaint",
+     "ExpsMaintSA=0, PolicyCount=-1, SumAssured=0"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(is_t0, ZERO, s_pols_end)  ->  sel(is_t0, s_pols_end, ZERO)   in: p_end = sel(is_t0, ZERO, s_pols_end)",
+    "refuted",
+    [
+     "month 0: BenefitDeath",
+     "IssueAge=3, LastAge=4, PolicyTerm=1, SumAssured=5, pk=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "s_pols_end  ->  pcount   in: p_end = sel(is_t0, ZERO, s_pols_end)",
+    "refuted",
+    [
+     "month t>=1: BenefitDeath",
+     "IssueAge=7, LastAge=9, PolicyCount=-1/2, PolicyTerm=2, SumAssured=9, pk=7, t=1"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(term == t, p_end, ZERO)  ->  sel(term == t, ZERO, p_end)   in: p_mat = sel(term == t, p_end, ZERO)",
+    "refuted",
+    [
+     "month t>=1: BenefitDeath",
+     "IssueAge=5, LastAge=6, PolicyTerm=1, SumAssured=6, pk=5, t=1"
+    ]
+   ],
+   [
+    "comparison",
+    "term == t  ->  term != t   in: p_mat = sel(term == t, p_end, ZERO)",
+    "refuted",
+    [
+     "month t>=1: BenefitDeath",
+     "IssueAge=7, LastAge=9, PolicyTerm=2, SumAssured=5, pk=7, t=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_end  ->  p_aft   in: p_mat = sel(term == t, p_end, ZERO)",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`p_aft` is used before it is defined')"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "term  ->  last_t   in: p_mat = sel(term == t, p_end, ZERO)",
+    "refuted",
+    [
+     "month t>=1: BenefitDeath",
+     "IssueAge=6, LastAge=7, PolicyTerm=2, SumAssured=2, pk=6, t=1"
+    ]
+   ],
+   [
+    "operator",
+    "p_end - p_mat  ->  p_end + p_mat   in: p_aft = p_end - p_mat",
+    "refuted",
+    [
+     "month t>=1: BenefitDeath",
+     "IssueAge=6, LastAge=7, PolicyTerm=1, SumAssured=2, pk=5, t=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_end  ->  p_aft   in: p_aft = p_end - p_mat",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`p_aft` is used before it is defined')"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_mat  ->  p_end   in: p_aft = p_end - p_mat",
+    "refuted",
+    [
+     "month t>=1: BenefitDeath",
+     "IssueAge=3, LastAge=5, PolicyTerm=2, SumAssured=6, pk=3, t=1"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(is_t0, pcount, ZERO)  ->  sel(is_t0, ZERO, pcount)   in: p_nb = sel(is_t0, pcount, ZERO)",
+    "refuted",
+    [
+     "month 0: BenefitDeath",
+     "IssueAge=3, LastAge=3, PolicyCount=3, PolicyTerm=1, SumAssured=2, pk=2"
+    ]
+   ],
+   [
+    "operator",
+    "p_aft + p_nb  ->  p_aft - p_nb   in: p_beg1 = p_aft + p_nb",
+    "refuted",
+    [
+     "month 0: BenefitDeath",
+     "IssueAge=5, LastAge=5, PolicyCount=1, PolicyTerm=1, SumAssured=1, pk=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_aft  ->  p_beg1   in: p_beg1 = p_aft + p_nb",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`p_beg1` is used before it is defined')"
+    ]
+   ],
+   [
+    "operator",
+    "p_beg1 * q * mf  ->  p_beg1 * q / mf   in: p_death = p_beg1 * q * mf",
+    "refuted",
+    [
+     "month 0: BenefitDeath",
+     "IssueAge=5, LastAge=5, PolicyCount=0, PolicyTerm=0, SumAssured=2, pk=4"
+    ]
+   ],
+   [
+    "operator",
+    "p_beg1 * q  ->  p_beg1 / q   in: p_death = p_beg1 * q * mf",
+    "refuted",
+    [
+     "month 0: BenefitDeath",
+     "IssueAge=0, LastAge=0, PolicyCount=-1, PolicyTerm=-1, SumAssured=7, pk=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "mf  ->  sr   in: p_death = p_beg1 * q * mf",
+    "refuted",
+    [
+     "month 0: BenefitDeath",
+     "IssueAge=3, LastAge=3, PolicyCount=6, PolicyTerm=0, SumAssured=4, pk=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_beg1  ->  p_end   in: p_death = p_beg1 * q * mf",
+    "refuted",
+    [
+     "month 0: BenefitDeath",
+     "IssueAge=3, LastAge=3, PolicyCount=5, PolicyTerm=0, SumAssured=4, pk=2"
+    ]
+   ],
+   [
+    "operator",
+    "p_beg1 * sr  ->  p_beg1 / sr   in: p_surr = p_beg1 * sr",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, IssueAge=0, LoadMaintSA2=0, NetPremRate_PREM=0, PolicyCount=-2, PolicyTerm=-2, SumAssured=2, dz=0, pk=4"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_beg1  ->  p_end   in: p_surr = p_beg1 * sr",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, PolicyCount=1, PolicyTerm=-1, SumAssured=1, pk=4"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "sr  ->  mf   in: p_surr = p_beg1 * sr",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, IssueAge=-2, PolicyCount=15, PolicyTerm=-1, SumAssured=16, pk=3"
+    ]
+   ],
+   [
+    "operator",
+    "sp * p_beg1  ->  sp / p_beg1   in: prem = sp * p_beg1",
+    "refuted",
+    [
+     "month 0: IntAccumCF",
+     "AnnPremRate=0, CnsmpTax=-1, ExpsAcqAnnPrem=0, ExpsAcqPol=0, ExpsAcqSA=0, ExpsMaintAnnPrem=0, ExpsMaintPol=0, ExpsMaintSA=0, GrossPremRate=3/2, PolicyCount=-58662390706041/58662213477241, PremFreq=-58662390706041/58662213477241, SumAssured=123076768060416/645284348249651"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "sp  ->  sap   in: prem = sp * p_beg1",
+    "refuted",
+    [
+     "month 0: IntAccumCF",
+     "AnnPremRate=-1, CnsmpTax=-1, ExpsAcqAnnPrem=0, ExpsAcqPol=0, ExpsAcqSA=0, ExpsMaintAnnPrem=0, ExpsMaintPol=0, ExpsMaintSA=0, GrossPremRate=0, PolicyCount=6, PremFreq=0, SumAssured=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_beg1  ->  p_end   in: prem = sp * p_beg1",
+    "refuted",
+    [
+     "month 0: IntAccumCF",
+     "AnnPremRate=0, CnsmpTax=-1, ExpsAcqAnnPrem=0, ExpsAcqPol=0, ExpsAcqSA=0, ExpsMaintAnnPrem=0, ExpsMaintPol=0, ExpsMaintSA=0, GrossPremRate=6, PolicyCount=3, PremFreq=5, SumAssured=4"
+    ]
+   ],
+   [
+    "operator",
+    "sa * p_death  ->  sa / p_death   in: b_death = sa * p_death",
+    "refuted",
+    [
+     "month 0: BenefitDeath",
+     "IssueAge=5, LastAge=5, PolicyCount=0, PolicyTerm=0, SumAssured=-1, pk=4"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_death  ->  p_surr   in: b_death = sa * p_death",
+    "refuted",
+    [
+     "month 0: BenefitDeath",
+     "IssueAge=5, LastAge=5, PolicyCount=4, PolicyTerm=0, SumAssured=5, pk=2"
+    ]
+   ],
+   [
+    "operator",
+    "sbs * p_surr  ->  sbs / p_surr   in: b_surr = sbs * p_surr",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-1, IssueAge=-1, LoadMaintSA2=1939/1296, NetPremRate_PREM=-653/1296, PolicyCount=-1, PolicyTerm=0, SumAssured=-1, dz=0, pk=4"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_surr  ->  p_death   in: b_surr = sbs * p_surr",
+    "refuted",
+    [
+     "month 0: BenefitSurr",
+     "InitSurrCharge=-211/200, IssueAge=0, LastAge=-1, LoadMaintSA2=0, NetPremRate_PREM=0, PolicyCount=2, PolicyTerm=10, SumAssured=3, dz=0, pk=4"
+    ]
+   ],
+   [
+    "operator",
+    "b_death + b_surr  ->  b_death - b_surr   in: b_total = b_death + b_surr",
+    "refuted",
+    [
+     "month 0: BenefitTotal",
+     "InitSurrCharge=-1, PolicyCount=1, PolicyTerm=-1, SumAssured=1, pk=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "b_death  ->  b_surr   in: b_total = b_death + b_surr",
+    "refuted",
+    [
+     "month 0: BenefitTotal",
+     "InitSurrCharge=-1, IssueAge=0, LastAge=-3, PolicyCount=16, PolicyTerm=-1, SumAssured=3, pk=4"
+    ]
+   ],
+   [
+    "operator",
+    "s_acq * p_nb  ->  s_acq / p_nb   in: e_acq = s_acq * p_nb",
+    "refuted",
+    [
+     "month 0: ExpsAcq",
+     "AnnPremRate=0, ExpsAcqAnnPrem=0, ExpsAcqPol=0, ExpsAcqSA=0, PolicyCount=0, SumAssured=0"
+    ]
+   ],
+   [
+    "operator",
+    "s_ci * p_beg1  ->  s_ci / p_beg1   in: e_ci = s_ci * p_beg1",
+    "refuted",
+    [
+     "month 0: ExpsAcqTotal",
+     "CnsmpTax=-1, CommInitPrem=0, GrossPremRate=0, PolicyCount=0, PremFreq=0, SumAssured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_beg1  ->  p_end   in: e_ci = s_ci * p_beg1",
+    "refuted",
+    [
+     "month 0: ExpsAcqTotal",
+     "CnsmpTax=0, CommInitPrem=1, GrossPremRate=1, PolicyCount=1, PremFreq=1, SumAssured=1"
+    ]
+   ],
+   [
+    "operator",
+    "s_cr * p_beg1  ->  s_cr / p_beg1   in: e_cr = s_cr * p_beg1",
+    "refuted",
+    [
+     "month 0: ExpsAcqTotal",
+     "PolicyCount=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_beg1  ->  p_end   in: e_cr = s_cr * p_beg1",
+    "refuted",
+    [
+     "month t>=1: ExpsAcqTotal",
+     "CnsmpTax=1, CommRenPrem=4, CommRenTerm=2, GrossPremRate=3, PolicyTerm=1, PremFreq=1, SumAssured=1, t=1"
+    ]
+   ],
+   [
+    "operator",
+    "e_ci + e_cr  ->  e_ci - e_cr   in: e_comm = e_ci + e_cr",
+    "refuted",
+    [
+     "month t>=1: ExpsAcqTotal",
+     "CnsmpTax=0, CommRenPrem=1, CommRenTerm=2, GrossPremRate=1, PolicyTerm=2, PremFreq=1, SumAssured=1, t=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "e_ci  ->  e_cr   in: e_comm = e_ci + e_cr",
+    "refuted",
+    [
+     "month 0: ExpsAcqTotal",
+     "CnsmpTax=0, CommInitPrem=1, GrossPremRate=1, PolicyCount=1, PremFreq=1, SumAssured=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "e_cr  ->  e_ci   in: e_comm = e_ci + e_cr",
+    "refuted",
+    [
+     "month 0: ExpsAcqTotal",
+     "CnsmpTax=0, CommInitPrem=1, GrossPremRate=1, PolicyCount=1, PremFreq=1, SumAssured=1"
+    ]
+   ],
+   [
+    "operator",
+    "s_maint * p_beg1  ->  s_maint / p_beg1   in: e_maint = s_maint * p_beg1",
+    "refuted",
+    [
+     "month 0: ExpsMaint",
+     "AnnPremRate=0, ExpsMaintAnnPrem=0, ExpsMaintPol=0, ExpsMaintSA=0, PolicyCount=0, SumAssured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_beg1  ->  p_end   in: e_maint = s_maint * p_beg1",
+    "refuted",
+    [
+     "month 0: ExpsMaint",
+     "AnnPremRate=0, ExpsMaintAnnPrem=0, ExpsMaintPol=1, ExpsMaintSA=0, PolicyCount=1, SumAssured=0"
+    ]
+   ],
+   [
+    "operator",
+    "e_comm + e_acq + e_maint  ->  e_comm + e_acq - e_maint   in: e_total = e_comm + e_acq + e_maint",
+    "refuted",
+    [
+     "month 0: ExpsTotal",
+     "AnnPremRate=0, ExpsMaintAnnPrem=0, ExpsMaintPol=1, ExpsMaintSA=0, PolicyCount=1, SumAssured=0"
+    ]
+   ],
+   [
+    "operator",
+    "e_comm + e_acq  ->  e_comm - e_acq   in: e_total = e_comm + e_acq + e_maint",
+    "refuted",
+    [
+     "month 0: ExpsTotal",
+     "AnnPremRate=0, ExpsAcqAnnPrem=0, ExpsAcqPol=1, ExpsAcqSA=0, PolicyCount=1, SumAssured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "e_acq  ->  e_maint   in: e_total = e_comm + e_acq + e_maint",
+    "refuted",
+    [
+     "month 0: ExpsTotal",
+     "AnnPremRate=0, ExpsAcqAnnPrem=0, ExpsAcqPol=0, ExpsAcqSA=0, ExpsMaintAnnPrem=0, ExpsMaintPol=-1, ExpsMaintSA=0, PolicyCount=-1, SumAssured=0"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(is_t0, ZERO, s_accum)  ->  sel(is_t0, s_accum, ZERO)   in: accum = sel(is_t0, ZERO, s_accum)",
+    "refuted",
+    [
+     "month 0: AccumCF",
+     ""
+    ]
+   ],
+   [
+    "operator",
+    "(accum + prem - e_total) * disc_rate  ->  (accum + prem - e_total) / disc_rate   in: int_acc = (accum + prem - e_total) * disc_rate",
+    "refuted",
+    [
+     "month 0: IntAccumCF",
+     "AnnPremRate=0, CnsmpTax=-1, CommInitPrem=0, ExpsAcqAnnPrem=0, ExpsAcqPol=0, ExpsAcqSA=0, ExpsMaintAnnPrem=0, ExpsMaintPol=0, ExpsMaintSA=0, GrossPremRate=0, PolicyCount=0, PremFreq=0, SumAssured=0"
+    ]
+   ],
+   [
+    "operator",
+    "accum + prem - e_total  ->  accum + prem + e_total   in: int_acc = (accum + prem - e_total) * disc_rate",
+    "refuted",
+    [
+     "month 0: IntAccumCF",
+     "AnnPremRate=0, CnsmpTax=-1, CommInitPrem=0, ExpsAcqAnnPrem=0, ExpsAcqPol=0, ExpsAcqSA=0, ExpsMaintAnnPrem=0, ExpsMaintPol=-1/2, ExpsMaintSA=0, GrossPremRate=0, PolicyCount=6, PremFreq=0, SumAssured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "disc_rate  ->  vdisc   in: int_acc = (accum + prem - e_total) * disc_rate",
+    "refuted",
+    [
+     "month 0: IntAccumCF",
+     "AnnPremRate=0, CnsmpTax=-1, CommInitPrem=0, ExpsAcqAnnPrem=0, ExpsAcqPol=0, ExpsAcqSA=0, ExpsMaintAnnPrem=0, ExpsMaintPol=-1, ExpsMaintSA=0, GrossPremRate=0, PolicyCount=3, PremFreq=0, SumAssured=0"
+    ]
+   ],
+   [
+    "operator",
+    "accum + prem  ->  accum - prem   in: int_acc = (accum + prem - e_total) * disc_rate",
+    "refuted",
+    [
+     "month 0: IntAccumCF",
+     "AnnPremRate=0, CnsmpTax=-1, ExpsAcqAnnPrem=0, ExpsAcqPol=0, ExpsAcqSA=0, ExpsMaintAnnPrem=0, ExpsMaintPol=0, ExpsMaintSA=0, GrossPremRate=3, PolicyCount=6, PremFreq=4, SumAssured=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "accum  ->  s_accum   in: int_acc = (accum + prem - e_total) * disc_rate",
+    "refuted",
+    [
+     "month 0: IntAccumCF",
+     "AnnPremRate=0, CnsmpTax=-1, CommInitPrem=0, ExpsAcqAnnPrem=0, ExpsAcqPol=0, ExpsAcqSA=0, ExpsMaintAnnPrem=0, ExpsMaintPol=0, ExpsMaintSA=0, GrossPremRate=0, PolicyCount=0, PremFreq=0, SumAssured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "prem  ->  sp   in: int_acc = (accum + prem - e_total) * disc_rate",
+    "refuted",
+    [
+     "month 0: IntAccumCF",
+     "AnnPremRate=0, CnsmpTax=-1, ExpsAcqAnnPrem=0, ExpsAcqPol=0, ExpsAcqSA=0, ExpsMaintAnnPrem=0, ExpsMaintPol=0, ExpsMaintSA=0, GrossPremRate=3, PolicyCount=6, PremFreq=5, SumAssured=4"
+    ]
+   ],
+   [
+    "operator",
+    "prem - b_total - e_total  ->  prem - b_total + e_total   in: net_cf = prem - b_total - e_total",
+    "refuted",
+    [
+     "month 0: NetInsurCF",
+     "AnnPremRate=0, CnsmpTax=-1, CommInitPrem=0, ExpsAcqAnnPrem=0, ExpsAcqPol=0, ExpsAcqSA=0, ExpsMaintAnnPrem=0, ExpsMaintPol=1/2, ExpsMaintSA=0, GrossPremRate=0, PolicyCount=1, PremFreq=0, SumAssured=0"
+    ]
+   ],
+   [
+    "operator",
+    "prem - b_total  ->  prem + b_total   in: net_cf = prem - b_total - e_total",
+    "refuted",
+    [
+     "month 0: NetInsurCF",
+     "InitSurrCharge=0, IssueAge=0, LastAge=0, LoadMaintSA2=0, NetPremRate_PREM=0, PolicyCount=1, PolicyTerm=0, SumAssured=1, dz=0, pk=4"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "prem  ->  sp   in: net_cf = prem - b_total - e_total",
+    "refuted",
+    [
+     "month 0: NetInsurCF",
+     "GrossPremRate=2, PolicyCount=5, PremFreq=3, SumAssured=4"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "accum  ->  s_accum   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: AccumCF",
+     ""
+    ]
+   ],
+   [
+    "wrong-variable",
+    "b_death  ->  b_surr   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: BenefitDeath",
+     "InitSurrCharge=-1, IssueAge=1, LastAge=0, LoadMaintSA2=1, NetPremRate_PREM=1, PolicyCount=2, PolicyTerm=0, SumAssured=15, dz=1, pk=5"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "disc_rate  ->  vdisc   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: DiscRate",
+     ""
+    ]
+   ],
+   [
+    "wrong-variable",
+    "e_acq  ->  e_maint   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: ExpsAcq",
+     "AnnPremRate=0, ExpsAcqAnnPrem=0, ExpsAcqPol=0, ExpsAcqSA=0, ExpsMaintAnnPrem=0, ExpsMaintPol=-1, ExpsMaintSA=0, PolicyCount=-1, SumAssured=0"
+    ]
+   ],
+   [
+    "operator",
+    "e_comm + e_acq  ->  e_comm - e_acq   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: ExpsAcqTotal",
+     "AnnPremRate=0, ExpsAcqAnnPrem=0, ExpsAcqPol=1, ExpsAcqSA=0, PolicyCount=1, SumAssured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "e_ci  ->  e_cr   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: ExpsCommInit",
+     "CnsmpTax=0, CommInitPrem=1, GrossPremRate=1, PolicyCount=1, PremFreq=1, SumAssured=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "e_cr  ->  e_ci   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: ExpsCommRen",
+     "CnsmpTax=0, CommInitPrem=1, GrossPremRate=1, PolicyCount=1, PremFreq=1, SumAssured=1"
+    ]
+   ],
+   [
+    "operator",
+    "p_beg1 * sa  ->  p_beg1 / sa   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: InsurIF_Beg1",
+     "PolicyCount=0, SumAssured=0"
+    ]
+   ],
+   [
+    "operator",
+    "p_end * sa  ->  p_end / sa   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: InsurIF_End",
+     "SumAssured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "disc_rate  ->  vdisc   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: InvstRetRate",
+     ""
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_death  ->  p_surr   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: PolsDeath",
+     "IssueAge=5, LastAge=5, PolicyCount=2, PolicyTerm=1, pk=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_aft  ->  p_beg1   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: PolsIF_AftMat",
+     "PolicyCount=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_aft  ->  p_beg1   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: PolsIF_Beg",
+     "PolicyCount=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_beg1  ->  p_end   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: PolsIF_Beg1",
+     "PolicyCount=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_end  ->  p_aft   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month t>=1: PolsIF_End",
+     "PolicyTerm=1, t=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_mat  ->  p_end   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month t>=1: PolsMaturity",
+     "PolicyTerm=2, t=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_surr  ->  p_death   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: PolsSurr",
+     "IssueAge=5, LastAge=5, PolicyCount=2, PolicyTerm=1, pk=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "prem  ->  sp   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: PremIncome",
+     "GrossPremRate=-1, PolicyCount=0, PremFreq=-1, SumAssured=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "sap  ->  sp   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: SizeAnnPrem",
+     "AnnPremRate=-1, GrossPremRate=0, PremFreq=0, SumAssured=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "sp  ->  sap   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: SizePremium",
+     "AnnPremRate=-1, GrossPremRate=0, PremFreq=0, SumAssured=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "rsv0  ->  rsv1   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: pol.ReserveNLP_Rate[PREM]",
+     "IssueAge=0, LoadMaintSA2=-23/256, NetPremRate_PREM=-34/9, PolicyTerm=2, dz=2, pk=5"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "sc0  ->  sc1   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: pol.SurrCharge",
+     "InitSurrCharge=2, PolicyTerm=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "cv0  ->  cv1   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: pol.CashValueRate",
+     "InitSurrCharge=-1, IssueAge=0, PolicyTerm=-1, pk=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "mf  ->  sr   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: asmp.MortFactor",
+     "pk=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "sr  ->  mf   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: asmp.SurrRate",
+     "pk=2"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(exist, prem, ZERO)  ->  sel(exist, ZERO, prem)   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: pvflow_prem",
+     "GrossPremRate=5, IssueAge=0, LastAge=0, PolicyCount=3, PremFreq=2, SumAssured=4"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(exist, e_total, ZERO)  ->  sel(exist, ZERO, e_total)   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: pvflow_exps",
+     "AnnPremRate=3/2, CnsmpTax=-3/2, CommInitPrem=1/2, ExpsAcqAnnPrem=-59/24, ExpsAcqPol=-1/2, ExpsAcqSA=-1/2, ExpsMaintAnnPrem=1, ExpsMaintPol=1/2, ExpsMaintSA=3/2, GrossPremRate=-1/2, IssueAge=0, LastAge=0, PolicyCount=2, PremFreq=3/2, SumAssured=1"
+    ]
+   ],
+   [
+    "operator",
+    "b_total * vdisc  ->  b_total / vdisc   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: pvflow_ben",
+     "InitSurrCharge=-1, IssueAge=2, LastAge=2, LoadMaintSA2=0, NetPremRate_PREM=0, PolicyCount=1, PolicyTerm=0, SumAssured=-1, dz=4, pk=7"
+    ]
+   ],
+   [
+    "operator",
+    "p_beg1 - p_death - p_surr  ->  p_beg1 - p_death + p_surr   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: carried state: s_pols_end",
+     "PolicyCount=1, pk=2"
+    ]
+   ],
+   [
+    "operator",
+    "accum + int_acc + net_cf  ->  accum + int_acc - net_cf   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: carried state: s_accum",
+     "AnnPremRate=0, CnsmpTax=-1, CommInitPrem=0, ExpsAcqAnnPrem=0, ExpsAcqPol=0, ExpsAcqSA=0, ExpsMaintAnnPrem=0, ExpsMaintPol=1/2, ExpsMaintSA=0, GrossPremRate=0, InitSurrCharge=0, IssueAge=0, LastAge=0, LoadMaintSA2=0, NetPremRate_PREM=0, PolicyCount=1, PolicyTerm=0, PremFreq=0, SumAssured=0, dz=0, pk=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "age  ->  age1   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: AttAge",
+     ""
+    ]
+   ],
+   [
+    "wrong-variable",
+    "e_acq  ->  e_maint   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: ExpsAcqTotal",
+     "AnnPremRate=0, ExpsAcqAnnPrem=0, ExpsAcqPol=0, ExpsAcqSA=0, ExpsMaintAnnPrem=0, ExpsMaintPol=-1, ExpsMaintSA=0, PolicyCount=-1, SumAssured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_beg1  ->  p_end   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: InsurIF_Beg1",
+     "PolicyCount=1, SumAssured=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_end  ->  p_aft   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month t>=1: InsurIF_End",
+     "PolicyTerm=1, SumAssured=2, t=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "prem  ->  sp   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: pvflow_prem",
+     "GrossPremRate=3, IssueAge=0, LastAge=0, PolicyCount=4, PolicyTerm=0, PremFreq=5, SumAssured=2"
+    ]
+   ],
+   [
+    "operator",
+    "p_beg1 - p_death  ->  p_beg1 + p_death   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: carried state: s_pols_end",
+     "IssueAge=5, LastAge=5, PolicyCount=1, PolicyTerm=0, pk=4"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_surr  ->  p_death   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: carried state: s_pols_end",
+     "IssueAge=5, LastAge=5, PolicyCount=2, PolicyTerm=1, pk=2"
+    ]
+   ],
+   [
+    "operator",
+    "accum + int_acc  ->  accum - int_acc   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: carried state: s_accum",
+     "AnnPremRate=0, CnsmpTax=-1, CommInitPrem=0, ExpsAcqAnnPrem=0, ExpsAcqPol=0, ExpsAcqSA=0, ExpsMaintAnnPrem=0, ExpsMaintPol=-1, ExpsMaintSA=0, GrossPremRate=0, PolicyCount=1, PremFreq=0, SumAssured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_beg1  ->  p_end   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: carried state: s_pols_end",
+     "PolicyCount=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_death  ->  p_surr   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: carried state: s_pols_end",
+     "IssueAge=5, LastAge=5, PolicyCount=2, PolicyTerm=1, pk=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "accum  ->  s_accum   in: return (accum, tof(age), q, b_death, b_surr, b_total, disc_rate, e_acq",
+    "refuted",
+    [
+     "month 0: carried state: s_accum",
+     ""
+    ]
+   ]
+  ]
+ }
+}

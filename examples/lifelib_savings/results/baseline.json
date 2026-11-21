@@ -1,0 +1,17 @@
+{
+ "policies": 300,
+ "policy_months": 165096,
+ "seconds_one_at_a_time": 46.82287598599942,
+ "seconds_vectorised": 2.191207537000082,
+ "columns_compared": [
+  "Premiums",
+  "Death",
+  "Surrender",
+  "Maturity",
+  "Expenses",
+  "Commissions",
+  "Net Cashflow"
+ ],
+ "identical_share": 0.47619047619047616,
+ "max_rel_diff": 3.6593060184772477e-13
+}

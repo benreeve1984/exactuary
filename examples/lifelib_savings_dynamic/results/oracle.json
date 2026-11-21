@@ -1,0 +1,229 @@
+{
+ "sample1/sim1": {
+  "points": 1,
+  "scenarios": 10000,
+  "rows": 10000,
+  "months": 121,
+  "original_result_pv_s": 0.5029449200001181,
+  "original_monte_carlo_s": 0.027520829000422964,
+  "rows_with_nonfinite_pv": 0,
+  "trace_values": 71390000,
+  "trace_nonfinite_values": 0
+ },
+ "sample1/sim2": {
+  "points": 1,
+  "scenarios": 10000,
+  "rows": 10000,
+  "months": 121,
+  "original_result_pv_s": 0.5341346969998995,
+  "original_monte_carlo_s": 0.02268955600084155,
+  "rows_with_nonfinite_pv": 0,
+  "trace_values": 71390000,
+  "trace_nonfinite_values": 0
+ },
+ "sample1/sim3": {
+  "points": 1,
+  "scenarios": 10000,
+  "rows": 10000,
+  "months": 121,
+  "original_result_pv_s": 0.573460533000798,
+  "original_monte_carlo_s": 0.0220333009992828,
+  "rows_with_nonfinite_pv": 0,
+  "trace_values": 71390000,
+  "trace_nonfinite_values": 0
+ },
+ "sample1/sim4": {
+  "points": 1,
+  "scenarios": 10000,
+  "rows": 10000,
+  "months": 121,
+  "original_result_pv_s": 0.5748427319995244,
+  "original_monte_carlo_s": 0.02260228800059849,
+  "rows_with_nonfinite_pv": 0,
+  "trace_values": 71390000,
+  "trace_nonfinite_values": 0
+ },
+ "sample1/sim5": {
+  "points": 1,
+  "scenarios": 10000,
+  "rows": 10000,
+  "months": 121,
+  "original_result_pv_s": 0.6103593819998423,
+  "original_monte_carlo_s": 0.022539837999829615,
+  "rows_with_nonfinite_pv": 0,
+  "trace_values": 71390000,
+  "trace_nonfinite_values": 0
+ },
+ "money/sim1": {
+  "points": 9,
+  "scenarios": 500,
+  "rows": 4500,
+  "months": 121,
+  "original_result_pv_s": 0.33039024400022754,
+  "original_monte_carlo_s": 0.05232179399990855,
+  "rows_with_nonfinite_pv": 0,
+  "trace_values": 32125500,
+  "trace_nonfinite_values": 0
+ },
+ "money/sim2": {
+  "points": 9,
+  "scenarios": 500,
+  "rows": 4500,
+  "months": 121,
+  "original_result_pv_s": 0.3541712529995493,
+  "original_monte_carlo_s": 0.017975980000301206,
+  "rows_with_nonfinite_pv": 0,
+  "trace_values": 32125500,
+  "trace_nonfinite_values": 0
+ },
+ "money/sim3": {
+  "points": 9,
+  "scenarios": 500,
+  "rows": 4500,
+  "months": 121,
+  "original_result_pv_s": 0.37950334299966926,
+  "original_monte_carlo_s": 0.017907002000356442,
+  "rows_with_nonfinite_pv": 0,
+  "trace_values": 32125500,
+  "trace_nonfinite_values": 0
+ },
+ "money/sim4": {
+  "points": 9,
+  "scenarios": 500,
+  "rows": 4500,
+  "months": 121,
+  "original_result_pv_s": 0.37803392299974803,
+  "original_monte_carlo_s": 0.01800894000007247,
+  "rows_with_nonfinite_pv": 0,
+  "trace_values": 32125500,
+  "trace_nonfinite_values": 0
+ },
+ "money/sim5": {
+  "points": 9,
+  "scenarios": 500,
+  "rows": 4500,
+  "months": 121,
+  "original_result_pv_s": 0.4272549980005351,
+  "original_monte_carlo_s": 0.018333089999941876,
+  "rows_with_nonfinite_pv": 0,
+  "trace_values": 32125500,
+  "trace_nonfinite_values": 0
+ },
+ "edge/sim1": {
+  "points": 600,
+  "scenarios": 4,
+  "rows": 2400,
+  "months": 241,
+  "original_result_pv_s": 0.5998191459993905,
+  "original_monte_carlo_s": 0.031467829000575875,
+  "rows_with_nonfinite_pv": 0,
+  "trace_values": 34125600,
+  "trace_nonfinite_values": 0
+ },
+ "edge/sim2": {
+  "points": 600,
+  "scenarios": 4,
+  "rows": 2400,
+  "months": 241,
+  "original_result_pv_s": 0.640870877999987,
+  "original_monte_carlo_s": 0.03150335000009363,
+  "rows_with_nonfinite_pv": 0,
+  "trace_values": 34125600,
+  "trace_nonfinite_values": 0
+ },
+ "edge/sim3": {
+  "points": 600,
+  "scenarios": 4,
+  "rows": 2400,
+  "months": 241,
+  "original_result_pv_s": 0.7292380139997476,
+  "original_monte_carlo_s": 0.03194898899982945,
+  "rows_with_nonfinite_pv": 0,
+  "trace_values": 34125600,
+  "trace_nonfinite_values": 0
+ },
+ "edge/sim4": {
+  "points": 600,
+  "scenarios": 4,
+  "rows": 2400,
+  "months": 241,
+  "original_result_pv_s": 0.7540684909999982,
+  "original_monte_carlo_s": 0.03207202900011907,
+  "rows_with_nonfinite_pv": 0,
+  "trace_values": 34125600,
+  "trace_nonfinite_values": 0
+ },
+ "edge/sim5": {
+  "points": 600,
+  "scenarios": 4,
+  "rows": 2400,
+  "months": 241,
+  "original_result_pv_s": 0.799222020000343,
+  "original_monte_carlo_s": 0.03204652400017949,
+  "rows_with_nonfinite_pv": 0,
+  "trace_values": 34125600,
+  "trace_nonfinite_values": 0
+ },
+ "wild/sim4": {
+  "points": 300,
+  "scenarios": 4,
+  "rows": 1200,
+  "months": 241,
+  "original_result_pv_s": 0.6660674660006407,
+  "original_monte_carlo_s": 0.030009840999809967,
+  "rows_with_nonfinite_pv": 0,
+  "trace_values": 17062800,
+  "trace_nonfinite_values": 0
+ },
+ "wild/sim5": {
+  "points": 300,
+  "scenarios": 4,
+  "rows": 1200,
+  "months": 241,
+  "original_result_pv_s": 0.7457270009999775,
+  "original_monte_carlo_s": 0.02985847600029956,
+  "rows_with_nonfinite_pv": 492,
+  "trace_values": 17062800,
+  "trace_nonfinite_values": 3714732
+ },
+ "speed/sim4": {
+  "points": 9,
+  "scenarios": 10000,
+  "rows": 90000,
+  "months": 121,
+  "original_result_pv_s": 2.249046767999971,
+  "original_monte_carlo_s": 0.17012387099930493,
+  "rows_with_nonfinite_pv": 0
+ },
+ "speed/sim5": {
+  "points": 9,
+  "scenarios": 10000,
+  "rows": 90000,
+  "months": 121,
+  "original_result_pv_s": 2.2441399040008037,
+  "original_monte_carlo_s": 0.06429345199921954,
+  "rows_with_nonfinite_pv": 0
+ },
+ "edgevar/sim4": {
+  "points": 600,
+  "scenarios": 4,
+  "rows": 2400,
+  "months": 241,
+  "original_result_pv_s": 0.6362280309995185,
+  "original_monte_carlo_s": 0.07703650900020875,
+  "rows_with_nonfinite_pv": 0,
+  "trace_values": 34125600,
+  "trace_nonfinite_values": 0
+ },
+ "edgevar/sim5": {
+  "points": 600,
+  "scenarios": 4,
+  "rows": 2400,
+  "months": 241,
+  "original_result_pv_s": 0.7348985670005277,
+  "original_monte_carlo_s": 0.03008700800000952,
+  "rows_with_nonfinite_pv": 0,
+  "trace_values": 34125600,
+  "trace_nonfinite_values": 0
+ }
+}

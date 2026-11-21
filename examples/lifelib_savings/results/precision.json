@@ -1,0 +1,75 @@
+{
+ "cpu/reference/float64": {
+  "identical_share": 0.40376944444444446,
+  "worst_per_policy_rel": 9.456753266415695e-12,
+  "portfolio_totals_rel": 1.1967734790362735e-13,
+  "bound_worst_rel": 0.00010838336222422638,
+  "bound_median_rel": 5.868408089898343e-11,
+  "observed_within_bound": true,
+  "seconds_10M": 2.9830683039999712
+ },
+ "cpu/reference/float32": {
+  "identical_share": 0.1688888888888889,
+  "worst_per_policy_rel": 0.040890881720176186,
+  "portfolio_totals_rel": 2.0767502005778835e-07,
+  "bound_worst_rel": 1180951.6141848988,
+  "bound_median_rel": 0.01575868059575631,
+  "observed_within_bound": true,
+  "seconds_10M": 2.9636608069999966
+ },
+ "cpu/rearranged/float64": {
+  "identical_share": 0.3373027777777778,
+  "worst_per_policy_rel": 7.705502661523899e-12,
+  "portfolio_totals_rel": 1.1967734790362735e-13,
+  "bound_worst_rel": 5.4339602909169186e-05,
+  "bound_median_rel": 2.970441651429678e-11,
+  "observed_within_bound": true,
+  "seconds_10M": 2.7423446860002514
+ },
+ "cpu/rearranged/float32": {
+  "identical_share": 0.1688888888888889,
+  "worst_per_policy_rel": 0.022472246529507117,
+  "portfolio_totals_rel": 2.6791618085934493e-07,
+  "bound_worst_rel": 79.46731506034091,
+  "bound_median_rel": 0.0002052249854289797,
+  "observed_within_bound": true,
+  "seconds_10M": 2.7525751110001693
+ },
+ "gpu/reference/float64": {
+  "identical_share": 0.4643027777777778,
+  "worst_per_policy_rel": 3.7996036254484103e-11,
+  "portfolio_totals_rel": 1.1967734790362735e-13,
+  "bound_worst_rel": 0.00010838336222422638,
+  "bound_median_rel": 5.868408089898343e-11,
+  "observed_within_bound": true,
+  "seconds_10M": 1.4766779710002993
+ },
+ "gpu/reference/float32": {
+  "identical_share": 0.1688888888888889,
+  "worst_per_policy_rel": 0.01948471893839879,
+  "portfolio_totals_rel": 2.600948466439096e-07,
+  "bound_worst_rel": 1180951.6141848988,
+  "bound_median_rel": 0.01575868059575631,
+  "observed_within_bound": true,
+  "seconds_10M": 0.1317125609998584
+ },
+ "gpu/rearranged/float64": {
+  "identical_share": 0.3561611111111111,
+  "worst_per_policy_rel": 2.245220324128606e-11,
+  "portfolio_totals_rel": 1.1967734790362735e-13,
+  "bound_worst_rel": 5.4339602909169186e-05,
+  "bound_median_rel": 2.970441651429678e-11,
+  "observed_within_bound": true,
+  "seconds_10M": 1.5084139079999659
+ },
+ "gpu/rearranged/float32": {
+  "identical_share": 0.1688888888888889,
+  "worst_per_policy_rel": 0.058161566420064245,
+  "portfolio_totals_rel": 2.1590985162686277e-07,
+  "bound_worst_rel": 79.46731506034091,
+  "bound_median_rel": 0.0002052249854289797,
+  "observed_within_bound": true,
+  "seconds_10M": 0.1295357150002019
+ },
+ "policy_months_10M": 5471160000
+}

@@ -1,0 +1,31 @@
+{
+ "glue": {
+  "theorems": 4,
+  "failed": []
+ },
+ "sim5": {
+  "theorems": 158,
+  "failed": [],
+  "seconds": 13.288507461547852
+ },
+ "sim4": {
+  "theorems": 158,
+  "failed": [],
+  "seconds": 8.83234453201294
+ },
+ "sim3": {
+  "theorems": 158,
+  "failed": [],
+  "seconds": 15.932522535324097
+ },
+ "sim2": {
+  "theorems": 158,
+  "failed": [],
+  "seconds": 16.90489625930786
+ },
+ "sim1": {
+  "theorems": 158,
+  "failed": [],
+  "seconds": 9.1237473487854
+ }
+}

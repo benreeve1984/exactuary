@@ -1,0 +1,24 @@
+{
+ "glue": {
+  "theorems": 4,
+  "failed": []
+ },
+ "as_exported/reference": {
+  "theorems": 166,
+  "failed": []
+ },
+ "as_exported/rearranged": {
+  "theorems": 166,
+  "failed": []
+ },
+ "zero_folded/reference": {
+  "theorems": 166,
+  "failed": [],
+  "z3": "158/158"
+ },
+ "zero_folded/rearranged": {
+  "theorems": 166,
+  "failed": [],
+  "z3": "158/158"
+ }
+}

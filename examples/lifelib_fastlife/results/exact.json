@@ -1,0 +1,58 @@
+{
+ "edge_1500": {
+  "rows": 1500,
+  "years": 118,
+  "outputs": 77,
+  "values": 13629000,
+  "values_nontrivial": 8319000,
+  "outputs_differing": 0,
+  "differing": {},
+  "prep_attributes_identical": true,
+  "pv_cells_values": 714000,
+  "pv_cells_differing": {
+   "PV_PremIncome": 0,
+   "PV_ExpsTotal": 0,
+   "PV_BenefitTotal": 0,
+   "PV_NetCashflow": 0
+  },
+  "pv_running_sum_max_rel": 1.6498352236285638e-13,
+  "early_exit_identical": true
+ },
+ "sample_300": {
+  "rows": 300,
+  "years": 103,
+  "outputs": 77,
+  "values": 2379300,
+  "values_nontrivial": 1452300,
+  "outputs_differing": 0,
+  "differing": {},
+  "prep_attributes_identical": true,
+  "pv_cells_values": 124800,
+  "pv_cells_differing": {
+   "PV_PremIncome": 0,
+   "PV_ExpsTotal": 0,
+   "PV_BenefitTotal": 0,
+   "PV_NetCashflow": 0
+  },
+  "pv_running_sum_max_rel": 1.664596602798093e-14,
+  "early_exit_identical": true
+ },
+ "speed": {
+  "rows": 10200,
+  "years": 103,
+  "original_s": 26.009808345999772,
+  "prep_s": 0.0037695270002586767,
+  "one_core_no_exit_s": 0.010071363001770806,
+  "one_core_s": 0.004129847002332099,
+  "all_cores_no_exit_s": 0.001986258997931145,
+  "all_cores_s": 0.0018146430011256598,
+  "cores": 20,
+  "pv_max_rel": 1.664596602798093e-14
+ },
+ "scale": {
+  "rows": 10000200,
+  "seconds": 0.4344242739971378,
+  "prep_seconds": 3.310742030000256,
+  "original_extrapolated_s": 25500.322100163423
+ }
+}

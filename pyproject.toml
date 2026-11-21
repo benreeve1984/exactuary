@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "exactuary"
+version = "0.1.0"
+description = "Accelerate actuarial cashflow models and check that the fast model is the same model."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = ["numpy", "numba", "z3-solver", "mpmath"]
+
+[project.optional-dependencies]
+gpu = ["numba-cuda"]
+examples = ["lifelib", "modelx", "pandas", "openpyxl"]
+
+[tool.setuptools]
+packages = ["exactuary", "exactuary.backends"]
+
+[tool.setuptools.package-data]
+exactuary = ["lean/*.lean"]

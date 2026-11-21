@@ -1,0 +1,1173 @@
+{
+ "reference": {
+  "proved": 44,
+  "total": 44,
+  "seconds": 5.911489009857178,
+  "refuted": [],
+  "unknown": []
+ },
+ "rearranged": {
+  "proved": 44,
+  "total": 44,
+  "seconds": 0.11705684661865234,
+  "refuted": [],
+  "unknown": []
+ },
+ "formulas_in_file": 44,
+ "axiomatised": [
+  "model_point",
+  "mort_rate",
+  "premium_pp"
+ ],
+ "cells_reached": [
+  "age",
+  "age_at_entry",
+  "claim_pp",
+  "claims",
+  "commissions",
+  "duration",
+  "duration_mth",
+  "expense_acq",
+  "expense_maint",
+  "expenses",
+  "inflation_factor",
+  "inflation_rate",
+  "lapse_rate",
+  "model_point",
+  "mort_rate",
+  "mort_rate_mth",
+  "net_cf",
+  "policy_term",
+  "pols_death",
+  "pols_if",
+  "pols_if_at",
+  "pols_if_init",
+  "pols_lapse",
+  "pols_maturity",
+  "pols_new_biz",
+  "premium_pp",
+  "premiums",
+  "sum_assured"
+ ],
+ "cells_executed_as_written": [
+  "age",
+  "age_at_entry",
+  "claim_pp",
+  "claims",
+  "commissions",
+  "duration",
+  "duration_mth",
+  "expense_acq",
+  "expense_maint",
+  "expenses",
+  "inflation_factor",
+  "inflation_rate",
+  "lapse_rate",
+  "mort_rate_mth",
+  "net_cf",
+  "policy_term",
+  "pols_death",
+  "pols_if",
+  "pols_if_at",
+  "pols_if_init",
+  "pols_lapse",
+  "pols_maturity",
+  "pols_new_biz",
+  "premiums",
+  "sum_assured"
+ ],
+ "early_exit_lemma": true,
+ "early_exit_lemma_parts": [
+  [
+   "exit after period 0: premiums is zero in the next period",
+   "proved"
+  ],
+  [
+   "exit after period 0: claims is zero in the next period",
+   "proved"
+  ],
+  [
+   "exit after period 0: expenses is zero in the next period",
+   "proved"
+  ],
+  [
+   "exit after period 0: commissions is zero in the next period",
+   "proved"
+  ],
+  [
+   "exit after period 0: pols_if_at[BEF_DECR] is zero in the next period",
+   "proved"
+  ],
+  [
+   "exit after period 0: the exit rule holds again in the next period",
+   "proved"
+  ],
+  [
+   "exit after period t>=1: premiums is zero in the next period",
+   "proved"
+  ],
+  [
+   "exit after period t>=1: claims is zero in the next period",
+   "proved"
+  ],
+  [
+   "exit after period t>=1: expenses is zero in the next period",
+   "proved"
+  ],
+  [
+   "exit after period t>=1: commissions is zero in the next period",
+   "proved"
+  ],
+  [
+   "exit after period t>=1: pols_if_at[BEF_DECR] is zero in the next period",
+   "proved"
+  ],
+  [
+   "exit after period t>=1: the exit rule holds again in the next period",
+   "proved"
+  ],
+  [
+   "early exit: premiums is zero",
+   "proved"
+  ],
+  [
+   "early exit: claims is zero",
+   "proved"
+  ],
+  [
+   "early exit: expenses is zero",
+   "proved"
+  ],
+  [
+   "early exit: commissions is zero",
+   "proved"
+  ],
+  [
+   "early exit: pols_if_at[BEF_DECR] is zero",
+   "proved"
+  ],
+  [
+   "early exit: net_cf is zero",
+   "proved"
+  ],
+  [
+   "early exit: policies carried forward is zero",
+   "proved"
+  ]
+ ],
+ "defects": {
+  "tally": {
+   "refuted": 104,
+   "proved": 1,
+   "unknown": 0,
+   "invalid": 7
+  },
+  "rows": [
+   [
+    "operator",
+    "dm0 + t  ->  dm0 - t   in: dm = dm0 + t",
+    "refuted",
+    [
+     "month t>=1: age",
+     "duration_mth=11, t=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dm0  ->  dm   in: dm = dm0 + t",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`dm` is used before it is defined')"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dm  ->  dm0   in: dur = idiv(dm, 12)",
+    "refuted",
+    [
+     "month t>=1: age",
+     "duration_mth=-13, t=1"
+    ]
+   ],
+   [
+    "constant",
+    "12  ->  13   in: dur = idiv(dm, 12)",
+    "refuted",
+    [
+     "month 0: age",
+     "duration_mth=156"
+    ]
+   ],
+   [
+    "operator",
+    "age0 + dur  ->  age0 - dur   in: age = age0 + dur",
+    "refuted",
+    [
+     "month 0: age",
+     "duration_mth=-12"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dur  ->  dm   in: age = age0 + dur",
+    "refuted",
+    [
+     "month 0: age",
+     "duration_mth=-2"
+    ]
+   ],
+   [
+    "operator",
+    "term * 12  ->  term / 12   in: term12 = term * 12",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=1, duration_mth=12, policy_count=-11/64, policy_term=144, sum_assured=2"
+    ]
+   ],
+   [
+    "constant",
+    "12  ->  13   in: term12 = term * 12",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=-4, duration_mth=72, policy_count=1/128, policy_term=6, sum_assured=2"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(is_t0, sel(dm0 > 0, pcount, ZERO), s_p_bef_mat)  ->  sel(is_t0, s_p_bef_mat, sel(dm0 > 0, pcount, ZERO))   in: p_bef_mat = sel(is_t0, sel(dm0 > 0, pcount, ZERO), s_p_bef_mat)",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=7, duration_mth=0, policy_term=-1, sum_assured=2"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(dm0 > 0, pcount, ZERO)  ->  sel(dm0 > 0, ZERO, pcount)   in: p_bef_mat = sel(is_t0, sel(dm0 > 0, pcount, ZERO), s_p_bef_mat)",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=1, duration_mth=72, policy_count=65/128, policy_term=0, sum_assured=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "s_p_bef_mat  ->  pcount   in: p_bef_mat = sel(is_t0, sel(dm0 > 0, pcount, ZERO), s_p_bef_mat)",
+    "refuted",
+    [
+     "month t>=1: claims",
+     "age_at_entry=-4, duration_mth=71, policy_count=0, policy_term=7, sum_assured=3, t=1"
+    ]
+   ],
+   [
+    "comparison",
+    "dm0 > 0  ->  dm0 >= 0   in: p_bef_mat = sel(is_t0, sel(dm0 > 0, pcount, ZERO), s_p_bef_mat)",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=7, duration_mth=0, policy_count=-1, policy_term=-1, sum_assured=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "pcount  ->  sa   in: p_bef_mat = sel(is_t0, sel(dm0 > 0, pcount, ZERO), s_p_bef_mat)",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=6, duration_mth=12, policy_count=0, policy_term=0, sum_assured=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dm0  ->  dm   in: p_bef_mat = sel(is_t0, sel(dm0 > 0, pcount, ZERO), s_p_bef_mat)",
+    "proved",
+    null
+   ],
+   [
+    "constant",
+    "0  ->  1   in: p_bef_mat = sel(is_t0, sel(dm0 > 0, pcount, ZERO), s_p_bef_mat)",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=7, duration_mth=1, policy_count=1/2, policy_term=1, sum_assured=3"
+    ]
+   ],
+   [
+    "operator",
+    "sel(dm == term12, ONE, ZERO) * p_bef_mat  ->  sel(dm == term12, ONE, ZERO) / p_bef_mat   in: p_mat = sel(dm == term12, ONE, ZERO) * p_bef_mat",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=2, duration_mth=11, policy_count=0, policy_term=1, sum_assured=2"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(dm == term12, ONE, ZERO)  ->  sel(dm == term12, ZERO, ONE)   in: p_mat = sel(dm == term12, ONE, ZERO) * p_bef_mat",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=1, duration_mth=72, policy_count=-1, policy_term=0, sum_assured=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_bef_mat  ->  p_bef_nb   in: p_mat = sel(dm == term12, ONE, ZERO) * p_bef_mat",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`p_bef_nb` is used before it is defined')"
+    ]
+   ],
+   [
+    "comparison",
+    "dm == term12  ->  dm != term12   in: p_mat = sel(dm == term12, ONE, ZERO) * p_bef_mat",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=2, duration_mth=72, policy_count=1, policy_term=6, sum_assured=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dm  ->  dm0   in: p_mat = sel(dm == term12, ONE, ZERO) * p_bef_mat",
+    "refuted",
+    [
+     "month t>=1: claims",
+     "age_at_entry=2, duration_mth=71, policy_term=6, sum_assured=2, t=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "term12  ->  term   in: p_mat = sel(dm == term12, ONE, ZERO) * p_bef_mat",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=-4, duration_mth=72, policy_count=1, policy_term=72, sum_assured=3"
+    ]
+   ],
+   [
+    "operator",
+    "p_bef_mat - p_mat  ->  p_bef_mat + p_mat   in: p_bef_nb = p_bef_mat - p_mat",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=2, duration_mth=72, policy_count=-1, policy_term=6, sum_assured=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_bef_mat  ->  p_bef_nb   in: p_bef_nb = p_bef_mat - p_mat",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`p_bef_nb` is used before it is defined')"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_mat  ->  p_nb   in: p_bef_nb = p_bef_mat - p_mat",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`p_nb` is used before it is defined')"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(dm == 0, pcount, ZERO)  ->  sel(dm == 0, ZERO, pcount)   in: p_nb = sel(dm == 0, pcount, ZERO)",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=2, duration_mth=0, policy_count=-1, policy_term=0, sum_assured=3"
+    ]
+   ],
+   [
+    "comparison",
+    "dm == 0  ->  dm != 0   in: p_nb = sel(dm == 0, pcount, ZERO)",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=2, duration_mth=72, policy_count=1, policy_term=6, sum_assured=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "pcount  ->  sa   in: p_nb = sel(dm == 0, pcount, ZERO)",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=2, duration_mth=0, policy_count=0, policy_term=1, sum_assured=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dm  ->  dm0   in: p_nb = sel(dm == 0, pcount, ZERO)",
+    "refuted",
+    [
+     "month t>=1: claims",
+     "age_at_entry=-2, duration_mth=0, policy_count=2, policy_term=6, sum_assured=3, t=72"
+    ]
+   ],
+   [
+    "constant",
+    "0  ->  1   in: p_nb = sel(dm == 0, pcount, ZERO)",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=2, duration_mth=1, policy_count=511/8, policy_term=0, sum_assured=2"
+    ]
+   ],
+   [
+    "operator",
+    "p_bef_nb + p_nb  ->  p_bef_nb - p_nb   in: p_decr = p_bef_nb + p_nb",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=7, duration_mth=0, policy_count=1, policy_term=0, sum_assured=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_bef_nb  ->  p_decr   in: p_decr = p_bef_nb + p_nb",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`p_decr` is used before it is defined')"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_nb  ->  p_mat   in: p_decr = p_bef_nb + p_nb",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=2, duration_mth=72, policy_count=1, policy_term=6, sum_assured=2"
+    ]
+   ],
+   [
+    "min/max",
+    "imin(dur, 5)  ->  imax(dur, 5)   in: d5 = imin(dur, 5)",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=6, duration_mth=0, policy_count=-167/180, policy_term=0, sum_assured=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dur  ->  dm   in: d5 = imin(dur, 5)",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=4, duration_mth=48, policy_count=1/2, policy_term=3, sum_assured=2"
+    ]
+   ],
+   [
+    "constant",
+    "5  ->  6   in: d5 = imin(dur, 5)",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=1, duration_mth=84, policy_count=-1, policy_term=0, sum_assured=2"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_MORT, age - AGE_MIN, d5)  ->  lk2(TAB_MORT, age - AGE_MIN + 1, d5)   in: mort = lk2(TAB_MORT, age - AGE_MIN, d5)",
+    "refuted",
+    [
+     "month 0: mort_rate",
+     "age_at_entry=0, duration_mth=72"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_MORT, age - AGE_MIN, d5)  ->  lk2(TAB_MORT, age - AGE_MIN, d5 + 1)   in: mort = lk2(TAB_MORT, age - AGE_MIN, d5)",
+    "refuted",
+    [
+     "month 0: mort_rate",
+     "age_at_entry=-3, duration_mth=60"
+    ]
+   ],
+   [
+    "operator",
+    "age - AGE_MIN  ->  age + AGE_MIN   in: mort = lk2(TAB_MORT, age - AGE_MIN, d5)",
+    "refuted",
+    [
+     "month 0: mort_rate",
+     "age_at_entry=0, duration_mth=72"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "age  ->  age0   in: mort = lk2(TAB_MORT, age - AGE_MIN, d5)",
+    "refuted",
+    [
+     "month 0: mort_rate",
+     "age_at_entry=0, duration_mth=72"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_MORTMTH, age - AGE_MIN, d5)  ->  lk2(TAB_MORTMTH, age - AGE_MIN + 1, d5)   in: q = lk2(TAB_MORTMTH, age - AGE_MIN, d5)",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=0, duration_mth=0, policy_count=1, policy_term=-1, sum_assured=2"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk2(TAB_MORTMTH, age - AGE_MIN, d5)  ->  lk2(TAB_MORTMTH, age - AGE_MIN, d5 + 1)   in: q = lk2(TAB_MORTMTH, age - AGE_MIN, d5)",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=2, duration_mth=0, policy_count=-1, policy_term=-1, sum_assured=2"
+    ]
+   ],
+   [
+    "operator",
+    "age - AGE_MIN  ->  age + AGE_MIN   in: q = lk2(TAB_MORTMTH, age - AGE_MIN, d5)",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=0, duration_mth=0, policy_count=2, policy_term=-1, sum_assured=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "age  ->  age0   in: q = lk2(TAB_MORTMTH, age - AGE_MIN, d5)",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=0, duration_mth=12, policy_count=-1, policy_term=2, sum_assured=3"
+    ]
+   ],
+   [
+    "operator",
+    "p_decr * q  ->  p_decr / q   in: p_death = p_decr * q",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=2, duration_mth=0, policy_count=-1, policy_term=0, sum_assured=2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: p_death = p_decr * q",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=2, duration_mth=0, policy_count=-1, sum_assured=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "q  ->  lq   in: p_death = p_decr * q",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`lq` is used before it is defined')"
+    ]
+   ],
+   [
+    "min/max",
+    "fmax(0.1 - 0.02 * tof(dur), 0.02)  ->  fmin(0.1 - 0.02 * tof(dur), 0.02)   in: lapse_rate = fmax(0.1 - 0.02 * tof(dur), 0.02)",
+    "refuted",
+    [
+     "month 0: lapse_rate",
+     "duration_mth=62"
+    ]
+   ],
+   [
+    "operator",
+    "0.1 - 0.02 * tof(dur)  ->  0.1 + 0.02 * tof(dur)   in: lapse_rate = fmax(0.1 - 0.02 * tof(dur), 0.02)",
+    "refuted",
+    [
+     "month 0: lapse_rate",
+     "duration_mth=48"
+    ]
+   ],
+   [
+    "constant",
+    "0.02  ->  0.0202   in: lapse_rate = fmax(0.1 - 0.02 * tof(dur), 0.02)",
+    "refuted",
+    [
+     "month 0: lapse_rate",
+     "duration_mth=48"
+    ]
+   ],
+   [
+    "constant",
+    "0.1  ->  0.101   in: lapse_rate = fmax(0.1 - 0.02 * tof(dur), 0.02)",
+    "refuted",
+    [
+     "month 0: lapse_rate",
+     "duration_mth=48"
+    ]
+   ],
+   [
+    "operator",
+    "0.02 * tof(dur)  ->  0.02 / tof(dur)   in: lapse_rate = fmax(0.1 - 0.02 * tof(dur), 0.02)",
+    "refuted",
+    [
+     "month 0: lapse_rate",
+     "duration_mth=0"
+    ]
+   ],
+   [
+    "constant",
+    "0.02  ->  0.0202   in: lapse_rate = fmax(0.1 - 0.02 * tof(dur), 0.02)",
+    "refuted",
+    [
+     "month 0: lapse_rate",
+     "duration_mth=13"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dur  ->  dm   in: lapse_rate = fmax(0.1 - 0.02 * tof(dur), 0.02)",
+    "refuted",
+    [
+     "month 0: lapse_rate",
+     "duration_mth=-12"
+    ]
+   ],
+   [
+    "lookup-index",
+    "lk1(TAB_LAPSEMTH, dur - DUR_MIN)  ->  lk1(TAB_LAPSEMTH, dur - DUR_MIN + 1)   in: lq = lk1(TAB_LAPSEMTH, dur - DUR_MIN)",
+    "refuted",
+    [
+     "month 0: pols_lapse",
+     "age_at_entry=2, duration_mth=0, policy_count=-1, policy_term=0"
+    ]
+   ],
+   [
+    "operator",
+    "dur - DUR_MIN  ->  dur + DUR_MIN   in: lq = lk1(TAB_LAPSEMTH, dur - DUR_MIN)",
+    "refuted",
+    [
+     "month 0: pols_lapse",
+     "DUR_MIN=-1, age_at_entry=-3, duration_mth=60, policy_count=1, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dur  ->  dm   in: lq = lk1(TAB_LAPSEMTH, dur - DUR_MIN)",
+    "refuted",
+    [
+     "month 0: pols_lapse",
+     "age_at_entry=2, duration_mth=1, policy_count=99/2500, policy_term=0"
+    ]
+   ],
+   [
+    "operator",
+    "(p_decr - p_death) * lq  ->  (p_decr - p_death) / lq   in: p_lapse = (p_decr - p_death) * lq",
+    "refuted",
+    [
+     "month 0: pols_lapse",
+     "age_at_entry=2, duration_mth=0, policy_count=1, policy_term=-1"
+    ]
+   ],
+   [
+    "operator",
+    "p_decr - p_death  ->  p_decr + p_death   in: p_lapse = (p_decr - p_death) * lq",
+    "refuted",
+    [
+     "month 0: pols_lapse",
+     "age_at_entry=2, duration_mth=0, policy_count=-1, policy_term=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "lq  ->  q   in: p_lapse = (p_decr - p_death) * lq",
+    "refuted",
+    [
+     "month 0: pols_lapse",
+     "age_at_entry=2, duration_mth=0, policy_count=-1, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: p_lapse = (p_decr - p_death) * lq",
+    "refuted",
+    [
+     "month 0: pols_lapse",
+     "age_at_entry=6, duration_mth=0, policy_count=-11/20, policy_term=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_death  ->  p_lapse   in: p_lapse = (p_decr - p_death) * lq",
+    "invalid",
+    [
+     "not a valid program",
+     "InvalidStep('`p_lapse` is used before it is defined')"
+    ]
+   ],
+   [
+    "operator",
+    "p_decr - p_lapse - p_death  ->  p_decr - p_lapse + p_death   in: p_next = p_decr - p_lapse - p_death",
+    "refuted",
+    [
+     "month 0: carried state: s_p_bef_mat",
+     "age_at_entry=2, duration_mth=0, policy_count=1, policy_term=0"
+    ]
+   ],
+   [
+    "operator",
+    "p_decr - p_lapse  ->  p_decr + p_lapse   in: p_next = p_decr - p_lapse - p_death",
+    "refuted",
+    [
+     "month 0: carried state: s_p_bef_mat",
+     "age_at_entry=2, duration_mth=0, policy_count=1, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_death  ->  p_lapse   in: p_next = p_decr - p_lapse - p_death",
+    "refuted",
+    [
+     "month 0: carried state: s_p_bef_mat",
+     "age_at_entry=2, duration_mth=0, policy_count=1, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: p_next = p_decr - p_lapse - p_death",
+    "refuted",
+    [
+     "month 0: carried state: s_p_bef_mat",
+     "age_at_entry=2, duration_mth=0, policy_count=-1, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_lapse  ->  p_death   in: p_next = p_decr - p_lapse - p_death",
+    "refuted",
+    [
+     "month 0: carried state: s_p_bef_mat",
+     "age_at_entry=2, duration_mth=0, policy_count=-1, policy_term=0"
+    ]
+   ],
+   [
+    "operator",
+    "prem * p_decr  ->  prem / p_decr   in: premiums = prem * p_decr",
+    "refuted",
+    [
+     "month 0: commissions",
+     "duration_mth=1, policy_count=-79/72, policy_term=0, premium_pp=-14615/10368"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "prem  ->  sa   in: premiums = prem * p_decr",
+    "refuted",
+    [
+     "month 0: commissions",
+     "duration_mth=1, policy_count=2, policy_term=0, premium_pp=-1, sum_assured=-3/2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: premiums = prem * p_decr",
+    "refuted",
+    [
+     "month 0: commissions",
+     "duration_mth=0, policy_count=-1, premium_pp=-1"
+    ]
+   ],
+   [
+    "operator",
+    "sa * p_death  ->  sa / p_death   in: claims = sa * p_death",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=2, duration_mth=0, policy_count=1, policy_term=0, sum_assured=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "sa  ->  pcount   in: claims = sa * p_death",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=2, duration_mth=0, policy_count=1, policy_term=0, sum_assured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_death  ->  p_lapse   in: claims = sa * p_death",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=2, duration_mth=0, policy_count=-1, policy_term=0, sum_assured=3"
+    ]
+   ],
+   [
+    "operator",
+    "sel(dur == 0, ONE, ZERO) * premiums  ->  sel(dur == 0, ONE, ZERO) / premiums   in: comm = sel(dur == 0, ONE, ZERO) * premiums",
+    "refuted",
+    [
+     "month 0: commissions",
+     "duration_mth=11, policy_count=1, policy_term=1, premium_pp=0"
+    ]
+   ],
+   [
+    "branch-swap",
+    "sel(dur == 0, ONE, ZERO)  ->  sel(dur == 0, ZERO, ONE)   in: comm = sel(dur == 0, ONE, ZERO) * premiums",
+    "refuted",
+    [
+     "month 0: commissions",
+     "duration_mth=0, policy_count=1, policy_term=0, premium_pp=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "premiums  ->  claims   in: comm = sel(dur == 0, ONE, ZERO) * premiums",
+    "refuted",
+    [
+     "month 0: commissions",
+     "age_at_entry=2, duration_mth=0, policy_count=1, policy_term=-1, premium_pp=-1, sum_assured=-1"
+    ]
+   ],
+   [
+    "comparison",
+    "dur == 0  ->  dur != 0   in: comm = sel(dur == 0, ONE, ZERO) * premiums",
+    "refuted",
+    [
+     "month 0: commissions",
+     "duration_mth=12, policy_count=-1, policy_term=0, premium_pp=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dur  ->  dm   in: comm = sel(dur == 0, ONE, ZERO) * premiums",
+    "refuted",
+    [
+     "month 0: commissions",
+     "duration_mth=1, policy_count=1, policy_term=0, premium_pp=-1"
+    ]
+   ],
+   [
+    "constant",
+    "0  ->  1   in: comm = sel(dur == 0, ONE, ZERO) * premiums",
+    "refuted",
+    [
+     "month 0: commissions",
+     "duration_mth=12, policy_count=-1, policy_term=0, premium_pp=-1"
+    ]
+   ],
+   [
+    "operator",
+    "300.0 * p_nb + p_decr * 60.0 / 12.0 * infl  ->  300.0 * p_nb - p_decr * 60.0 / 12.0 * infl   in: expenses = 300.0 * p_nb + p_decr * 60.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "duration_mth=1, policy_count=1/10, policy_term=0"
+    ]
+   ],
+   [
+    "operator",
+    "300.0 * p_nb  ->  300.0 / p_nb   in: expenses = 300.0 * p_nb + p_decr * 60.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "duration_mth=12, policy_count=1, policy_term=1"
+    ]
+   ],
+   [
+    "operator",
+    "p_decr * 60.0 / 12.0 * infl  ->  p_decr * 60.0 / 12.0 / infl   in: expenses = 300.0 * p_nb + p_decr * 60.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "duration_mth=0, policy_count=-1, policy_term=0"
+    ]
+   ],
+   [
+    "constant",
+    "300.0  ->  303.0   in: expenses = 300.0 * p_nb + p_decr * 60.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "duration_mth=0, policy_count=1/3, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_nb  ->  p_mat   in: expenses = 300.0 * p_nb + p_decr * 60.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "duration_mth=0, policy_count=1/300, policy_term=0"
+    ]
+   ],
+   [
+    "operator",
+    "p_decr * 60.0 / 12.0  ->  p_decr * 60.0 * 12.0   in: expenses = 300.0 * p_nb + p_decr * 60.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "duration_mth=1, policy_count=1/720, policy_term=0"
+    ]
+   ],
+   [
+    "operator",
+    "p_decr * 60.0  ->  p_decr / 60.0   in: expenses = 300.0 * p_nb + p_decr * 60.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "duration_mth=0, policy_count=1, policy_term=0"
+    ]
+   ],
+   [
+    "constant",
+    "12.0  ->  12.120000000000001   in: expenses = 300.0 * p_nb + p_decr * 60.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "duration_mth=1, policy_count=-12120000000000001/600000000000005, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: expenses = 300.0 * p_nb + p_decr * 60.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "duration_mth=0, policy_count=1/2"
+    ]
+   ],
+   [
+    "constant",
+    "60.0  ->  60.6   in: expenses = 300.0 * p_nb + p_decr * 60.0 / 12.0 * infl",
+    "refuted",
+    [
+     "month 0: expenses",
+     "duration_mth=11, policy_count=20, policy_term=1"
+    ]
+   ],
+   [
+    "operator",
+    "premiums - claims - expenses - comm  ->  premiums - claims - expenses + comm   in: net_cf = premiums - claims - expenses - comm",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=2, duration_mth=1, policy_count=1, policy_term=0, premium_pp=-1, sum_assured=0"
+    ]
+   ],
+   [
+    "operator",
+    "premiums - claims - expenses  ->  premiums - claims + expenses   in: net_cf = premiums - claims - expenses - comm",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=2, duration_mth=0, policy_count=1/600, policy_term=0, premium_pp=0, sum_assured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "comm  ->  premiums   in: net_cf = premiums - claims - expenses - comm",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=6, duration_mth=12, policy_count=1, policy_term=2, premium_pp=1, sum_assured=0"
+    ]
+   ],
+   [
+    "operator",
+    "premiums - claims  ->  premiums + claims   in: net_cf = premiums - claims - expenses - comm",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=6, duration_mth=12, policy_count=1, policy_term=2, premium_pp=1/2, sum_assured=-1/2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "premiums  ->  claims   in: net_cf = premiums - claims - expenses - comm",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=6, duration_mth=0, policy_count=-1, policy_term=0, premium_pp=-1, sum_assured=-2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "claims  ->  premiums   in: net_cf = premiums - claims - expenses - comm",
+    "refuted",
+    [
+     "month 0: net_cf",
+     "age_at_entry=1, duration_mth=72, policy_count=-1, policy_term=5, premium_pp=0, sum_assured=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "sa  ->  pcount   in: return (tof(age), sa, claims, comm, tof(dur), tof(dm), expenses, lapse",
+    "refuted",
+    [
+     "month 0: claim_pp",
+     "policy_count=2, sum_assured=3"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "claims  ->  premiums   in: return (tof(age), sa, claims, comm, tof(dur), tof(dm), expenses, lapse",
+    "refuted",
+    [
+     "month 0: claims",
+     "age_at_entry=1, duration_mth=72, policy_count=-1, policy_term=5, premium_pp=0, sum_assured=-1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "comm  ->  premiums   in: return (tof(age), sa, claims, comm, tof(dur), tof(dm), expenses, lapse",
+    "refuted",
+    [
+     "month 0: commissions",
+     "duration_mth=12, policy_count=-1, policy_term=0, premium_pp=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "mort  ->  q   in: return (tof(age), sa, claims, comm, tof(dur), tof(dm), expenses, lapse",
+    "refuted",
+    [
+     "month 0: mort_rate",
+     "age_at_entry=-4, duration_mth=72"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "q  ->  lq   in: return (tof(age), sa, claims, comm, tof(dur), tof(dm), expenses, lapse",
+    "refuted",
+    [
+     "month 0: mort_rate_mth",
+     "age_at_entry=-4, duration_mth=72"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_death  ->  p_lapse   in: return (tof(age), sa, claims, comm, tof(dur), tof(dm), expenses, lapse",
+    "refuted",
+    [
+     "month 0: pols_death",
+     "age_at_entry=7, duration_mth=0, policy_count=-5271/4624, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_bef_mat  ->  p_bef_nb   in: return (tof(age), sa, claims, comm, tof(dur), tof(dm), expenses, lapse",
+    "refuted",
+    [
+     "month 0: pols_if",
+     "duration_mth=12, policy_count=1, policy_term=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_lapse  ->  p_death   in: return (tof(age), sa, claims, comm, tof(dur), tof(dm), expenses, lapse",
+    "refuted",
+    [
+     "month 0: pols_lapse",
+     "age_at_entry=2, duration_mth=0, policy_count=-1, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_mat  ->  p_nb   in: return (tof(age), sa, claims, comm, tof(dur), tof(dm), expenses, lapse",
+    "refuted",
+    [
+     "month 0: pols_maturity",
+     "duration_mth=12, policy_count=2, policy_term=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_nb  ->  p_mat   in: return (tof(age), sa, claims, comm, tof(dur), tof(dm), expenses, lapse",
+    "refuted",
+    [
+     "month 0: pols_new_biz",
+     "duration_mth=12, policy_count=-1, policy_term=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "premiums  ->  claims   in: return (tof(age), sa, claims, comm, tof(dur), tof(dm), expenses, lapse",
+    "refuted",
+    [
+     "month 0: premiums",
+     "age_at_entry=2, duration_mth=0, policy_count=1, policy_term=0, premium_pp=1, sum_assured=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_bef_mat  ->  p_bef_nb   in: return (tof(age), sa, claims, comm, tof(dur), tof(dm), expenses, lapse",
+    "refuted",
+    [
+     "month 0: pols_if_at[BEF_MAT]",
+     "duration_mth=12, policy_count=1, policy_term=1"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_bef_nb  ->  p_decr   in: return (tof(age), sa, claims, comm, tof(dur), tof(dm), expenses, lapse",
+    "refuted",
+    [
+     "month 0: pols_if_at[BEF_NB]",
+     "duration_mth=0, policy_count=1, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: return (tof(age), sa, claims, comm, tof(dur), tof(dm), expenses, lapse",
+    "refuted",
+    [
+     "month 0: pols_if_at[BEF_DECR]",
+     "duration_mth=0, policy_count=1/2"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "p_next  ->  p_decr   in: return (tof(age), sa, claims, comm, tof(dur), tof(dm), expenses, lapse",
+    "refuted",
+    [
+     "month 0: carried state: s_p_bef_mat",
+     "age_at_entry=2, duration_mth=0, policy_count=-1/2, policy_term=0"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "age  ->  age0   in: return (tof(age), sa, claims, comm, tof(dur), tof(dm), expenses, lapse",
+    "refuted",
+    [
+     "month 0: age",
+     "duration_mth=-12"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dur  ->  dm   in: return (tof(age), sa, claims, comm, tof(dur), tof(dm), expenses, lapse",
+    "refuted",
+    [
+     "month 0: duration",
+     "duration_mth=12"
+    ]
+   ],
+   [
+    "wrong-variable",
+    "dm  ->  dm0   in: return (tof(age), sa, claims, comm, tof(dur), tof(dm), expenses, lapse",
+    "refuted",
+    [
+     "month t>=1: duration_mth",
+     "duration_mth=0, t=1"
+    ]
+   ]
+  ]
+ }
+}

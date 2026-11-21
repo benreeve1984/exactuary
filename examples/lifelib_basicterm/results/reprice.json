@@ -1,0 +1,18 @@
+{
+ "pass1": {
+  "grid": 120,
+  "identical_to_original_cells": 120,
+  "running_sum_max_rel": 2.010904144919127e-15,
+  "identical_to_shipped_table": 0,
+  "shipped_table_max_rel": 3.266996623616111e-05
+ },
+ "pass2": {
+  "rows": 10000,
+  "premium_pp_identical_to_original_with_derived_table": 10000,
+  "pv_identical_to_original_with_derived_table": 50000,
+  "pv_values": 50000,
+  "premium_pp_identical_to_shipped_table_run": 9253,
+  "pv_max_rel_vs_shipped_table_run": 0.17914664123754498,
+  "total_pv_premiums_rel_vs_shipped_table_run": 1.0362115822925025e-05
+ }
+}

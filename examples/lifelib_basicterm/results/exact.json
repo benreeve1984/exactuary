@@ -1,0 +1,71 @@
+{
+ "edge": {
+  "rows": 2000,
+  "months": 281,
+  "values": 11240000,
+  "outputs": 20,
+  "outputs_differing": 0,
+  "differing": {},
+  "premium_pp_identical": true,
+  "pv_identical_same_summation": true,
+  "pv_pols_if_identical_same_summation": true,
+  "net_premium_pp_identical_same_summation": true,
+  "pv_running_sum_max_rel": 7.63162082979364e-13,
+  "net_premium_running_sum_max_rel": 2.433285201714437e-15,
+  "nan_pattern_identical": true,
+  "early_exit_same_bits": true,
+  "rows_with_nan_pv": 0
+ },
+ "edgenan": {
+  "rows": 600,
+  "months": 994,
+  "values": 11928000,
+  "outputs": 20,
+  "outputs_differing": 0,
+  "differing": {},
+  "premium_pp_identical": true,
+  "pv_identical_same_summation": true,
+  "pv_pols_if_identical_same_summation": true,
+  "net_premium_pp_identical_same_summation": true,
+  "pv_running_sum_max_rel": 1.826980128203434e-14,
+  "net_premium_running_sum_max_rel": 4.5734811730843035e-15,
+  "nan_pattern_identical": true,
+  "early_exit_same_bits": true,
+  "rows_with_nan_pv": 506
+ },
+ "sample": {
+  "rows": 10000,
+  "months": 277,
+  "values": 55400000,
+  "outputs": 20,
+  "outputs_differing": 0,
+  "differing": {},
+  "premium_pp_identical": true,
+  "pv_identical_same_summation": true,
+  "pv_pols_if_identical_same_summation": true,
+  "net_premium_pp_identical_same_summation": true,
+  "pv_running_sum_max_rel": 1.4269610916249964e-11,
+  "net_premium_running_sum_max_rel": 2.3713253677195403e-15,
+  "nan_pattern_identical": true,
+  "early_exit_same_bits": true,
+  "rows_with_nan_pv": 0
+ },
+ "speed_100k": {
+  "rows": 100000,
+  "months": 277,
+  "original_s": 2.2854565959987667,
+  "original_s_10k": 0.4258339049993083,
+  "one_core_no_exit_s": 0.1654224610028905,
+  "one_core_s": 0.06617942900629714,
+  "all_cores_no_exit_s": 0.014732774005096871,
+  "all_cores_s": 0.007041867000225466,
+  "cores": 20
+ },
+ "scale_10M": {
+  "rows": 10000000,
+  "seconds": 0.5371763280054438,
+  "seconds_no_exit": 1.237354894001328,
+  "prep_seconds": 0.9909750849983539,
+  "original_extrapolated_s": 228.54565959987667
+ }
+}

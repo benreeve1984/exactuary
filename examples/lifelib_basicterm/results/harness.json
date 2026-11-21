@@ -1,0 +1,92 @@
+{
+ "tables_mort_lapse": {
+  "policies": 17061,
+  "identical": {
+   "mort_rate": true,
+   "mort_rate_mth": true,
+   "lapse_rate": true,
+   "pols_lapse": true,
+   "pols_death": true,
+   "age": true,
+   "duration": true,
+   "premium_pp": true
+  }
+ },
+ "tables_premium": {
+  "policies": 19926,
+  "off_table_nan": 19206,
+  "identical": {
+   "premiums": true,
+   "commissions": true,
+   "claims": true,
+   "expenses": true,
+   "net_cf": true,
+   "premium_pp": true
+  }
+ },
+ "coverage_sample": [
+  19,
+  20
+ ],
+ "coverage_sample_missing": [
+  [
+   "lk1(TAB_LAPSEMTH, dur - DUR_MIN)",
+   [
+    "in-table"
+   ]
+  ]
+ ],
+ "coverage_edge": [
+  19,
+  20
+ ],
+ "coverage_edge_missing": [
+  [
+   "lk1(TAB_LAPSEMTH, dur - DUR_MIN)",
+   [
+    "in-table"
+   ]
+  ]
+ ],
+ "coverage_edgenan": [
+  19,
+  20
+ ],
+ "coverage_edgenan_missing": [
+  [
+   "lk1(TAB_LAPSEMTH, dur - DUR_MIN)",
+   [
+    "in-table"
+   ]
+  ]
+ ],
+ "defects": 105,
+ "table": [
+  [
+   "portfolio totals within 1e-6, sample portfolio",
+   74,
+   105
+  ],
+  [
+   "per-policy present values within 1e-9, sample portfolio",
+   74,
+   105
+  ],
+  [
+   "every intermediate exact, sample portfolio",
+   104,
+   105
+  ],
+  [
+   "every intermediate exact, all portfolios",
+   104,
+   105
+  ]
+ ],
+ "survivors": [
+  [
+   "wrong-variable",
+   "dm0  ->  dm   in: p_bef_mat = sel(is_t0, sel(dm0 > 0, pcount, ZERO), s_p_bef_mat)"
+  ]
+ ]
+}

@@ -1,0 +1,36 @@
+{
+ "edge_500x4": {
+  "rows": 2000,
+  "months": 1165,
+  "values": 125820000,
+  "outputs": 54,
+  "outputs_differing": 0,
+  "pv_identical_same_summation": true,
+  "pv_running_sum_max_rel": 2.3952848102741165e-13
+ },
+ "sample_100x100": {
+  "rows": 10000,
+  "months": 1141,
+  "values": 616140000,
+  "outputs": 54,
+  "outputs_differing": 0,
+  "pv_identical_same_summation": true,
+  "pv_running_sum_max_rel": 9.456753266415695e-12
+ },
+ "speed_40k": {
+  "rows": 40000,
+  "months": 1141,
+  "original_s": 10.436419363999903,
+  "one_core_no_exit_s": 0.3113967110039084,
+  "one_core_s": 0.1446251140005188,
+  "all_cores_no_exit_s": 0.04069016200082842,
+  "all_cores_s": 0.024948120000772178,
+  "cores": 20
+ },
+ "scale_10M": {
+  "rows": 10000000,
+  "seconds": 3.1481592639975133,
+  "prep_seconds": 1.7569116009981371,
+  "original_extrapolated_s": 2609.1048409999753
+ }
+}

@@ -1,0 +1,237 @@
+{
+ "tables/sim1": {
+  "policies": 16036,
+  "identical": true,
+  "cells": {
+   "mort_rate": true,
+   "mort_rate_mth": true,
+   "lapse_rate": true,
+   "surr_charge_rate": true,
+   "csv_pp": true,
+   "pols_lapse": true,
+   "pols_death": true,
+   "coi_rate": true,
+   "maint_fee_pp": true
+  }
+ },
+ "tables/sim2": {
+  "policies": 16036,
+  "identical": true,
+  "cells": {
+   "mort_rate": true,
+   "mort_rate_mth": true,
+   "lapse_rate": true,
+   "surr_charge_rate": true,
+   "csv_pp": true,
+   "pols_lapse": true,
+   "pols_death": true,
+   "coi_rate": true,
+   "maint_fee_pp": true
+  }
+ },
+ "tables/sim3": {
+  "policies": 16036,
+  "identical": true,
+  "cells": {
+   "mort_rate": true,
+   "mort_rate_mth": true,
+   "lapse_rate": true,
+   "surr_charge_rate": true,
+   "csv_pp": true,
+   "pols_lapse": true,
+   "pols_death": true,
+   "coi_rate": true,
+   "maint_fee_pp": true
+  }
+ },
+ "tables/sim4": {
+  "policies": 16036,
+  "identical": true,
+  "cells": {
+   "mort_rate": true,
+   "mort_rate_mth": true,
+   "lapse_rate": true,
+   "surr_charge_rate": true,
+   "csv_pp": true,
+   "pols_lapse": true,
+   "pols_death": true,
+   "coi_rate": true,
+   "maint_fee_pp": true
+  }
+ },
+ "tables/sim5": {
+  "policies": 16036,
+  "identical": true,
+  "cells": {
+   "mort_rate": true,
+   "mort_rate_mth": true,
+   "lapse_rate": true,
+   "surr_charge_rate": true,
+   "csv_pp": true,
+   "pols_lapse": true,
+   "pols_death": true,
+   "coi_rate": true,
+   "maint_fee_pp": true
+  }
+ },
+ "coverage/static/sample": {
+  "seen": 29,
+  "of": 38,
+  "missing": [
+   "sel(dm0 > 0, pcount, ZERO)",
+   "sel(band(is_level, dm < term12), prem, ZERO)",
+   "lk2(TAB_MORT, age - AGE_MIN, d5)",
+   "lk2(TAB_MORTMTH, age - AGE_MIN, d5)",
+   "imin(dur, 10)",
+   "lk2(TAB_SC, imin(dur, 10), sc_col)",
+   "sel(has_sc, lk2(TAB_SC, imin(dur, 10), sc_col), ZERO)",
+   "sel(HAS_LAPSE, fmax(0.1 - 0.01 * tof(dur), 0.02), ZERO)",
+   "lk1(TAB_LAPSEMTH, dur - DUR_MIN)"
+  ]
+ },
+ "coverage/static/edge": {
+  "seen": 36,
+  "of": 38,
+  "missing": [
+   "sel(HAS_LAPSE, fmax(0.1 - 0.01 * tof(dur), 0.02), ZERO)",
+   "lk1(TAB_LAPSEMTH, dur - DUR_MIN)"
+  ]
+ },
+ "coverage/static/edgevar": {
+  "seen": 36,
+  "of": 38,
+  "missing": [
+   "sel(HAS_LAPSE, fmax(0.1 - 0.01 * tof(dur), 0.02), ZERO)",
+   "lk1(TAB_LAPSEMTH, dur - DUR_MIN)"
+  ]
+ },
+ "coverage/static/edge_sim1": {
+  "seen": 36,
+  "of": 38,
+  "missing": [
+   "sel(HAS_LAPSE, fmax(0.1 - 0.01 * tof(dur), 0.02), ZERO)",
+   "lk1(TAB_LAPSEMTH, dur - DUR_MIN)"
+  ]
+ },
+ "coverage/static/edge_sim3": {
+  "seen": 36,
+  "of": 38,
+  "missing": [
+   "sel(HAS_LAPSE, fmax(0.1 - 0.01 * tof(dur), 0.02), ZERO)",
+   "lk1(TAB_LAPSEMTH, dur - DUR_MIN)"
+  ]
+ },
+ "coverage/static/all": {
+  "seen": 37,
+  "of": 38,
+  "missing": [
+   "lk1(TAB_LAPSEMTH, dur - DUR_MIN)"
+  ]
+ },
+ "defects/static": {
+  "defects": 214,
+  "table": [
+   [
+    "portfolio totals within 1e-6, sample portfolio",
+    124,
+    214
+   ],
+   [
+    "per-policy present values within 1e-9, sample portfolio",
+    124,
+    214
+   ],
+   [
+    "every intermediate exact, sample portfolio",
+    180,
+    214
+   ],
+   [
+    "every intermediate exact, all portfolios",
+    211,
+    214
+   ]
+  ],
+  "survivors": [
+   [
+    "operator",
+    "av_fee - mfee_pp - coi_pp  ->  av_fee - mfee_pp + coi_pp   in: av_inv = av_fee - mfee_pp - coi_pp"
+   ],
+   [
+    "wrong-variable",
+    "av_prem  ->  av_fee   in: cfa_mat = av_prem * p_mat"
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: coi = coi_pp * p_decr"
+   ]
+  ]
+ },
+ "coverage/dynamic/sample": {
+  "seen": 27,
+  "of": 34,
+  "missing": [
+   "sel(dm0 > 0, pcount, ZERO)",
+   "sel(band(is_level, dm < term12), prem, ZERO)",
+   "lk2(TAB_MORT, age - AGE_MIN, d5)",
+   "lk2(TAB_MORTMTH, age - AGE_MIN, d5)",
+   "imin(dur, 10)",
+   "lk2(TAB_SC, imin(dur, 10), sc_col)",
+   "sel(has_sc, lk2(TAB_SC, imin(dur, 10), sc_col), ZERO)"
+  ]
+ },
+ "coverage/dynamic/edge": {
+  "seen": 34,
+  "of": 34,
+  "missing": []
+ },
+ "coverage/dynamic/edgevar": {
+  "seen": 34,
+  "of": 34,
+  "missing": []
+ },
+ "coverage/dynamic/all": {
+  "seen": 34,
+  "of": 34,
+  "missing": []
+ },
+ "defects/dynamic": {
+  "defects": 218,
+  "table": [
+   [
+    "portfolio totals within 1e-6, sample portfolio",
+    139,
+    218
+   ],
+   [
+    "per-policy present values within 1e-9, sample portfolio",
+    139,
+    218
+   ],
+   [
+    "every intermediate exact, sample portfolio",
+    184,
+    218
+   ],
+   [
+    "every intermediate exact, all portfolios",
+    215,
+    218
+   ]
+  ],
+  "survivors": [
+   [
+    "operator",
+    "av_fee - mfee_pp - coi_pp  ->  av_fee - mfee_pp + coi_pp   in: av_inv = av_fee - mfee_pp - coi_pp"
+   ],
+   [
+    "wrong-variable",
+    "av_prem  ->  av_fee   in: cfa_mat = av_prem * p_mat"
+   ],
+   [
+    "wrong-variable",
+    "p_decr  ->  p_bef_mat   in: coi = coi_pp * p_decr"
+   ]
+  ]
+ }
+}

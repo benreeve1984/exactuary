@@ -1,0 +1,25 @@
+{
+ "same_values": {
+  "policies": 30,
+  "years": "0..last_t of each policy",
+  "cells": 74,
+  "values": 76590,
+  "raised_in_simplelife": 0,
+  "cells_differing": {},
+  "pv_values": 120,
+  "pv_identical": 120,
+  "pv_max_rel": 0.0,
+  "pv_differing_policies": []
+ },
+ "timing": {
+  "policies": 300,
+  "seconds": 6.1446453369990195,
+  "seconds_per_policy": 0.020482151123330065,
+  "benchmark_rows": 10200,
+  "extrapolated_benchmark_s": 208.91794145796666,
+  "fastlife_benchmark_s": 26.009808345999772,
+  "extrapolated_10M_s": 204825.60766352533,
+  "pv_net_identical_of_300": 300,
+  "pv_net_max_rel": 0.0
+ }
+}

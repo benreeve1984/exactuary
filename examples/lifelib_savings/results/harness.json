@@ -1,0 +1,51 @@
+{
+ "tables": {
+  "policies": 16036,
+  "identical": true
+ },
+ "coverage_sample": [
+  32,
+  34
+ ],
+ "coverage_edge": [
+  33,
+  34
+ ],
+ "defects": 195,
+ "table": [
+  [
+   "portfolio totals within 1e-6, sample portfolio",
+   127,
+   195
+  ],
+  [
+   "per-policy present values within 1e-9, sample portfolio",
+   127,
+   195
+  ],
+  [
+   "every intermediate exact, sample portfolio",
+   189,
+   195
+  ],
+  [
+   "every intermediate exact, all portfolios",
+   192,
+   195
+  ]
+ ],
+ "survivors": [
+  [
+   "constant",
+   "0  ->  1   in: p_bef_mat = sel(is_t0, sel(dm0 > 0, pcount, ZERO), s_p_bef_mat)"
+  ],
+  [
+   "constant",
+   "10  ->  11   in: sc_rate = sel(has_sc, lk2(TAB_SC, imin(dur, 10), sc_col), ZERO)"
+  ],
+  [
+   "wrong-variable",
+   "av_prem  ->  av_fee   in: cl_mat = av_prem * p_mat"
+  ]
+ ]
+}

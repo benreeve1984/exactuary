@@ -1,0 +1,14 @@
+{
+ "glue": {
+  "theorems": 4,
+  "failed": []
+ },
+ "reference": {
+  "theorems": 134,
+  "failed": []
+ },
+ "rearranged": {
+  "theorems": 134,
+  "failed": []
+ }
+}

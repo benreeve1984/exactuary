@@ -1,0 +1,227 @@
+{
+ "cpu/reference/float64": {
+  "identical_share": 0.5039,
+  "worst_per_policy_rel": 5.6748277957711335e-12,
+  "worst_per_policy_abs": 8.149072527885437e-09,
+  "worst_per_policy_rel_by_pv": {
+   "PV Premiums": 2.6542541727796442e-15,
+   "PV Claims": 2.2588979083634012e-15,
+   "PV Expenses": 2.0216716444162166e-15,
+   "PV Commissions": 3.6286925749251613e-16,
+   "PV Net Cashflow": 5.6748277957711335e-12,
+   "PV pols_if": 1.9429796700614774e-15
+  },
+  "worst_per_policy_abs_by_pv": {
+   "PV Premiums": 6.51925802230835e-09,
+   "PV Claims": 6.51925802230835e-09,
+   "PV Expenses": 1.6007106751203537e-10,
+   "PV Commissions": 5.820766091346741e-11,
+   "PV Net Cashflow": 8.149072527885437e-09,
+   "PV pols_if": 1.8189894035458565e-11
+  },
+  "portfolio_totals_rel": 2.453202209146149e-15,
+  "net_premium_worst_rel": 2.3713253677195403e-15,
+  "bound_worst_rel": 9.559918345678808e-10,
+  "bound_median_rel": 6.02075482858675e-14,
+  "observed_within_bound": true,
+  "seconds_10M": 0.531906476999211,
+  "results_10M_equal_10k_run": true
+ },
+ "cpu/reference/float32": {
+  "identical_share": 0.13591666666666666,
+  "worst_per_policy_rel": 0.004819724341359688,
+  "worst_per_policy_abs": 4.1158554800204,
+  "worst_per_policy_rel_by_pv": {
+   "PV Premiums": 1.5856298787466704e-06,
+   "PV Claims": 1.5504327248228425e-06,
+   "PV Expenses": 1.463331632129099e-06,
+   "PV Commissions": 2.748048734676151e-07,
+   "PV Net Cashflow": 0.004819724341359688,
+   "PV pols_if": 1.5360301480151404e-06
+  },
+  "worst_per_policy_abs_by_pv": {
+   "PV Premiums": 3.6441350812092423,
+   "PV Claims": 3.720814995933324,
+   "PV Expenses": 0.09657972214336041,
+   "PV Commissions": 0.08653601515106857,
+   "PV Net Cashflow": 4.1158554800204,
+   "PV pols_if": 0.014589128657462425
+  },
+  "portfolio_totals_rel": 8.854893045000902e-08,
+  "net_premium_worst_rel": 1.3207497273780037e-06,
+  "bound_worst_rel": 0.2571347479657632,
+  "bound_median_rel": 1.619509151575997e-05,
+  "observed_within_bound": true,
+  "seconds_10M": 0.510161648000576,
+  "results_10M_equal_10k_run": true
+ },
+ "cpu/rearranged/float64": {
+  "identical_share": 0.48018333333333335,
+  "worst_per_policy_rel": 5.6748277957711335e-12,
+  "worst_per_policy_abs": 8.149072527885437e-09,
+  "worst_per_policy_rel_by_pv": {
+   "PV Premiums": 2.843843756549619e-15,
+   "PV Claims": 2.085136530796986e-15,
+   "PV Expenses": 2.0684086245738012e-15,
+   "PV Commissions": 5.375217454105332e-16,
+   "PV Net Cashflow": 5.6748277957711335e-12,
+   "PV pols_if": 1.7771349490692885e-15
+  },
+  "worst_per_policy_abs_by_pv": {
+   "PV Premiums": 6.51925802230835e-09,
+   "PV Claims": 6.51925802230835e-09,
+   "PV Expenses": 1.6007106751203537e-10,
+   "PV Commissions": 5.820766091346741e-11,
+   "PV Net Cashflow": 8.149072527885437e-09,
+   "PV pols_if": 2.000888343900442e-11
+  },
+  "portfolio_totals_rel": 2.453202209146149e-15,
+  "net_premium_worst_rel": 2.3713253677195403e-15,
+  "bound_worst_rel": 1.0429682849387656e-09,
+  "bound_median_rel": 6.513053245089984e-14,
+  "observed_within_bound": true,
+  "seconds_10M": 0.47951795300105005,
+  "results_10M_equal_10k_run": true
+ },
+ "cpu/rearranged/float32": {
+  "identical_share": 0.13591666666666666,
+  "worst_per_policy_rel": 0.012632224341359688,
+  "worst_per_policy_abs": 8.890025047585368,
+  "worst_per_policy_rel_by_pv": {
+   "PV Premiums": 2.409479212103148e-06,
+   "PV Claims": 2.137476860430201e-06,
+   "PV Expenses": 1.9449729790807755e-06,
+   "PV Commissions": 3.7620001490113743e-07,
+   "PV Net Cashflow": 0.012632224341359688,
+   "PV pols_if": 1.7587917420960443e-06
+  },
+  "worst_per_policy_abs_by_pv": {
+   "PV Premiums": 8.890025047585368,
+   "PV Claims": 6.774032006971538,
+   "PV Expenses": 0.12864928643102758,
+   "PV Commissions": 0.14888000907376409,
+   "PV Net Cashflow": 4.998588973190635,
+   "PV pols_if": 0.018859898675145814
+  },
+  "portfolio_totals_rel": 1.4718016477475143e-07,
+  "net_premium_worst_rel": 1.4048240987150608e-06,
+  "bound_worst_rel": 0.30382942373776645,
+  "bound_median_rel": 1.8977180176136985e-05,
+  "observed_within_bound": true,
+  "seconds_10M": 0.4330116959990846,
+  "results_10M_equal_10k_run": true
+ },
+ "gpu/reference/float64": {
+  "identical_share": 0.61355,
+  "worst_per_policy_rel": 5.6748277957711335e-12,
+  "worst_per_policy_abs": 7.2177499532699585e-09,
+  "worst_per_policy_rel_by_pv": {
+   "PV Premiums": 2.843843756549619e-15,
+   "PV Claims": 2.085136530796986e-15,
+   "PV Expenses": 2.0216716444162166e-15,
+   "PV Commissions": 4.1781056768906553e-16,
+   "PV Net Cashflow": 5.6748277957711335e-12,
+   "PV pols_if": 1.9429796700614774e-15
+  },
+  "worst_per_policy_abs_by_pv": {
+   "PV Premiums": 5.587935447692871e-09,
+   "PV Claims": 6.51925802230835e-09,
+   "PV Expenses": 1.6007106751203537e-10,
+   "PV Commissions": 2.9103830456733704e-11,
+   "PV Net Cashflow": 7.2177499532699585e-09,
+   "PV pols_if": 1.8189894035458565e-11
+  },
+  "portfolio_totals_rel": 2.453202209146149e-15,
+  "net_premium_worst_rel": 2.667741038684483e-15,
+  "bound_worst_rel": 9.559918345678808e-10,
+  "bound_median_rel": 6.02075482858675e-14,
+  "observed_within_bound": true,
+  "seconds_10M": 0.3458212759996968,
+  "results_10M_equal_10k_run": true
+ },
+ "gpu/reference/float32": {
+  "identical_share": 0.13591666666666666,
+  "worst_per_policy_rel": 0.004819724341359688,
+  "worst_per_policy_abs": 4.6080429800204,
+  "worst_per_policy_rel_by_pv": {
+   "PV Premiums": 1.5856298787466704e-06,
+   "PV Claims": 1.5504327248228425e-06,
+   "PV Expenses": 1.463331632129099e-06,
+   "PV Commissions": 3.2760425167555214e-07,
+   "PV Net Cashflow": 0.004819724341359688,
+   "PV pols_if": 1.5360301480151404e-06
+  },
+  "worst_per_policy_abs_by_pv": {
+   "PV Premiums": 3.6441350812092423,
+   "PV Claims": 3.720814995933324,
+   "PV Expenses": 0.09657972214336041,
+   "PV Commissions": 0.10111999092623591,
+   "PV Net Cashflow": 4.6080429800204,
+   "PV pols_if": 0.01397750478645321
+  },
+  "portfolio_totals_rel": 6.530259136182472e-08,
+  "net_premium_worst_rel": 1.3207497273780037e-06,
+  "bound_worst_rel": 0.2571347479657632,
+  "bound_median_rel": 1.619509151575997e-05,
+  "observed_within_bound": true,
+  "seconds_10M": 0.02980130099967937,
+  "results_10M_equal_10k_run": true
+ },
+ "gpu/rearranged/float64": {
+  "identical_share": 0.5653166666666667,
+  "worst_per_policy_rel": 5.6748277957711335e-12,
+  "worst_per_policy_abs": 8.149072527885437e-09,
+  "worst_per_policy_rel_by_pv": {
+   "PV Premiums": 3.0334333403195934e-15,
+   "PV Claims": 1.7275778886394338e-15,
+   "PV Expenses": 2.0216716444162166e-15,
+   "PV Commissions": 5.375217454105332e-16,
+   "PV Net Cashflow": 5.6748277957711335e-12,
+   "PV pols_if": 1.8919852236941822e-15
+  },
+  "worst_per_policy_abs_by_pv": {
+   "PV Premiums": 7.450580596923828e-09,
+   "PV Claims": 6.51925802230835e-09,
+   "PV Expenses": 1.6007106751203537e-10,
+   "PV Commissions": 5.820766091346741e-11,
+   "PV Net Cashflow": 8.149072527885437e-09,
+   "PV pols_if": 1.8189894035458565e-11
+  },
+  "portfolio_totals_rel": 2.453202209146149e-15,
+  "net_premium_worst_rel": 2.4090814167290303e-15,
+  "bound_worst_rel": 1.0429682849387656e-09,
+  "bound_median_rel": 6.513053245089984e-14,
+  "observed_within_bound": true,
+  "seconds_10M": 0.22549881799932336,
+  "results_10M_equal_10k_run": true
+ },
+ "gpu/rearranged/float32": {
+  "identical_share": 0.13591666666666666,
+  "worst_per_policy_rel": 0.013608786841359688,
+  "worst_per_policy_abs": 7.890025047585368,
+  "worst_per_policy_rel_by_pv": {
+   "PV Premiums": 2.4845095062226334e-06,
+   "PV Claims": 2.137476860430201e-06,
+   "PV Expenses": 1.8314705980922764e-06,
+   "PV Commissions": 3.982642820063043e-07,
+   "PV Net Cashflow": 0.013608786841359688,
+   "PV pols_if": 1.7587917420960443e-06
+  },
+  "worst_per_policy_abs_by_pv": {
+   "PV Premiums": 7.890025047585368,
+   "PV Claims": 6.774032006971538,
+   "PV Expenses": 0.12864928643102758,
+   "PV Commissions": 0.14888000907376409,
+   "PV Net Cashflow": 5.498588973190635,
+   "PV pols_if": 0.01912301980337361
+  },
+  "portfolio_totals_rel": 1.4724984902744922e-07,
+  "net_premium_worst_rel": 1.3401596932872027e-06,
+  "bound_worst_rel": 0.30382942373776645,
+  "bound_median_rel": 1.8977180176136985e-05,
+  "observed_within_bound": true,
+  "seconds_10M": 0.026803201999427984,
+  "results_10M_equal_10k_run": true
+ },
+ "policy_months_10M": 1093660000
+}

@@ -1,0 +1,22 @@
+{
+ "glue": {
+  "theorems": 4,
+  "failed": []
+ },
+ "reference": {
+  "theorems": 56,
+  "failed": []
+ },
+ "rearranged": {
+  "theorems": 56,
+  "failed": []
+ },
+ "negative_control": {
+  "defect": "p_decr - p_lapse - p_death  ->  p_decr - p_lapse + p_death   in: p_next = p_decr - p_lapse - p_death",
+  "theorems": 56,
+  "failed": [
+   "month 0: carried state: s_p_bef_mat",
+   "month t>=1: carried state: s_p_bef_mat"
+  ]
+ }
+}

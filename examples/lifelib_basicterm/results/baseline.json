@@ -1,0 +1,23 @@
+{
+ "agreement": {
+  "policies": 200,
+  "values": 465120,
+  "differing": 1336,
+  "differing_in_months_with_duration_ge_0": 0,
+  "cells_differing": {
+   "mort_rate": 668,
+   "mort_rate_mth": 668
+  },
+  "pv_identical": 475,
+  "pv_values": 1000,
+  "pv_worst_rel": 3.542868673203877e-13
+ },
+ "timing": {
+  "policies_timed": 1000,
+  "seconds_per_policy": 0.014591109429999052,
+  "extrapolated_s_benchmark": 1459.110942999905,
+  "benchmark_rows": 100000,
+  "vectorised_original_s_benchmark": 2.2854565959987667,
+  "extrapolated_s_10M": 145911.0942999905
+ }
+}
