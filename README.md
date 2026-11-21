@@ -13,7 +13,7 @@ not a validated production tool.
 
 **[Read the illustrated explanation](https://benreeve1984.github.io/exactuary/)**. It is written
 for readers who are not specialists. It explains how cashflow models can be made faster, what
-each level gains and costs, and how theorem provers help.
+it takes to achieve each speed-up, and how theorem provers help.
 
 ## The idea
 
