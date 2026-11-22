@@ -26,27 +26,27 @@ window.EXA = {
      "kind": "original"
     },
     {
-     "label": "Compiled, one core",
+     "label": "Compilation",
      "s": 7.733185791800497,
      "kind": "kernel"
     },
     {
-     "label": "All 20 processor cores",
+     "label": "Parallel cores",
      "s": 0.658834491000016,
      "kind": "kernel"
     },
     {
-     "label": "Stop when nothing is left",
+     "label": "Early exit",
      "s": 0.31997426270027063,
      "kind": "kernel"
     },
     {
-     "label": "Graphics processor, 16 digits",
+     "label": "Move to a GPU",
      "s": 0.15298490029963432,
      "kind": "kernel"
     },
     {
-     "label": "Graphics processor, seven digits",
+     "label": "Reduce GPU precision",
      "s": 0.012627906099805842,
      "kind": "kernel"
     }
@@ -119,27 +119,27 @@ window.EXA = {
      "kind": "original"
     },
     {
-     "label": "Compiled, one core",
+     "label": "Compilation",
      "s": 2.639016888100014,
      "kind": "kernel"
     },
     {
-     "label": "All 20 processor cores",
+     "label": "Parallel cores",
      "s": 0.23757794780030964,
      "kind": "kernel"
     },
     {
-     "label": "Stop when nothing is left",
+     "label": "Early exit",
      "s": 0.24245113619981568,
      "kind": "kernel"
     },
     {
-     "label": "Graphics processor, 16 digits",
+     "label": "Move to a GPU",
      "s": 0.10625290889947792,
      "kind": "kernel"
     },
     {
-     "label": "Graphics processor, seven digits",
+     "label": "Reduce GPU precision",
      "s": 0.0036403353995410727,
      "kind": "kernel"
     }
@@ -217,27 +217,27 @@ window.EXA = {
      "kind": "original"
     },
     {
-     "label": "Compiled, one core",
+     "label": "Compilation",
      "s": 1.6519687305000843,
      "kind": "kernel"
     },
     {
-     "label": "All 20 processor cores",
+     "label": "Parallel cores",
      "s": 0.12383882680005627,
      "kind": "kernel"
     },
     {
-     "label": "Stop when nothing is left",
+     "label": "Early exit",
      "s": 0.053914482399704866,
      "kind": "kernel"
     },
     {
-     "label": "Graphics processor, 16 digits",
+     "label": "Move to a GPU",
      "s": 0.03471047329949215,
      "kind": "kernel"
     },
     {
-     "label": "Graphics processor, seven digits",
+     "label": "Reduce GPU precision",
      "s": 0.0029921802000899334,
      "kind": "kernel"
     }
@@ -315,27 +315,27 @@ window.EXA = {
      "kind": "original"
     },
     {
-     "label": "Compiled, one core",
+     "label": "Compilation",
      "s": 1.1034804190910688,
      "kind": "kernel"
     },
     {
-     "label": "All 20 processor cores",
+     "label": "Parallel cores",
      "s": 0.09798671286607416,
      "kind": "kernel"
     },
     {
-     "label": "Stop when nothing is left",
+     "label": "Early exit",
      "s": 0.04418815103734459,
      "kind": "kernel"
     },
     {
-     "label": "Graphics processor, 16 digits",
+     "label": "Move to a GPU",
      "s": 0.03772885772272696,
      "kind": "kernel"
     },
     {
-     "label": "Graphics processor, seven digits",
+     "label": "Reduce GPU precision",
      "s": 0.0039405149894801,
      "kind": "kernel"
     }

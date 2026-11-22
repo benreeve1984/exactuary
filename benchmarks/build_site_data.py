@@ -7,9 +7,9 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 R = lambda *p: json.load(open(os.path.join(ROOT, *p)))
 MODELS = [("lifelib_savings", "Savings", "CashValue_ME"), ("lifelib_savings_dynamic", "Savings with dynamic lapses", "CashValue_ME_EX2"),
           ("lifelib_basicterm", "Term assurance", "BasicTerm_ME"), ("lifelib_fastlife", "Traditional life, annual", "fastlife")]
-STEPS = [("cpu 1 core, float64, no early exit", "Compiled, one core"), ("cpu all cores, float64, no early exit", "All 20 processor cores"),
-         ("cpu all cores, float64", "Stop when nothing is left"), ("gpu, float64", "Graphics processor, 16 digits"),
-         ("gpu, float32", "Graphics processor, seven digits")]
+STEPS = [("cpu 1 core, float64, no early exit", "Compilation"), ("cpu all cores, float64, no early exit", "Parallel cores"),
+         ("cpu all cores, float64", "Early exit"), ("gpu, float64", "Move to a GPU"),
+         ("gpu, float32", "Reduce GPU precision")]
 t = R("benchmarks", "results", "timings.json"); c = R("benchmarks", "results", "certify.json")
 # one policy at a time (lifelib's unvectorised siblings), seconds per million rows
 sav = R("examples", "lifelib_savings", "results", "baseline.json")

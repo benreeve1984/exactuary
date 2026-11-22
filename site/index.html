@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..500&family=Manrope:wght@400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/base.css">
 <link rel="stylesheet" href="assets/deck.css">
-<link rel="stylesheet" href="demos.css?v=19">
+<link rel="stylesheet" href="demos.css?v=20">
 </head>
 <body class="deck" data-title="Model acceleration and evidence" data-brand="Exactuary">
 <main class="stage">
@@ -166,9 +166,9 @@
   <div class="cols c55" style="margin-top:10px; gap:50px; align-items:center">
     <div class="cube-wrap"><div id="cube"></div></div>
     <div>
-      <p>A real run repeats this projection for every model point, in every economic scenario, for every month until the longest policy ends.</p>
+      <p>A real run repeats this projection for every policy, in every economic scenario, for every month until the longest policy ends.</p>
       <div class="sums">
-        <div><span class="big-num">10,000</span><span class="label">model points</span></div>
+        <div><span class="big-num">10,000</span><span class="label">policies</span></div>
         <div class="x">×</div>
         <div><span class="big-num">1,000</span><span class="label">scenarios</span></div>
         <div class="x">×</div>
@@ -493,7 +493,7 @@ claims  = sa * p_death</pre>
   <span class="kicker">07 · Choosing a level</span>
   <h2>Comparison of the levels</h2>
   <table class="t trade-t">
-    <thead><tr><th></th><th>1 · Vectorised (today)</th><th>2–3 · Compiled, all cores</th><th>4 · Restructured</th><th>5 · GPU, 16 digits</th><th>6 · GPU, seven digits</th></tr></thead>
+    <thead><tr><th></th><th>Vectorised (today)</th><th>Compilation and parallel cores</th><th>Early exit</th><th>Move to a GPU</th><th>Reduce GPU precision</th></tr></thead>
     <tbody>
       <tr><td>Speed, savings model</td><td>1×</td><td>about 420×</td><td>about 870×</td><td>about 1,800×</td><td>about 22,000×</td></tr>
       <tr><td>How closely the results match</td><td>The reference</td><td>Recorded values identical on the test portfolios</td><td>Equal in exact arithmetic under stated assumptions</td><td>Bound of about 0.14 parts per million for selected outputs, 89 parts per million for net cashflow</td><td>Depends on the output and workload: see the rounding results</td></tr>
@@ -543,7 +543,7 @@ claims  = sa * p_death</pre>
     <li>These are open source lifelib models, not production models. Production models have management actions, many more products, and policies that affect each other. Nothing here shows the effort or the gains for those.</li>
     <li>The proofs concern a written description of the original model. Written assumptions replace the parts that cannot be run on symbols. We test these assumptions but do not prove them. In one model, a person wrote the reserve formula by hand. Someone must review the description like any other model documentation.</li>
     <li>The checks aim to detect honest mistakes during conversion, by a person or an AI agent. They do not protect against someone who deliberately tries to get a wrong model accepted. Other conversion errors may remain.</li>
-    <li>Input preparation, such as reading model points and building tables, has comparison tests but no proof.</li>
+    <li>Input preparation, such as reading policy data and building tables, has comparison tests but no proof.</li>
     <li>Error bounds apply to the rows in a checking run, after the run. They say nothing about rows that were not checked.</li>
     <li>Timings come from one computer and measure the projection only. Graphics processors vary widely in how fast they do 16-digit sums.</li>
   </ul>
@@ -563,8 +563,8 @@ claims  = sa * p_death</pre>
 </section>
 
 </main>
-<script src="data.js?v=19"></script>
-<script src="assets/deck.js?v=19"></script>
-<script src="demos.js?v=19"></script>
+<script src="data.js?v=20"></script>
+<script src="assets/deck.js?v=20"></script>
+<script src="demos.js?v=20"></script>
 </body>
 </html>

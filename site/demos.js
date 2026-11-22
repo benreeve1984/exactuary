@@ -35,7 +35,7 @@
   (function () {
     const box = $('#title-bars'); if (!box) return;
     const pick = [1, 3, 4, 5, 6].map(i => SAV.steps[i]);
-    const names = ['Vectorised, as lifelib supplies it', 'Compiled, 20 cores', 'Compiled, 20 cores, early exit', 'Graphics processor, 16 digits', 'Graphics processor, seven digits'];
+    const names = ['Vectorised, as lifelib supplies it', 'Compilation and parallel cores', 'Plus early exit', 'Move to a GPU', 'Reduce GPU precision'];
     const notes = ['The starting point', 'Every recorded value identical to the original', 'Proved equal in exact arithmetic; results agree to about 11 significant figures', 'Results agree to about ten significant figures', 'Portfolio totals agree to within one part in a million; single policies differ by up to 6%'];
     const t = pick.map(s => s.s * 10), lo = Math.log10(Math.min(...t)) - 0.6, hi = Math.log10(Math.max(...t));
     const sig2 = x => { const p = 10 ** (Math.floor(Math.log10(x)) - 1); return (Math.round(x / p) * p).toLocaleString('en-GB'); };
@@ -112,7 +112,7 @@
     s.appendChild(svgEl('rect', { x: a[0], y: a[1] + h * 3 / 8, width: w, height: h / 8, fill: 'rgba(26,47,208,.16)' }));
     const t = (x, y, txt, anchor = 'middle', rot = 0) => { const e = svgEl('text', { x, y, 'text-anchor': anchor, 'font-family': 'Geist Mono, monospace', 'font-size': 13, fill: '#5b5f6a', transform: rot ? `rotate(${rot} ${x} ${y})` : '' }); e.textContent = txt; s.appendChild(e); };
     t(a[0] + w / 2, a[1] + h + 28, 'months →');
-    t(a[0] - 18, a[1] + h / 2, 'model points →', 'middle', -90);
+    t(a[0] - 18, a[1] + h / 2, 'policies →', 'middle', -90);
     t(a[0] + w + d[0] / 2 + 6, a[1] + d[1] / 2 - 14, 'scenarios ↗', 'middle', 0);
     t(a[0] + w / 2, a[1] + h * 3 / 8 + 18, 'one projection: a row', 'middle');
     box.appendChild(s);
@@ -161,11 +161,11 @@
     const box = $('#lad-chart'), side = $('#lad-side'), tb = $('#lad-tabs'); if (!box) return;
     const tip = el('div', { class: 'lad-tip' }); box.appendChild(tip);
     const descr = [
-      ['2 · Compiled, one core', 'Each policy runs through its months as machine code, passing two or three numbers forward.'],
-      ['3 · All 20 processor cores', 'The cores share the policies. Results are identical to one core.'],
-      ['4 · Stop when nothing is left', 'A projection ends once no policies remain in force, not at the longest term.'],
-      ['5 · Graphics processor, 16 digits', 'Thousands of policies at once, keeping about 16 digits. The last digits can differ.'],
-      ['6 · Graphics processor, seven digits', 'Keeping about seven digits. Many times faster on most graphics processors, and less accurate.'],
+      ['Compilation', 'Each policy runs through its months as machine code, passing two or three numbers forward.'],
+      ['Parallel cores', 'All 20 processor cores share the policies. Results are identical to one core.'],
+      ['Early exit', 'A projection ends once no policies remain in force, not at the longest term.'],
+      ['Move to a GPU', 'Thousands of policies at once, keeping about 16 digits. The last digits can differ.'],
+      ['Reduce GPU precision', 'Keeping about seven digits. Many times faster on most graphics processors, and less accurate.'],
     ];
     side.innerHTML = descr.map(([a, b], i) => `<div class="ls-step" data-i="${i}"><b>${a}</b><span>${b}</span></div>`).join('');
     let model = SAV, step = 0;
@@ -213,12 +213,12 @@
     const tb = $('#steps-body'); if (!tb) return;
     const st = SAV.steps;
     const rows = [
-      ['1 · Vectorised, as lifelib supplies it', st[1].s, st[0].s, 'The computer works out all policies together, one month at a time', '<span class="yes">Yes</span>: it is the reference', 'No conversion for these lifelib examples'],
-      ['2 · Compiled, one core', st[2].s, st[1].s, 'Each policy runs as machine code, keeping only a few numbers', '<span class="yes">Yes</span> for recorded values on the test portfolios', 'Rewrite the model in a simple, restricted form'],
-      ['3 · All processor cores', st[3].s, st[2].s, 'The cores share the policies', '<span class="yes">Yes</span>', 'None'],
-      ['4 · Stop when nothing is left', st[4].s, st[3].s, 'Projections end early', '<span class="part">Equal in exact arithmetic</span> under stated assumptions', 'A proof that stopping loses nothing'],
-      ['5 · Graphics processor, 16 digits', st[5].s, st[4].s, 'The same sums on different hardware', '<span class="part">Last digits differ</span>', 'A graphics processor, and error bounds'],
-      ['6 · Graphics processor, seven digits', st[6].s, st[5].s, 'About seven digits instead of 16', '<span class="part">No: depends on the output; see section 06</span>', 'Error bounds, checked for each reported output'],
+      ['Vectorised, as lifelib supplies it', st[1].s, st[0].s, 'The computer works out all policies together, one month at a time', '<span class="yes">Yes</span>: it is the reference', 'No conversion for these lifelib examples'],
+      ['Compilation', st[2].s, st[1].s, 'Each policy runs as machine code, keeping only a few numbers', '<span class="yes">Yes</span> for recorded values on the test portfolios', 'Rewrite the model in a simple, restricted form'],
+      ['Parallel cores', st[3].s, st[2].s, 'The cores share the policies', '<span class="yes">Yes</span>', 'None'],
+      ['Early exit', st[4].s, st[3].s, 'Projections end early', '<span class="part">Equal in exact arithmetic</span> under stated assumptions', 'A proof that stopping loses nothing'],
+      ['Move to a GPU', st[5].s, st[4].s, 'The same sums on different hardware', '<span class="part">Last digits differ</span>', 'A graphics processor, and error bounds'],
+      ['Reduce GPU precision', st[6].s, st[5].s, 'About seven digits instead of 16', '<span class="part">No: depends on the output; see section 06</span>', 'Error bounds, checked for each reported output'],
     ];
     tb.innerHTML = rows.map(r => `<tr><td>${r[0]}</td><td class="num">×${fmtX(r[2] / r[1])}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td></tr>`).join('');
   })();
@@ -227,7 +227,7 @@
   (function () {
     const box = $('#hero-row'); if (!box) return;
     const st = SAV.steps;
-    const pick = [[0, 'One policy at a time'], [1, 'Vectorised, as lifelib supplies it'], [2, 'Compiled, one core'], [4, 'Compiled, 20 cores, stopping early'], [5, 'Graphics processor, 16 digits'], [6, 'Graphics processor, seven digits']];
+    const pick = [[0, 'One policy at a time'], [1, 'Vectorised, as lifelib supplies it'], [2, 'Compilation'], [4, 'Plus parallel cores and early exit'], [5, 'Move to a GPU'], [6, 'Reduce GPU precision']];
     box.innerHTML = pick.map(([i, lab]) => `<div class="${st[i].kind === 'kernel' ? 'k' : ''}"><span class="label">${st[i].kind === 'kernel' ? 'Fast model' : 'Original'}</span><span class="big-num">${dur(st[i].s * 10)}</span><span class="lab">${lab}</span></div>`).join('');
   })();
 
