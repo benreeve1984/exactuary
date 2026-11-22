@@ -85,7 +85,7 @@
       </ul>
     </div>
   </div>
-  <div class="callout rise" style="--i:3; margin-top:30px">There are two main ways to make a model faster. The first is to rewrite it as optimised, lower-level code: compiled to run directly on the processor and spread across all its cores. The second is to move the calculation to an accelerator chip, such as a graphics processor (GPU). Commercial platforms already run actuarial models on graphics processors. This project looks at each level of speed in turn. For each level it describes what changes in the model and how we can prove that the optimised model matches the original.</div>
+  <div class="callout rise" style="--i:3; margin-top:30px">There are two main ways to make a model faster. The first is to rewrite it as optimised, lower-level code: compiled to run directly on the processor and spread across all its cores. The second is to move the calculation to an accelerator chip, such as a graphics processor (GPU). Commercial platforms already run actuarial models on graphics processors. We split these routes into levels. Level 1 is the model as written. Levels 2 to 4 compile the model, spread it across all processor cores, and restructure the calculation. Levels 5 and 6 run it on a graphics processor at about 16 and then about seven digits of precision. For each level we describe what changes in the model and how we can prove that the optimised model matches the original.</div>
   <aside class="notes"><p>An optimised model needs proof that it matches the model it replaces.</p></aside>
 </section>
 
