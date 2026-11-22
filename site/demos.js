@@ -193,7 +193,7 @@
         hit.addEventListener('mousemove', ev => {
           const b = box.getBoundingClientRect(), sc = b.width / box.offsetWidth;
           tip.innerHTML = `<b>${z.label}</b><div><span>Per million rows</span><span>${fmtS(z.s)} s</span></div><div><span>10 million rows</span><span>${dur(z.s * 10)}</span></div>` +
-            (i > 0 ? `<div><span>Compared with the previous level</span><span>×${fmtX(st[i - 1].s / z.s)}</span></div>` : '') +
+            (i > 0 ? `<div><span>Compared with the previous step</span><span>×${fmtX(st[i - 1].s / z.s)}</span></div>` : '') +
             (i >= nOrig ? `<div><span>Compared with the vectorised original</span><span>×${fmtX(vec / z.s)}</span></div>` : '');
           tip.style.left = `${Math.min((ev.clientX - b.left) / sc + 14, box.offsetWidth - 240)}px`; tip.style.top = `${(ev.clientY - b.top) / sc + 12}px`; tip.classList.add('on');
         });

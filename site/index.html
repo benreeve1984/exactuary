@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..500&family=Manrope:wght@400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/base.css">
 <link rel="stylesheet" href="assets/deck.css">
-<link rel="stylesheet" href="demos.css?v=17">
+<link rel="stylesheet" href="demos.css?v=18">
 </head>
 <body class="deck" data-title="Model acceleration and evidence" data-brand="Exactuary">
 <main class="stage">
@@ -23,7 +23,7 @@
       <span class="kicker rise" style="--i:0">An experiment in model acceleration</span>
       <h1 class="rise" style="--i:1">Exactuary</h1>
       <p class="lede rise" style="--i:2; margin-top:26px">An experiment on four open source life insurance models from lifelib: how much faster actuarial cashflow models can run, what it takes to achieve each speed-up, and how we can prove that the optimised models match the originals.</p>
-      <div class="callout rise" style="--i:3; margin-top:26px">Main result: compiled code on one desktop computer ran a savings model about 420 times as fast as lifelib's version, with identical results. Stopping each projection early took this to about 870 times, with a mathematical proof that the change leaves the results unaffected.</div>
+      <div class="callout rise" style="--i:3; margin-top:26px"><ul class="cl"><li>Compilation and parallel cores ran a savings model about 420 times as fast as lifelib's version on one desktop computer, with identical results.</li><li>Early exit took this to about 870 times, with a mathematical proof that the results are unaffected.</li></ul></div>
       <div class="meta-row rise" style="--i:3">
         <div><span class="label">For</span><div class="v">Actuarial teams</div></div>
         <div><span class="label">Snapshot</span><div class="v">November 2026</div></div>
@@ -39,7 +39,7 @@
       </div>
     </div>
   </div>
-  <aside class="notes"><p>The headline. As lifelib supplies it, this run takes 47 minutes. Compiled and run on 20 processor cores with early exit (level 4), it takes 3.2 seconds. On a graphics processor it takes a tenth of a second, and the results can differ materially for individual policies.</p><p>The rest of the deck explains where each gain comes from, what it takes to achieve, and how we check that the results match.</p></aside>
+  <aside class="notes"><p>The headline. As lifelib supplies it, this run takes 47 minutes. Compiled and run on 20 processor cores with early exit, it takes 3.2 seconds. On a graphics processor it takes a tenth of a second, and the results can differ materially for individual policies.</p><p>The rest of the deck explains where each gain comes from, what it takes to achieve, and how we check that the results match.</p></aside>
 </section>
 
 <section class="slide" data-section="Introduction">
@@ -95,18 +95,18 @@
   <div class="routes">
     <div class="route r1 rise" style="--i:1"><span class="rn">1</span><div><h3>Optimised code</h3><p class="small-p">An AI coding agent rewrites the model by following a set conversion procedure. An automated pipeline then compiles it to machine code, spreads it across all processor cores, and checks it against the original.</p></div></div>
     <div class="steps">
-      <div class="card mc step s1 rise" style="--i:2"><span class="label">Level 2</span><h3>Compiled, one core</h3><p class="small-p">Compiled to machine code, one policy at a time.</p></div>
-      <div class="card mc step s1 rise" style="--i:3"><span class="label">Level 3</span><h3>All processor cores</h3><p class="small-p">The cores share the policies between them.</p></div>
-      <div class="card mc step s1 rise" style="--i:4"><span class="label">Level 4</span><h3>Restructured</h3><p class="small-p">Each projection stops once nothing is left in force, and some sums are rearranged.</p></div>
+      <div class="card mc step s1 rise" style="--i:2"><span class="label">Level 2</span><h3>Compilation</h3><p class="small-p">Compiled to machine code, running one policy at a time on one core.</p></div>
+      <div class="card mc step s1 rise" style="--i:3"><span class="label">Level 3</span><h3>Parallel cores</h3><p class="small-p">All the processor cores share the policies between them.</p></div>
+      <div class="card mc step s1 rise" style="--i:4"><span class="label">Level 4</span><h3>Early exit</h3><p class="small-p">Each projection stops once nothing is left in force, and some sums are rearranged.</p></div>
     </div>
     <div class="route r2 rise" style="--i:5"><span class="rn">2</span><div><h3>Accelerator chips</h3><p class="small-p">Move the calculation to a graphics processor (GPU), which does thousands of simple sums at once. Commercial platforms already run actuarial models this way.</p></div></div>
     <div class="steps">
-      <div class="card mc step s2 rise" style="--i:6"><span class="label">Level 5</span><h3>GPU, about 16 digits</h3><p class="small-p">The same calculation on a graphics processor, at normal precision.</p></div>
-      <div class="card mc step s2 rise" style="--i:7"><span class="label">Level 6</span><h3>GPU, about seven digits</h3><p class="small-p">Lower precision, which graphics processors handle many times faster.</p></div>
+      <div class="card mc step s2 rise" style="--i:6"><span class="label">Level 5</span><h3>Move to a GPU</h3><p class="small-p">The same calculation on a graphics processor, at the normal precision of about 16 digits.</p></div>
+      <div class="card mc step s2 rise" style="--i:7"><span class="label">Level 6</span><h3>Reduce GPU precision</h3><p class="small-p">About seven digits instead of 16, which graphics processors handle many times faster.</p></div>
     </div>
   </div>
   <p class="rise" style="--i:8; margin-top:20px">For each level we set out the optimisations we make and how we demonstrate that the results are unaffected, or how little they change.</p>
-  <aside class="notes"><p>Each level builds on the one before. Levels 2 and 3 keep the arithmetic exactly as it was. Levels 4 to 6 change it, which is where proofs and rounding bounds come in.</p></aside>
+  <aside class="notes"><p>Each level builds on the one before. Compilation and parallel cores keep the arithmetic exactly as it was. Early exit and the GPU change it, which is where proofs and rounding bounds come in.</p></aside>
 </section>
 
 
@@ -117,15 +117,15 @@
   <table class="t need" style="margin-top:26px">
     <thead><tr><th>Example task</th><th>Run-time requirement to check</th><th>Levels worth considering</th></tr></thead>
     <tbody>
-      <tr><td>Quarterly valuation on a fixed basis</td><td>Does the current run meet the reporting deadline?</td><td>None, or level 2 to reduce computing cost</td></tr>
-      <tr><td>Sensitivities and model validation</td><td>How long do hundreds of reruns take?</td><td>Levels 2 and 3</td></tr>
-      <tr><td>Pricing and planning questions</td><td>Can the answer arrive within seconds?</td><td>Levels 2 and 3</td></tr>
-      <tr><td>Market-consistent valuation and capital</td><td>How long do tens of thousands of scenarios take?</td><td>Levels 3 and 4; possibly 5</td></tr>
-      <tr><td>Simulations inside simulations, for example projecting future capital or hedging</td><td>Can millions of projections finish in time?</td><td>Levels 4 to 6, with the accuracy checks shown later</td></tr>
+      <tr><td>Quarterly valuation on a fixed basis</td><td>Does the current run meet the reporting deadline?</td><td>None, or compilation to reduce computing cost</td></tr>
+      <tr><td>Sensitivities and model validation</td><td>How long do hundreds of reruns take?</td><td>Compilation and parallel cores</td></tr>
+      <tr><td>Pricing and planning questions</td><td>Can the answer arrive within seconds?</td><td>Compilation and parallel cores</td></tr>
+      <tr><td>Market-consistent valuation and capital</td><td>How long do tens of thousands of scenarios take?</td><td>Parallel cores and early exit; possibly a GPU</td></tr>
+      <tr><td>Simulations inside simulations, for example projecting future capital or hedging</td><td>Can millions of projections finish in time?</td><td>Early exit and a GPU, with the accuracy checks shown later</td></tr>
     </tbody>
   </table>
-  <div class="callout" style="margin-top:22px">Most of the gain comes from levels 2 and 3: compiling the model and using every processor core. On our three monthly test models, level 3 ran about 106 to 424 times as fast as lifelib's version, with no special hardware. Level 4 added a further factor of about two for three of the four models, and nothing for the dynamic lapse model.</div>
-  <aside class="notes"><p>We tested the most extreme levels to show their costs. For most work, levels 2 and 3 are enough.</p></aside>
+  <div class="callout" style="margin-top:22px"><ul class="cl"><li>Most of the gain comes from compilation and parallel cores, with no special hardware.</li><li>Together they ran the three monthly models about 106 to 424 times as fast as lifelib's version.</li><li>Early exit roughly doubled the speed again for three of the four models, and added nothing for the dynamic lapse model.</li></ul></div>
+  <aside class="notes"><p>We tested the most extreme steps to show their costs. For most work, compilation and parallel cores are enough.</p></aside>
 </section>
 
 <section class="slide" data-section="Introduction">
@@ -136,7 +136,7 @@
     <div class="rise" style="--i:1"><span class="label">02</span><h3>Where the time goes</h3><p>How the way a computer runs a model affects run time.</p></div>
     <div class="rise" style="--i:2"><span class="label">03</span><h3>Six levels of acceleration</h3><p>Gains and changes at each level, on four open source lifelib models.</p></div>
     <div class="rise" style="--i:3"><span class="label">04</span><h3>Checking that the models match</h3><p>Exact comparison, and tests with planted errors.</p></div>
-    <div class="rise" style="--i:4"><span class="label">05</span><h3>Mathematical proof</h3><p>Theorem provers, and the role of Lean at levels 4 to 6.</p></div>
+    <div class="rise" style="--i:4"><span class="label">05</span><h3>Mathematical proof</h3><p>Theorem provers, and the role of Lean once the arithmetic changes.</p></div>
     <div class="rise" style="--i:5"><span class="label">06</span><h3>Rounding, choosing a level, and limitations</h3><p>Bounds on rounding error, a guide to choosing a level, and what the evidence does not cover.</p></div>
   </div>
 </section>
@@ -201,11 +201,11 @@
   <span class="kicker">02 · Where the time goes</span>
   <h2>What can run in parallel</h2>
   <div class="cols c3" style="margin-top:30px">
-    <div class="card q3 rise" style="--i:0"><span class="label">Across policies and scenarios</span><h3>Independent policies</h3><p class="small-p">In the example models, policies do not affect each other, so a computer can work on one million of them at once. Levels 3, 5, and 6 rely on this.</p></div>
+    <div class="card q3 rise" style="--i:0"><span class="label">Across policies and scenarios</span><h3>Independent policies</h3><p class="small-p">In the example models, policies do not affect each other, so a computer can work on one million of them at once. Parallel cores and GPUs rely on this.</p></div>
     <div class="card q3 rise" style="--i:1"><span class="label">Across months</span><h3>Sequential periods</h3><p class="small-p">Month 13 needs the policies in force and the account value at the end of month 12. However you arrange the work, each policy's months come one after another.</p></div>
     <div class="card q3 rise" style="--i:2"><span class="label">Inside one month</span><h3>Calculations within a period</h3><p class="small-p">A computer can work out premiums and claims for the same month side by side. There are only a few dozen such amounts, which cannot keep thousands of processors busy.</p></div>
   </div>
-  <div class="callout rise" style="--i:3; margin-top:30px">Vectorising is common advice for speeding up Python models. It works out one month for all policies, then the next month for all policies. This avoids handling one number at a time. The lifelib versions also keep every month's values for every policy in memory, and keep calculating policies that have already matured. Compiling turns this round. The model is compiled to machine code. Each policy runs through all its months and passes a small set of values to the next month.</div>
+  <div class="callout rise" style="--i:3; margin-top:30px"><ul class="cl"><li>Vectorising, common advice for Python models, works out one month for all policies, then the next month.</li><li>lifelib's versions also keep every month's values in memory, and keep calculating policies that have already matured.</li><li>Compilation turns this round: each policy runs through all its months as machine code, passing a few values from one month to the next.</li></ul></div>
 </section>
 
 <!-- ================= 03 SIX LEVELS ================= -->
@@ -231,7 +231,7 @@
     <thead><tr><th>Level</th><th>Gain on the savings model</th><th>What changes</th><th>Agreement with the original</th><th>What it takes</th></tr></thead>
     <tbody id="steps-body"></tbody>
   </table>
-  <div class="callout" style="margin-top:18px">There is no free lunch. Each level takes the model further from the validated original. Up to level 3, you can check the fast model by comparing its recorded values with the original. From level 4, the fast model does sums that are not in the original, so comparison alone is not enough.</div>
+  <div class="callout" style="margin-top:18px"><ul class="cl"><li>There is no free lunch: each step takes the model further from the validated original.</li><li>After compilation and parallel cores, you can still check the fast model by comparing every recorded value with the original.</li><li>From early exit onwards, the fast model does sums that are not in the original, so comparison alone is not enough.</li></ul></div>
   <aside class="notes"><p>The "gain" column shows how many times faster each level is than the row above it, for the savings model. The previous slide has the other three models.</p></aside>
 </section>
 
@@ -241,8 +241,8 @@
   <p class="lede" style="font-size:20px">Ten million policy-scenario pairs of the savings model, each projected for up to 1,141 months.</p>
   <div class="hero-row" id="hero-row"></div>
   <div class="cols c2" style="margin-top:34px; gap:40px">
-    <div class="callout">At 16 digits, the graphics processor here is only about twice as fast as the main processor. At seven digits it is about 12 times as fast again for this model, and between 9.6 and 29 times for the others. Graphics processors are built for many short sums. Models built for data centres handle 16-digit sums much better than this one, so the gain at level 5 depends heavily on the device.</div>
-    <div class="callout">These times leave out preparing the inputs, which takes about 1.8 seconds for this run, and copying them to the graphics processor. They also leave out the checks: the separate rounding check takes about 98 seconds for 40,000 rows of this model.</div>
+    <div class="callout"><ul class="cl"><li>At 16 digits, the GPU here is only about twice as fast as all the processor cores together.</li><li>Reducing GPU precision to seven digits makes it about 12 times as fast again for this model, and 9.6 to 29 times for the others.</li><li>GPUs built for data centres handle 16-digit sums much better than this one, so the gain from moving to a GPU depends heavily on the device.</li></ul></div>
+    <div class="callout"><ul class="cl"><li>These times leave out preparing the inputs (about 1.8 seconds here) and copying them to the GPU.</li><li>They also leave out the checks: the separate rounding check takes about 98 seconds for 40,000 rows of this model.</li></ul></div>
   </div>
 </section>
 
@@ -251,11 +251,11 @@
   <span class="kicker">04 · Is it still the same model?</span>
   <h2>Types of evidence</h2>
   <div class="ev">
-    <div class="ev-row rise" style="--i:0"><span class="ev-n">1</span><div><b>Exact comparison</b><p>Run the original model and record the selected values for every policy in every period of the test portfolios. The fast model must reproduce each one exactly.</p></div><span class="ev-for">Levels 2 and 3</span></div>
-    <div class="ev-row rise" style="--i:1"><span class="ev-n">2</span><div><b>Planted-error checks</b><p>Plant errors in the fast model on purpose, and count how many the comparison catches.</p></div><span class="ev-for">Levels 2 and 3</span></div>
-    <div class="ev-row rise" style="--i:2"><span class="ev-n">3</span><div><b>Proof in exact arithmetic</b><p>Show mathematically that the fast model equals a written description of the original for any policy, under stated assumptions.</p></div><span class="ev-for">Level 4 and above</span></div>
-    <div class="ev-row rise" style="--i:3"><span class="ev-n">4</span><div><b>Separate proof checking</b><p>Export the statements to a second, much smaller program, which checks its own proof of each one.</p></div><span class="ev-for">Level 4 and above</span></div>
-    <div class="ev-row rise" style="--i:4"><span class="ev-n">5</span><div><b>Rounding error bounds</b><p>For each row in a checking run, work out a range that contains the exact answer, and measure how far each computed result can be from it.</p></div><span class="ev-for">Levels 4 to 6</span></div>
+    <div class="ev-row rise" style="--i:0"><span class="ev-n">1</span><div><b>Exact comparison</b><p>Run the original model and record the selected values for every policy in every period of the test portfolios. The fast model must reproduce each one exactly.</p></div><span class="ev-for">Compilation and parallel cores</span></div>
+    <div class="ev-row rise" style="--i:1"><span class="ev-n">2</span><div><b>Planted-error checks</b><p>Plant errors in the fast model on purpose, and count how many the comparison catches.</p></div><span class="ev-for">Compilation and parallel cores</span></div>
+    <div class="ev-row rise" style="--i:2"><span class="ev-n">3</span><div><b>Proof in exact arithmetic</b><p>Show mathematically that the fast model equals a written description of the original for any policy, under stated assumptions.</p></div><span class="ev-for">Early exit and GPU</span></div>
+    <div class="ev-row rise" style="--i:3"><span class="ev-n">4</span><div><b>Separate proof checking</b><p>Export the statements to a second, much smaller program, which checks its own proof of each one.</p></div><span class="ev-for">Early exit and GPU</span></div>
+    <div class="ev-row rise" style="--i:4"><span class="ev-n">5</span><div><b>Rounding error bounds</b><p>For each row in a checking run, work out a range that contains the exact answer, and measure how far each computed result can be from it.</p></div><span class="ev-for">Early exit and GPU</span></div>
   </div>
   <aside class="notes"><p>Each kind of evidence addresses a different source of error. Match the evidence to the level. Most teams need only the first two.</p></aside>
 </section>
@@ -308,7 +308,7 @@
     <div class="card q3 rise" style="--i:1"><span class="label">Problem 2</span><h3>Rearranged sums</h3><p class="small-p">Stopping early, or rearranging the sums so they run faster, adds arithmetic that is not in the original. Results can differ in the last digit, so exact matching is no longer the test.</p></div>
     <div class="card q3 rise" style="--i:2"><span class="label">Problem 3</span><h3>Different hardware</h3><p class="small-p">A graphics processor may combine a multiplication and an addition into one operation, and at seven digits it keeps fewer digits. Results differ by design.</p></div>
   </div>
-  <div class="callout rise" style="--i:3; margin-top:30px">For all three problems, a statement about any policy helps, and a proof can give one under stated assumptions. For the second and third, you also need to know how far rounding can move the answer. Section 06 covers this.</div>
+  <div class="callout rise" style="--i:3; margin-top:30px"><ul class="cl"><li>A statement about every policy helps with all three problems, and a proof can give one under stated assumptions.</li><li>For rearranged sums and different hardware, you also need to know how far rounding can move the answer. Section 06 covers this.</li></ul></div>
 </section>
 
 <!-- ================= 05 PROOF ================= -->
@@ -368,7 +368,7 @@ claims  = sa * p_death</pre>
     <div data-step="1"><span class="label">Part 1 · The first month</span><p>Prove that in month 0 every value of the fast model equals the original's, and that it passes the right numbers on to month 1.</p></div>
     <div data-step="2"><span class="label">Part 2 · Any month, given the month before</span><p>Prove that <b>if</b> the numbers passed into a month are right, every value in that month is right, and it passes on the right numbers too.</p></div>
   </div>
-  <div class="callout" data-step="3" style="margin-top:16px">Together these cover month 1, then month 2, and so on to any month. The first domino falls, and each one knocks over the next. The same argument shows that stopping early is safe in exact arithmetic: once no policies remain, every later cashflow is zero. Computer results can still differ where the original later produces an undefined value; in the dynamic lapses stress test this affects 20 rows.</div>
+  <div class="callout" data-step="3" style="margin-top:16px"><ul class="cl"><li>Together these cover month 1, then month 2, and so on to any month: the first domino falls, and each one knocks over the next.</li><li>The same argument shows that stopping early is safe in exact arithmetic: once no policies remain, every later cashflow is zero.</li><li>Computer results can still differ where the original later produces an undefined value; in the dynamic lapses stress test this affects 20 rows.</li></ul></div>
   <aside class="notes"><p>Press → three times. Mathematicians call this "proof by induction". A general result in Lean carries the two parts to every month; connecting each model to that result is a step a reviewer must check.</p></aside>
 </section>
 
@@ -389,7 +389,7 @@ claims  = sa * p_death</pre>
       <p class="small-p">Exactuary exports each statement to Lean, which checks its own proof of it. This removes the reliance on Z3's verdict. Z3 works with real numbers here; Lean works with fractions.</p>
     </div>
   </div>
-  <div class="callout" style="margin-top:24px">Think of Z3 as a gifted student who solves the problem quickly, and Lean as the examiner who checks every line of the working. When both accept a result, the examiner's check is the one to rely on.</div>
+  <div class="callout" style="margin-top:24px"><ul class="cl"><li>Think of Z3 as a gifted student who solves the problem quickly, and Lean as the examiner who checks every line of the working.</li><li>When both accept a result, rely on the examiner's check.</li></ul></div>
 </section>
 
 <section class="slide" data-section="[05] Proof">
@@ -420,13 +420,13 @@ claims  = sa * p_death</pre>
 
 <section class="slide" data-section="[05] Proof">
   <span class="kicker">05 · Proof</span>
-  <h2>Why Lean matters at levels 4 to 6</h2>
+  <h2>Why Lean matters once the arithmetic changes</h2>
   <div class="push">
-    <div class="push-col"><span class="label">Levels 2 to 3</span><h3>Comparison</h3><p class="small-p">The fast model reproduces the original's recorded values on the test portfolios. Proof extends this to any policy under stated assumptions, but a reviewer can rely on the comparison.</p><div class="push-bar" style="--w:30%"></div></div>
-    <div class="push-col"><span class="label">Level 4</span><h3>Proof</h3><p class="small-p">Stopping early and rearranging sums change the arithmetic. The claim that results agree in exact arithmetic comes from the proof, and separate checks measure the effect of rounding.</p><div class="push-bar" style="--w:65%"></div></div>
-    <div class="push-col"><span class="label">Levels 5 to 6</span><h3>Proof and error bounds</h3><p class="small-p">The proof covers the calculation in exact arithmetic. The error bound says how far rounding can have moved the answer. Both are needed.</p><div class="push-bar" style="--w:100%"></div></div>
+    <div class="push-col"><span class="label">Compilation and parallel cores</span><h3>Comparison</h3><p class="small-p">The fast model reproduces the original's recorded values on the test portfolios. Proof extends this to any policy under stated assumptions, but a reviewer can rely on the comparison.</p><div class="push-bar" style="--w:30%"></div></div>
+    <div class="push-col"><span class="label">Early exit</span><h3>Proof</h3><p class="small-p">Stopping early and rearranging sums change the arithmetic. The claim that results agree in exact arithmetic comes from the proof, and separate checks measure the effect of rounding.</p><div class="push-bar" style="--w:65%"></div></div>
+    <div class="push-col"><span class="label">GPU</span><h3>Proof and error bounds</h3><p class="small-p">The proof covers the calculation in exact arithmetic. The error bound says how far rounding can have moved the answer. Both are needed.</p><div class="push-bar" style="--w:100%"></div></div>
   </div>
-  <div class="callout" style="margin-top:24px">At these levels a separate proof checker matters. A large automated tool finds the proofs; Lean then checks a separate proof of each statement with a small, widely examined checking program. The translation into Lean, the assumptions, and the connection to the full projection still need review.</div>
+  <div class="callout" style="margin-top:24px"><ul class="cl"><li>Once early exit or a GPU changes the arithmetic, a separate proof checker matters.</li><li>A large automated tool, Z3, finds the proofs; Lean then checks a separate proof of each statement with a small, widely examined checking program.</li><li>The translation into Lean, the assumptions, and the connection to the full projection still need review.</li></ul></div>
   <aside class="notes"><p>A caveat, repeated on the limits slide. Our own code and a short written description of the model produce the statements, and Lean checks them. Someone has to review both the code and the description.</p></aside>
 </section>
 
@@ -471,8 +471,8 @@ claims  = sa * p_death</pre>
   <p class="lede" style="font-size:19px">The largest upper bound on rounding error across 69,200 rows in the checking runs (dynamic lapse: configuration 5), as a share of the value. These are upper bounds, not measured errors. 1e-7 means one part in ten million.</p>
   <table class="t cert-t"><thead id="cert-head"></thead><tbody id="cert-body"></tbody></table>
   <div class="cols c2" style="margin-top:20px; gap:36px">
-    <div class="callout">At 16 digits, the graphics processor and the original summation order have similar upper bounds. The first column applies the original's order of summation to the fast model's values; separate tests compare those values with lifelib.</div>
-    <div class="callout warn">At seven digits, individual results can change materially. The net cashflow bound is about 1.9% for savings and 0.055% for savings with dynamic lapses on these runs, and separate comparison runs recorded differences of up to 14% for single policies. The largest recorded difference in a portfolio total is about 8.5 parts per million.</div>
+    <div class="callout"><ul class="cl"><li>At 16 digits, the GPU and the original summation order have similar upper bounds.</li><li>The first column applies the original's order of summation to the fast model's values; separate tests compare those values with lifelib.</li></ul></div>
+    <div class="callout warn"><ul class="cl"><li>With reduced GPU precision, individual results can change materially.</li><li>Net cashflow bounds on these runs are about 1.9% for savings and 0.055% for savings with dynamic lapses.</li><li>Separate comparison runs recorded differences of up to 14% for single policies, but at most about 8.5 parts per million in a portfolio total.</li></ul></div>
   </div>
 </section>
 
@@ -481,12 +481,12 @@ claims  = sa * p_death</pre>
   <span class="kicker">07 · Choosing a level</span>
   <h2>Choosing a level</h2>
   <div class="flow">
-    <div class="fq rise" style="--i:0"><b>Is run time a problem?</b><span>No: change nothing, or vectorise (level 1). Speed is not free.</span></div>
-    <div class="fq rise" style="--i:1"><b>Must every figure match the current model exactly?</b><span>Yes: <em>compile, and use all processor cores</em> (levels 2 and 3). On the three monthly tests this ran about 106 to 424 times as fast as lifelib's version, on ordinary hardware. Recorded values match on the test portfolios; present values match when added in the original order.</span></div>
-    <div class="fq rise" style="--i:2"><b>Still not fast enough?</b><span><em>Restructure</em> (level 4): stop early and rearrange sums. This is up to about twice as fast again. A proof shows equality in exact arithmetic under stated assumptions; rounding checks cover the rest.</span></div>
-    <div class="fq rise" style="--i:3"><b>Millions of projections, with results used only in total?</b><span>Use a <em>graphics processor</em> (levels 5 and 6). Use 16 digits if the device is built for it. For seven digits, set an acceptable error for each reported output and check it on the intended workload, including totals, percentiles, and ratios.</span></div>
+    <div class="fq rise" style="--i:0"><b>Is run time a problem?</b><span>No: change nothing, or vectorise. Speed is not free.</span></div>
+    <div class="fq rise" style="--i:1"><b>Must every figure match the current model exactly?</b><span>Yes: <em>compile, and use all processor cores</em>. On the three monthly tests this ran about 106 to 424 times as fast as lifelib's version, on ordinary hardware. Recorded values match on the test portfolios; present values match when added in the original order.</span></div>
+    <div class="fq rise" style="--i:2"><b>Still not fast enough?</b><span><em>Restructure</em>: stop early and rearrange sums. This is up to about twice as fast again. A proof shows equality in exact arithmetic under stated assumptions; rounding checks cover the rest.</span></div>
+    <div class="fq rise" style="--i:3"><b>Millions of projections, with results used only in total?</b><span>Use a <em>graphics processor</em>. Use 16 digits if the device is built for it. For seven digits, set an acceptable error for each reported output and check it on the intended workload, including totals, percentiles, and ratios.</span></div>
   </div>
-  <aside class="notes"><p>We recommend levels 1 to 3 by default. They give most of the speed with the simplest evidence. Levels 4 to 6 are for work like the last row of the "does an insurer need this" table.</p></aside>
+  <aside class="notes"><p>We recommend vectorising, compilation, and parallel cores by default. They give most of the speed with the simplest evidence. Early exit and GPUs are for work like the last row of the "does an insurer need this" table.</p></aside>
 </section>
 
 <section class="slide" data-section="[07] Choosing">
@@ -497,7 +497,7 @@ claims  = sa * p_death</pre>
     <tbody>
       <tr><td>Speed, savings model</td><td>1×</td><td>about 420×</td><td>about 870×</td><td>about 1,800×</td><td>about 22,000×</td></tr>
       <tr><td>How closely the results match</td><td>The reference</td><td>Recorded values identical on the test portfolios</td><td>Equal in exact arithmetic under stated assumptions</td><td>Bound of about 0.14 parts per million for selected outputs, 89 parts per million for net cashflow</td><td>Depends on the output and workload: see the rounding results</td></tr>
-      <tr><td>Checks needed</td><td>Baseline checks against the level 0 model, where available</td><td>Recorded values compared; the comparison tested with planted errors</td><td>Also a proof, checked by Lean, and rounding checks</td><td>Also error bounds</td><td>Also error bounds, checked for each reported output</td></tr>
+      <tr><td>Checks needed</td><td>Baseline checks against lifelib's one-policy-at-a-time model, where available</td><td>Recorded values compared; the comparison tested with planted errors</td><td>Also a proof, checked by Lean, and rounding checks</td><td>Also error bounds</td><td>Also error bounds, checked for each reported output</td></tr>
       <tr><td>Hardware</td><td>Any</td><td>Any computer with several cores</td><td>Any</td><td>A graphics processor built for 16-digit sums</td><td>Any modern graphics processor</td></tr>
       <tr><td>Effort to convert</td><td>None</td><td>Rewrite each model in a simple, restricted form</td><td>Also a written description of the model for the proof</td><td>Check device support and accuracy</td><td>Check device support and accuracy</td></tr>
       <tr><td>Explaining it to a reviewer</td><td>Familiar</td><td>Easy: recorded values match</td><td>Harder: proofs and written assumptions</td><td>Harder</td><td>Hardest: why the error is acceptable</td></tr>
@@ -563,8 +563,8 @@ claims  = sa * p_death</pre>
 </section>
 
 </main>
-<script src="data.js?v=17"></script>
-<script src="assets/deck.js?v=17"></script>
-<script src="demos.js?v=17"></script>
+<script src="data.js?v=18"></script>
+<script src="assets/deck.js?v=18"></script>
+<script src="demos.js?v=18"></script>
 </body>
 </html>

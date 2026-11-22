@@ -229,3 +229,7 @@ table.trade-t td { font-size: 14.5px; }
 .card.step { border-top: 4px solid; }
 .card.step.s1 { border-top-color: var(--blue); }
 .card.step.s2 { border-top-color: var(--teal); }
+
+.callout ul.cl { margin: 0; padding-left: 18px; }
+.callout ul.cl li { margin: 0 0 6px; list-style: disc; }
+.callout ul.cl li:last-child { margin-bottom: 0; }
