@@ -233,3 +233,6 @@ table.trade-t td { font-size: 14.5px; }
 .callout ul.cl { margin: 0; padding-left: 18px; }
 .callout ul.cl li { margin: 0 0 6px; list-style: disc; }
 .callout ul.cl li:last-child { margin-bottom: 0; }
+
+table.t.need tbody tr { height: 66px; }
+table.t.need tbody td { vertical-align: middle; }
