@@ -20,7 +20,7 @@ out = {"machine": t["machine"], "models": []}
 for key, name, lib in MODELS:
     m = t[key]; ks = m["kernel_seconds_per_million_rows"]
     steps = ([{"label": "One policy at a time", "s": one[key], "kind": "original"}] if key in one else [])
-    steps += [{"label": "Vectorised (as lifelib ships it)", "s": m["original"]["seconds_per_million_rows"], "kind": "original"}]
+    steps += [{"label": "Vectorised, as lifelib supplies it", "s": m["original"]["seconds_per_million_rows"], "kind": "original"}]
     steps += [{"label": lab, "s": ks[k], "kind": "kernel"} for k, lab in STEPS]
     harness = R("examples", key, "results", "harness.json")
     if key == "lifelib_savings_dynamic":

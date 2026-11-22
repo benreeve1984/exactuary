@@ -35,7 +35,7 @@
   (function () {
     const box = $('#title-bars'); if (!box) return;
     const pick = [0, 1, 4, 5, 6].map(i => SAV.steps[i]);
-    const names = ['One policy at a time', 'Vectorised, as shipped', 'Compiled, 20 cores, early exit', 'Graphics processor, 16 digits', 'Graphics processor, seven digits'];
+    const names = ['One policy at a time', 'Vectorised, as lifelib supplies it', 'Compiled, 20 cores, early exit', 'Graphics processor, 16 digits', 'Graphics processor, seven digits'];
     const t = pick.map(s => s.s * 10), lo = Math.log10(Math.min(...t)) - 0.6, hi = Math.log10(Math.max(...t));
     const rows = pick.map((s, i) => {
       const r = el('div', { class: 'tb-row' + (s.kind === 'original' ? ' orig' : '') },
@@ -211,7 +211,7 @@
     const tb = $('#steps-body'); if (!tb) return;
     const st = SAV.steps;
     const rows = [
-      ['1 · Vectorised (as lifelib ships it)', st[1].s, st[0].s, 'The computer works out all policies together, one month at a time', '<span class="yes">Yes</span>: it is the reference', 'No conversion for these lifelib examples'],
+      ['1 · Vectorised, as lifelib supplies it', st[1].s, st[0].s, 'The computer works out all policies together, one month at a time', '<span class="yes">Yes</span>: it is the reference', 'No conversion for these lifelib examples'],
       ['2 · Compiled, one core', st[2].s, st[1].s, 'Each policy runs in the processor\'s own instructions, keeping only a few numbers', '<span class="yes">Yes</span> for recorded values on the test portfolios', 'Rewrite the model in a simple, restricted form'],
       ['3 · All processor cores', st[3].s, st[2].s, 'The cores share the policies', '<span class="yes">Yes</span>', 'None'],
       ['4 · Stop when nothing is left', st[4].s, st[3].s, 'Projections end early', '<span class="part">Equal in exact arithmetic</span> under stated assumptions', 'A proof that stopping loses nothing'],
@@ -225,7 +225,7 @@
   (function () {
     const box = $('#hero-row'); if (!box) return;
     const st = SAV.steps;
-    const pick = [[0, 'One policy at a time'], [1, 'Vectorised, as shipped'], [2, 'Compiled, one core'], [4, 'Compiled, 20 cores, stopping early'], [5, 'Graphics processor, 16 digits'], [6, 'Graphics processor, seven digits']];
+    const pick = [[0, 'One policy at a time'], [1, 'Vectorised, as lifelib supplies it'], [2, 'Compiled, one core'], [4, 'Compiled, 20 cores, stopping early'], [5, 'Graphics processor, 16 digits'], [6, 'Graphics processor, seven digits']];
     box.innerHTML = pick.map(([i, lab]) => `<div class="${st[i].kind === 'kernel' ? 'k' : ''}"><span class="label">${st[i].kind === 'kernel' ? 'Fast model' : 'Original'}</span><span class="big-num">${dur(st[i].s * 10)}</span><span class="lab">${lab}</span></div>`).join('');
   })();
 

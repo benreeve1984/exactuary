@@ -76,7 +76,7 @@ The table gives seconds per million rows, from `benchmarks/results/timings.json`
 
 | Version | Savings | Savings with dynamic lapses | Term assurance | Traditional life, annual |
 |---|---|---|---|---|
-| Original model, as lifelib ships it (vectorised) | 279 | 32 | 13.1 | 3,179 |
+| Original model, vectorised, as lifelib supplies it | 279 | 32 | 13.1 | 3,179 |
 | Compiled, one core | 7.73 | 2.64 | 1.65 | 1.10 |
 | Compiled, one core, early exit | 3.60 | 2.64 | 0.67 | 0.44 |
 | Compiled, 20 cores, early exit | 0.32 | 0.24 | 0.054 | 0.044 |

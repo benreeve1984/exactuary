@@ -21,7 +21,7 @@ window.EXA = {
      "kind": "original"
     },
     {
-     "label": "Vectorised (as lifelib ships it)",
+     "label": "Vectorised, as lifelib supplies it",
      "s": 279.3940032250248,
      "kind": "original"
     },
@@ -114,7 +114,7 @@ window.EXA = {
    "periods": 121,
    "steps": [
     {
-     "label": "Vectorised (as lifelib ships it)",
+     "label": "Vectorised, as lifelib supplies it",
      "s": 31.58597202216495,
      "kind": "original"
     },
@@ -212,7 +212,7 @@ window.EXA = {
      "kind": "original"
     },
     {
-     "label": "Vectorised (as lifelib ships it)",
+     "label": "Vectorised, as lifelib supplies it",
      "s": 13.128109879980912,
      "kind": "original"
     },
@@ -310,7 +310,7 @@ window.EXA = {
      "kind": "original"
     },
     {
-     "label": "Vectorised (as lifelib ships it)",
+     "label": "Vectorised, as lifelib supplies it",
      "s": 3179.271019411424,
      "kind": "original"
     },
