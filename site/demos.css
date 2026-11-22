@@ -214,7 +214,7 @@ table.trade-t td { font-size: 14.5px; }
 /* slide 4: routes and their levels */
 .base-row { display: flex; gap: 16px; align-items: baseline; margin-top: 22px; padding: 10px 16px; border: 1px dashed var(--line-2); font-size: 15px; color: var(--ink-2); }
 .base-row b { color: var(--ink); font-weight: 600; }
-.routes { display: grid; grid-template-columns: 330px 1fr; gap: 14px 26px; margin-top: 14px; }
+.routes { display: grid; grid-template-columns: 380px 1fr; gap: 14px 26px; margin-top: 14px; }
 .route { position: relative; display: flex; gap: 16px; align-items: flex-start; padding: 18px 20px; border-radius: 3px; color: var(--ink); }
 .route h3 { font-size: 21px; margin-bottom: 6px; }
 .route .rn { font-family: var(--f-head); font-size: 40px; line-height: 1; color: #fff; width: 52px; height: 52px; flex: none; display: grid; place-items: center; border-radius: 50%; }
