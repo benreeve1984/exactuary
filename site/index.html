@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..500&family=Manrope:wght@400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/base.css">
 <link rel="stylesheet" href="assets/deck.css">
-<link rel="stylesheet" href="demos.css?v=29">
+<link rel="stylesheet" href="demos.css?v=30">
 </head>
 <body class="deck" data-title="Model acceleration and evidence" data-brand="Exactuary">
 <main class="stage">
@@ -92,7 +92,7 @@
   <div class="routes">
     <div class="route r1 rise" style="--i:1"><span class="rn">1</span><div><h3>Optimised code</h3><p class="small-p">An AI coding agent rewrites the model by following a set conversion procedure. An automated pipeline then compiles it to machine code, spreads it across all processor cores, and checks it against the original.</p></div></div>
     <div class="steps">
-      <div class="card mc step s1 rise" style="--i:2"><span class="label">Level 2</span><h3>Compilation</h3><p class="small-p">Compiled to machine code, running one policy at a time on one core.</p></div>
+      <div class="card mc step s1 rise" style="--i:2"><span class="label">Level 2</span><h3>Compilation</h3><p class="small-p">Python reads and interprets each line every time it runs. Compiling translates the model once into machine code, the processor's own language, which runs directly.</p></div>
       <div class="card mc step s1 rise" style="--i:3"><span class="label">Level 3</span><h3>Parallel cores</h3><p class="small-p">All the processor cores share the policies between them.</p></div>
       <div class="card mc step s1 rise" style="--i:4"><span class="label">Level 4</span><h3>Early exit</h3><p class="small-p">Each projection stops once nothing is left in force, and some sums are rearranged.</p></div>
     </div>
@@ -683,8 +683,8 @@ claims  = sa * p_death</pre>
 </section>
 
 </main>
-<script src="data.js?v=29"></script>
-<script src="assets/deck.js?v=29"></script>
-<script src="demos.js?v=29"></script>
+<script src="data.js?v=30"></script>
+<script src="assets/deck.js?v=30"></script>
+<script src="demos.js?v=30"></script>
 </body>
 </html>
