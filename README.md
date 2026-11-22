@@ -16,6 +16,21 @@ validated production tool.
 faster execution works, what each level gains and costs, and how theorem provers help. It is for
 readers without a software background.
 
+## What is different
+
+Some platforms now let insurers run analyst-readable code, such as Python or R, on GPUs. That
+gives some speed. In our tests a GPU also brought rounding differences, extra checks, and a wait
+for hardware.
+
+AI coding agents can now rewrite a model as low-level code quickly. That opens another route.
+Compile the model, run it on ordinary processor cores, and use mathematical proofs that the new
+code equals the original to support model validation. Exactuary tests that route.
+
+On the savings example, 64 rented processor cores project 100 million rows in 12.5 seconds, for
+about one US cent. lifelib's version would take about 7.8 hours on a desktop computer. The
+recorded values are identical on the test portfolios. See
+[Results on other hardware](docs/hardware.md).
+
 ## The idea
 
 A person or an AI coding agent can write the fast model. The checks assess that model against the

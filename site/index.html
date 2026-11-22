@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..500&family=Manrope:wght@400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/base.css">
 <link rel="stylesheet" href="assets/deck.css">
-<link rel="stylesheet" href="demos.css?v=24">
+<link rel="stylesheet" href="demos.css?v=25">
 </head>
 <body class="deck" data-title="Model acceleration and evidence" data-brand="Exactuary">
 <main class="stage">
@@ -22,7 +22,7 @@
     <div>
       <span class="kicker rise" style="--i:0">An experiment in model acceleration</span>
       <h1 class="rise" style="--i:1">Exactuary</h1>
-      <p class="lede rise" style="--i:2; margin-top:26px">An experiment on four open source life insurance models from lifelib: how much faster actuarial cashflow models can run, what it takes to achieve each speed-up, and how we can prove that the optimised models match the originals.</p>
+      <p class="lede rise" style="--i:2; margin-top:26px">AI coding agents can now rewrite actuarial models as fast, low-level code. We tested how far that goes on ordinary processors, without GPUs, and how mathematical proof can show that the optimised models match the originals. The test used four open source life insurance models from lifelib.</p>
       <div class="callout rise" style="--i:3; margin-top:26px"><ul class="cl"><li>Compilation and parallel cores ran a savings model about 420 times as fast as lifelib's version on one desktop computer, with identical results.</li><li>Early exit took this to about 870 times, with a mathematical proof that the results are unaffected.</li><li>Two programs back the proofs: Z3 found them, and Lean, the proof checker mathematicians use, checked the main statements again.</li></ul></div>
       <div class="meta-row rise" style="--i:3">
         <div><span class="label">For</span><div class="v">Actuarial teams</div></div>
@@ -86,6 +86,7 @@
       </ul>
     </div>
   </div>
+  <div class="callout rise" style="--i:3; margin-top:26px"><ul class="cl"><li>Some platforms now let insurers run analyst-readable code, such as Python or R, on GPUs. That gives some speed. In our tests a GPU also brought rounding differences, extra checks, and a queue for hardware.</li><li>AI coding agents can now rewrite a model as low-level code quickly. That opens another route: compile the model and run it on ordinary processor cores.</li><li>Mathematical proofs that the new code equals the original can then support model validation.</li></ul></div>
   <aside class="notes"><p>An optimised model needs proof that it matches the model it replaces.</p></aside>
 </section>
 <section class="slide" data-section="Introduction">
@@ -273,6 +274,22 @@
   </div>
   <div class="callout" style="margin-top:20px"><ul class="cl"><li>Rented processor cores go a long way: 64 cores project a billion rows in about two minutes, for about 11 US cents at AWS's list price.</li><li>A data-centre GPU runs 16 digits almost as fast as seven, so there is no need to reduce precision on one. The other GPUs are no faster at 16 digits than 64 processor cores.</li><li>The H100 was the only machine with a queue: one attempt waited about 15 minutes for a free GPU.</li><li>Mixed precision, which does each month in seven digits and keeps totals in 16, gained little accuracy and took about three times as long on the smaller GPUs.</li></ul></div>
   <aside class="notes"><p>One run on each machine, so treat small differences as noise. The 192-core run finishes in under a second, so a larger job would use those cores better. Details are in docs/hardware.md.</p></aside>
+</section>
+
+<section class="slide" data-section="[03] Six levels">
+  <span class="kicker">03 · Six levels of acceleration</span>
+  <h2>What an insurer could expect</h2>
+  <p class="lede" style="font-size:20px">Projection times for three sizes of job, scaled from our measured rates for the savings model.</p>
+  <table class="t need" style="margin-top:20px">
+    <thead><tr><th>Job</th><th class="num">Rows</th><th class="num">lifelib's version, one desktop</th><th class="num">Compiled, 64 rented processor cores</th><th class="num">Cost of the cores</th><th class="num">Data-centre GPU, 16 digits</th></tr></thead>
+    <tbody>
+      <tr><td>100,000 policies under 1,000 scenarios</td><td class="num">100 million</td><td class="num">7.8 hours</td><td class="num">12.5 seconds</td><td class="num">about 1 US cent</td><td class="num">0.6 seconds</td></tr>
+      <tr><td>One million policies under 1,000 scenarios</td><td class="num">1 billion</td><td class="num">3.2 days</td><td class="num">2.1 minutes</td><td class="num">about 11 US cents</td><td class="num">6 seconds</td></tr>
+      <tr><td>10,000 policies, 1,000 scenarios inside each of 1,000 scenarios</td><td class="num">10 billion</td><td class="num">32 days</td><td class="num">21 minutes</td><td class="num">about 1.14 US dollars</td><td class="num">1 minute</td></tr>
+    </tbody>
+  </table>
+  <div class="callout" style="margin-top:20px"><ul class="cl"><li>An overnight stochastic run becomes seconds or minutes on rented processor cores, with results that matched the original exactly in our tests, and no GPU to find.</li><li>We measured the 100-million-row job on 64 cores directly. The other figures scale in proportion from measured rates, and assume the job splits into batches.</li><li>These are projection times only. Preparing inputs and writing results are extra, and our input preparation is not yet optimised: at these speeds it takes longer than the projection.</li><li>Production models have more products and features than these examples, so expect different rates and the same pattern.</li></ul></div>
+  <aside class="notes"><p>Rates: lifelib's version 279 seconds per million rows on the desktop computer; 64 AWS cores 0.125 seconds; H100 at 16 digits 0.006 seconds. The cores cost 3.28 US dollars an hour at AWS's list price on 22 November 2026.</p></aside>
 </section>
 
 <section class="slide" data-section="[04] Is it the same model?">
@@ -560,8 +577,9 @@ claims  = sa * p_death</pre>
 
 <!-- ================= 08 WHAT'S NEW ================= -->
 <section class="slide" data-section="[08] What is new">
-  <span class="kicker">08 · Comparison with other platforms</span>
+  <span class="kicker">08 · What is new</span>
   <h2>What is new</h2>
+  <p class="lede" style="font-size:19px">Some platforms run analyst-readable code on GPUs. Our route is different: an AI coding agent rewrites the model as low-level code for ordinary processor cores, and mathematical proofs of equivalence support model validation.</p>
   <div class="new">
     <div class="card nw rise" style="--i:0"><span class="label">01</span><h3>The original model is the reference</h3><p class="small-p">The existing model runs unchanged, and the checks compare the fast version with it.</p></div>
     <div class="card nw rise" style="--i:1"><span class="label">02</span><h3>Individual values are compared</h3><p class="small-p">The fast model must agree on each recorded amount in each period, and planted errors measure how strong that check is.</p></div>
@@ -629,8 +647,8 @@ claims  = sa * p_death</pre>
 </section>
 
 </main>
-<script src="data.js?v=24"></script>
-<script src="assets/deck.js?v=24"></script>
-<script src="demos.js?v=24"></script>
+<script src="data.js?v=25"></script>
+<script src="assets/deck.js?v=25"></script>
+<script src="demos.js?v=25"></script>
 </body>
 </html>

@@ -10,6 +10,33 @@ this workload on the desktop computer. Each figure below is the best of three ru
 cores, or of five runs on a GPU, after a warm-up. Times leave out input preparation, compilation,
 and copying to the GPU. Each machine ran once, so treat small differences as noise.
 
+## What an insurer could expect
+
+The table scales the measured rates for the savings model to three sizes of job. The rates are 279
+seconds per million rows for lifelib's version on the desktop computer, 0.125 seconds on 64 AWS
+cores, and 0.006 seconds on an H100 GPU in double precision.
+
+| Job | Rows | lifelib's version, one desktop | Compiled, 64 rented cores | Cost of the cores | H100 GPU, 16 digits |
+|---|---|---|---|---|---|
+| 100,000 policies under 1,000 scenarios | 100 million | 7.8 hours | 12.5 seconds | about 1 US cent | 0.6 seconds |
+| One million policies under 1,000 scenarios | 1 billion | 3.2 days | 2.1 minutes | about 11 US cents | 6 seconds |
+| 10,000 policies, 1,000 scenarios inside each of 1,000 scenarios | 10 billion | 32 days | 21 minutes | about 1.14 US dollars | 1 minute |
+
+An overnight stochastic run becomes seconds or minutes on rented processor cores, with results
+identical to the original on the tested portfolios, and with no GPU to find.
+
+Read the table with these limits in mind.
+
+- We measured the 100-million-row job on 64 cores directly. The other figures scale in proportion
+  from measured rates, and assume the job splits into batches that fit in memory.
+- The figures are projection times. Preparing inputs and writing results are extra. Input
+  preparation is not yet optimised: it took 1.6 seconds for ten million rows on the desktop
+  computer, which is longer than the projection takes on 64 cores.
+- The GPU figures leave out copying data to the GPU. We did not measure the cost of a whole job on
+  a GPU.
+- Production models have more products and features than these examples. Expect different rates
+  and the same pattern.
+
 ## Processor cores
 
 The fast model with early exit, in double precision (about 16 digits).

@@ -2,6 +2,9 @@
 
 The [glossary](../README.md#glossary) explains the terms on this page.
 
+This page follows the order of the illustrated explanation: why proofs matter, then testing, then
+proof, then rounding.
+
 ## Scope
 
 The checks aim to detect mistakes during model conversion by a person or an AI coding agent.
@@ -14,6 +17,30 @@ Adversarial testing shows that such an author can obtain a pass.
 
 Review the formal description and any manual changes as work products. The tools do not make them
 safe.
+
+## Tests and proofs
+
+A faster model is a new program. Before anyone relies on it, they need evidence that it gives the
+same results as the original. Exactuary provides three kinds.
+
+1. Test. Run the original model and the fast model on test portfolios, and compare every recorded
+   value in every period.
+2. Prove. Show that the fast model's formulas equal the original model's formulas for every
+   policy, in exact arithmetic and under stated assumptions.
+3. Bound. Work out a guaranteed limit on how far rounding can move each computed result.
+
+A test covers only the policies tested. It always leaves the question of whether the tests were
+enough, and a model validation team has to settle that question by judgement. A proof covers every
+policy, so the question does not arise for the calculations the proof covers.
+
+Exactuary therefore relies on proof wherever an optimisation changes the arithmetic. Compilation
+and parallel cores leave the arithmetic unchanged, and comparison is sufficient evidence on the
+policies tested. Early exit, a GPU, and reduced precision change the arithmetic, and the evidence
+then comes from the proof and the rounding bounds.
+
+A test of whether 3 × (4 + 5) equals 3 × 4 + 3 × 5 settles that one case. A proof that
+a × (b + c) equals a × b + a × c settles every case. The proofs here apply the same idea to
+models: they work with symbols such as "the policy's age" in place of numbers.
 
 ## Principle
 
@@ -61,11 +88,52 @@ code reader) accepts only the allowed syntax in `exactuary/lang.py`. The interva
 interpreters evaluate the parsed expressions one at a time. The backends regenerate code from the
 parsed form and compile that code.
 
-## The original model as reference
+## Testing
 
-For testing, run the unchanged original model and record the selected intermediate values.
+Run the unchanged original model and record the selected intermediate values: policies in force,
+account values, and each cashflow, for every policy and every period. The fast model must
+reproduce each value exactly. The test portfolios include each model's sample policies and a set
+of unusual cases, such as policies already matured and ages at the ends of the mortality table.
 
-For proof, the proof tool reads supported formulas from the original source. An interpreter (a
+Compare every value, not only totals. Planted errors show why. `exactuary/mutate.py` makes single
+edits to the step function, such as a plus in place of a minus or the wrong row of a table. The
+harness then counts how many of these errors each check catches. In the examples, a comparison of
+portfolio totals or of each policy's present values catches 58% to 73%. A comparison of every
+recorded value catches 95% to 99%. A difference in a single value also identifies the calculation
+at fault.
+
+A comparison test has three limits.
+
+1. It says nothing about a policy outside the test portfolios.
+2. Early exit and rearranged sums add arithmetic that the original model does not perform. Results
+   can differ in the last digits, so an exact match is no longer the test.
+3. A GPU can combine operations, and reduced precision keeps fewer digits. Results differ by
+   design.
+
+Proof addresses the first limit. Proof and rounding bounds together address the second and third.
+
+## Proof tools
+
+Mathematicians use two kinds of program for proofs.
+
+A theorem prover searches for a proof without help. Exactuary uses Z3, from Microsoft Research.
+Given a statement such as "for every policy, these two formulas are equal", Z3 finds a proof,
+returns a counterexample, or reports that it cannot decide. Z3 is a large program, and its answer
+depends on that program being correct.
+
+A proof checker accepts a statement only when every step of its proof follows from the rules of
+logic. Exactuary uses Lean. The part of Lean that checks proofs is small, and many people have
+studied it. Mathematicians use Lean to check research proofs. In November 2026 the Lean and
+Mathlib communities [confirmed](https://leanprover-community.github.io/blog/posts/riemann-hypothesis/)
+that Lean had checked a 17-million-line proof of the Riemann hypothesis.
+
+Exactuary uses the same tools on much smaller statements. Z3 finds each proof. Exactuary then
+exports each main statement to Lean, which checks its own proof of it. The evidence then no longer
+depends on Z3 being correct.
+
+## How the proof reads the original model
+
+The proof tool reads supported formulas from the original source. An interpreter (a
 program that evaluates formulas) evaluates them with symbols. This gives a formula for each value
 in terms of the policy data. A separate description supplies assumptions for unsupported parts.
 The annual example includes a handwritten reserve formula. Each assumption needs its own tests
@@ -100,7 +168,7 @@ The library rejects a definition that ignores a position and declares no key. Th
 catches oversights. It does not prove the description right. If the description states the wrong
 key, or wrongly treats a table as constant, the proof follows the wrong description.
 
-## The proof
+## The statements to prove
 
 Split the proof into statements (proof obligations). For each output, Z3 checks two statements.
 
