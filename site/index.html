@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..500&family=Manrope:wght@400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/base.css">
 <link rel="stylesheet" href="assets/deck.css">
-<link rel="stylesheet" href="demos.css?v=8">
+<link rel="stylesheet" href="demos.css?v=9">
 </head>
 <body class="deck" data-title="Model acceleration and evidence" data-brand="Exactuary">
 <main class="stage">
@@ -23,11 +23,12 @@
       <span class="kicker rise" style="--i:0">An experiment in model acceleration</span>
       <h1 class="rise" style="--i:1">Exactuary</h1>
       <p class="lede rise" style="--i:2; margin-top:26px">An experiment on four open source life insurance models from lifelib: how much faster actuarial cashflow models can run, what it takes to achieve each speed-up, and how we can prove that the optimised models match the originals.</p>
-      <div class="meta-row rise" style="--i:3">
-        <div><span class="label">For</span><div class="v">Actuarial teams</div></div>
-        <div><span class="label">Snapshot</span><div class="v">November 2026</div></div>
-        <div><span class="label">Code</span><div class="v"><a href="https://github.com/benreeve1984/exactuary">GitHub</a></div></div>
+      <div class="meta-row res-row rise" style="--i:3">
+        <div><div class="v">About 420×</div><p>Compiled, all processor cores. Every one of 1.6 billion recorded values identical to the original.</p></div>
+        <div><div class="v">About 870×</div><p>Restructured to stop early. Proved equal to the original in exact arithmetic, under stated assumptions. Lean re-checked the main statements.</p></div>
+        <div><div class="v">About 22,000×</div><p>Graphics processor, seven digits. Single policies differed by up to 14%.</p></div>
       </div>
+      <p class="src rise" style="--i:3; margin-top:10px">Speed-ups for the savings model on one desktop computer, against lifelib's own version. Recorded values cover all four models. Snapshot November 2026 · <a href="https://github.com/benreeve1984/exactuary">Code on GitHub</a></p>
       <p class="label rise" style="--i:4; margin-top:40px">Press → to start · O for overview · N for notes</p>
     </div>
     <div class="rise title-visual" style="--i:2">
@@ -85,7 +86,7 @@
       </ul>
     </div>
   </div>
-  <div class="callout rise" style="--i:3; margin-top:30px">There are two main ways to make a model faster. The first is to rewrite it as optimised, lower-level code: compiled to run directly on the processor and spread across all its cores. The second is to move the calculation to an accelerator chip, such as a graphics processor (GPU). Commercial platforms already run actuarial models on graphics processors. We split these routes into levels. Level 1 is the model as written. Levels 2 to 4 compile the model, spread it across all processor cores, and restructure the calculation. Levels 5 and 6 run it on a graphics processor at about 16 and then about seven digits of precision. For each level we describe what changes in the model and how we can prove that the optimised model matches the original.</div>
+  <div class="callout rise" style="--i:3; margin-top:30px">There are two main ways to make a model faster. The first is to rewrite it as optimised, lower-level code: compiled to run directly on the processor and spread across all its cores. The second is to move the calculation to an accelerator chip, such as a graphics processor (GPU). Commercial platforms already run actuarial models on graphics processors. We split these routes into levels. Level 1 is the model as written. Levels 2 to 4 compile the model, spread it across all processor cores, and restructure the calculation. Levels 5 and 6 run it on a graphics processor at about 16 and then about seven digits of precision. For each level we set out the optimisations we make and how we demonstrate that the results are unaffected, or how little they change.</div>
   <aside class="notes"><p>An optimised model needs proof that it matches the model it replaces.</p></aside>
 </section>
 
@@ -542,8 +543,8 @@ claims  = sa * p_death</pre>
 </section>
 
 </main>
-<script src="data.js?v=8"></script>
-<script src="assets/deck.js?v=8"></script>
-<script src="demos.js?v=8"></script>
+<script src="data.js?v=9"></script>
+<script src="assets/deck.js?v=9"></script>
+<script src="demos.js?v=9"></script>
 </body>
 </html>
