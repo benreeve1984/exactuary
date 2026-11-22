@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..500&family=Manrope:wght@400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/base.css">
 <link rel="stylesheet" href="assets/deck.css">
-<link rel="stylesheet" href="demos.css?v=13">
+<link rel="stylesheet" href="demos.css?v=14">
 </head>
 <body class="deck" data-title="Model acceleration and evidence" data-brand="Exactuary">
 <main class="stage">
@@ -86,9 +86,27 @@
       </ul>
     </div>
   </div>
-  <div class="callout rise" style="--i:3; margin-top:30px">There are two main ways to make a model faster. The first is to rewrite it as optimised, lower-level code: compiled to run directly on the processor and spread across all its cores. The second is to move the calculation to an accelerator chip, such as a graphics processor (GPU). Commercial platforms already run actuarial models on graphics processors. We split these routes into levels. Level 1 is the model as written. Levels 2 to 4 compile the model, spread it across all processor cores, and restructure the calculation. Levels 5 and 6 run it on a graphics processor at about 16 and then about seven digits of precision. For each level we set out the optimisations we make and how we demonstrate that the results are unaffected, or how little they change.</div>
   <aside class="notes"><p>An optimised model needs proof that it matches the model it replaces.</p></aside>
 </section>
+<section class="slide" data-section="Introduction">
+  <span class="kicker">The approach</span>
+  <h2>Two ways to make a model faster</h2>
+  <div class="cols c2" style="margin-top:24px; gap:24px">
+    <div class="card mc rise" style="--i:0"><span class="label">Levels 2 to 4</span><h3>Optimised code</h3><p class="small-p">Rewrite the model as lower-level code, compiled to run directly on the processor and spread across all its cores.</p></div>
+    <div class="card mc rise" style="--i:1"><span class="label">Levels 5 and 6</span><h3>Accelerator chips</h3><p class="small-p">Move the calculation to a graphics processor (GPU), which does thousands of simple sums at once. Commercial platforms already run actuarial models this way.</p></div>
+  </div>
+  <div class="cols c3" style="margin-top:18px; gap:14px">
+    <div class="card mc rise" style="--i:2"><span class="label">Level 1</span><h3>Model as written</h3><p class="small-p">lifelib's vectorised version: the starting point.</p></div>
+    <div class="card mc rise" style="--i:3"><span class="label">Level 2</span><h3>Compiled, one core</h3><p class="small-p">Turned into the processor's own instructions, one policy at a time.</p></div>
+    <div class="card mc rise" style="--i:4"><span class="label">Level 3</span><h3>All processor cores</h3><p class="small-p">The cores share the policies between them.</p></div>
+    <div class="card mc rise" style="--i:5"><span class="label">Level 4</span><h3>Restructured</h3><p class="small-p">Each projection stops once nothing is left in force, and some sums are rearranged.</p></div>
+    <div class="card mc rise" style="--i:6"><span class="label">Level 5</span><h3>GPU, about 16 digits</h3><p class="small-p">The same calculation on a graphics processor, at normal precision.</p></div>
+    <div class="card mc rise" style="--i:7"><span class="label">Level 6</span><h3>GPU, about seven digits</h3><p class="small-p">Lower precision, which graphics processors handle many times faster.</p></div>
+  </div>
+  <p class="rise" style="--i:8; margin-top:20px">For each level we set out the optimisations we make and how we demonstrate that the results are unaffected, or how little they change.</p>
+  <aside class="notes"><p>Each level builds on the one before. Levels 2 and 3 keep the arithmetic exactly as it was. Levels 4 to 6 change it, which is where proofs and rounding bounds come in.</p></aside>
+</section>
+
 
 <section class="slide" data-section="Introduction">
   <span class="kicker">Being realistic</span>
@@ -543,8 +561,8 @@ claims  = sa * p_death</pre>
 </section>
 
 </main>
-<script src="data.js?v=13"></script>
-<script src="assets/deck.js?v=13"></script>
-<script src="demos.js?v=13"></script>
+<script src="data.js?v=14"></script>
+<script src="assets/deck.js?v=14"></script>
+<script src="demos.js?v=14"></script>
 </body>
 </html>
