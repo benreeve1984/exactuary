@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..500&family=Manrope:wght@400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/base.css">
 <link rel="stylesheet" href="assets/deck.css">
-<link rel="stylesheet" href="demos.css?v=26">
+<link rel="stylesheet" href="demos.css?v=27">
 </head>
 <body class="deck" data-title="Model acceleration and evidence" data-brand="Exactuary">
 <main class="stage">
@@ -23,7 +23,7 @@
       <span class="kicker rise" style="--i:0">An experiment in model acceleration</span>
       <h1 class="rise" style="--i:1">Exactuary</h1>
       <p class="lede rise" style="--i:2; margin-top:26px">AI coding agents can now rewrite actuarial models as fast, low-level code. We tested how far that goes on ordinary processors, without GPUs, and how mathematical proof can show that the optimised models match the originals. The test used four open source life insurance models from lifelib.</p>
-      <div class="callout rise" style="--i:3; margin-top:26px"><ul class="cl"><li>Compilation and parallel cores ran a savings model about 420 times as fast as lifelib's version on one desktop computer, with identical results.</li><li>Early exit took this to about 870 times, with a mathematical proof that the results are unaffected.</li><li>Two programs back the proofs: Z3 found them, and Lean, the proof checker mathematicians use, checked the main statements again.</li></ul></div>
+      <div class="callout rise" style="--i:3; margin-top:26px"><ul class="cl"><li>Compiled code from the coding agent ran a savings model about 420 times as fast as lifelib's version on one desktop computer, with identical results, and about 870 times with early exit.</li><li>The usual shortcut, running the existing vectorised code on a GPU, was about ten times slower than our compiled code on 64 ordinary processor cores, even on a data-centre GPU.</li><li>Mathematical proof backs the changes: Z3 found the proofs, and Lean, the proof checker mathematicians use, checked the main statements again.</li></ul></div>
       <div class="meta-row rise" style="--i:3">
         <div><span class="label">For</span><div class="v">Actuarial teams</div></div>
         <div><span class="label">Snapshot</span><div class="v">November 2026</div></div>
@@ -86,7 +86,7 @@
       </ul>
     </div>
   </div>
-  <div class="callout rise" style="--i:3; margin-top:26px"><ul class="cl"><li>Some platforms now let insurers run analyst-readable code, such as Python or R, on GPUs. That gives some speed. In our tests a GPU also brought rounding differences, extra checks, and a queue for hardware.</li><li>AI coding agents can now rewrite a model as low-level code quickly. That opens another route: compile the model and run it on ordinary processor cores.</li><li>Mathematical proofs that the new code equals the original can then support model validation. In our tests this route was faster than taking the vectorised code straight to a GPU.</li></ul></div>
+  <div class="callout rise" style="--i:3; margin-top:26px"><ul class="cl"><li>Some platforms now let insurers run analyst-readable code, such as Python or R, on GPUs. That gives some speed. In our tests a GPU also brought rounding differences, extra checks, and a queue for hardware.</li><li>AI coding agents can now rewrite a model as low-level code quickly. That opens another route: compile the model and run it on ordinary processor cores.</li><li>Mathematical proofs that the new code equals the original can then support model validation. In our tests this route beat the usual shortcut: compiled code on 64 ordinary processor cores ran about ten times as fast as the vectorised code on a data-centre GPU.</li></ul></div>
   <aside class="notes"><p>An optimised model needs proof that it matches the model it replaces.</p></aside>
 </section>
 <section class="slide" data-section="Introduction">
@@ -666,8 +666,8 @@ claims  = sa * p_death</pre>
 </section>
 
 </main>
-<script src="data.js?v=26"></script>
-<script src="assets/deck.js?v=26"></script>
-<script src="demos.js?v=26"></script>
+<script src="data.js?v=27"></script>
+<script src="assets/deck.js?v=27"></script>
+<script src="demos.js?v=27"></script>
 </body>
 </html>
