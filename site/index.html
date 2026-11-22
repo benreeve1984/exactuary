@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..500&family=Manrope:wght@400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/base.css">
 <link rel="stylesheet" href="assets/deck.css">
-<link rel="stylesheet" href="demos.css?v=21">
+<link rel="stylesheet" href="demos.css?v=22">
 </head>
 <body class="deck" data-title="Model acceleration and evidence" data-brand="Exactuary">
 <main class="stage">
@@ -254,7 +254,7 @@
     <div class="ev-row rise" style="--i:0"><span class="ev-n">1</span><div><b>Exact comparison</b><p>Run the original model and record the selected values for every policy in every period of the test portfolios. The fast model must reproduce each one exactly.</p></div><span class="ev-for">Compilation and parallel cores</span></div>
     <div class="ev-row rise" style="--i:1"><span class="ev-n">2</span><div><b>Planted-error checks</b><p>Plant errors in the fast model on purpose, and count how many the comparison catches.</p></div><span class="ev-for">Compilation and parallel cores</span></div>
     <div class="ev-row rise" style="--i:2"><span class="ev-n">3</span><div><b>Proof in exact arithmetic</b><p>Show mathematically that the fast model equals a written description of the original for any policy, under stated assumptions.</p></div><span class="ev-for">Early exit and GPU</span></div>
-    <div class="ev-row rise" style="--i:3"><span class="ev-n">4</span><div><b>Separate proof checking</b><p>Export the statements to a second, much smaller program, which checks its own proof of each one.</p></div><span class="ev-for">Early exit and GPU</span></div>
+    <div class="ev-row rise" style="--i:3"><span class="ev-n">4</span><div><b>A second, independent check of the proofs</b><p>Give the same claims to a second proof checker, called Lean, which checks each one again from scratch. Its core is small enough for people to inspect, so it guards against a mistake in the first tool.</p></div><span class="ev-for">Early exit and GPU</span></div>
     <div class="ev-row rise" style="--i:4"><span class="ev-n">5</span><div><b>Rounding error bounds</b><p>For each row in a checking run, work out a range that contains the exact answer, and measure how far each computed result can be from it.</p></div><span class="ev-for">Early exit and GPU</span></div>
   </div>
   <aside class="notes"><p>Each kind of evidence addresses a different source of error. Match the evidence to the level. Most teams need only the first two.</p></aside>
@@ -563,8 +563,8 @@ claims  = sa * p_death</pre>
 </section>
 
 </main>
-<script src="data.js?v=21"></script>
-<script src="assets/deck.js?v=21"></script>
-<script src="demos.js?v=21"></script>
+<script src="data.js?v=22"></script>
+<script src="assets/deck.js?v=22"></script>
+<script src="demos.js?v=22"></script>
 </body>
 </html>
