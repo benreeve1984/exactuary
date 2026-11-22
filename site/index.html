@@ -120,11 +120,11 @@
       <tr><td>Quarterly valuation on a fixed basis</td><td>Does the current run meet the reporting deadline?</td><td>None, or compilation to reduce computing cost</td></tr>
       <tr><td>Sensitivities and model validation</td><td>How long do hundreds of reruns take?</td><td>Compilation and parallel cores</td></tr>
       <tr><td>Pricing and planning questions</td><td>Can the answer arrive within seconds?</td><td>Compilation and parallel cores</td></tr>
-      <tr><td>Market-consistent valuation and capital</td><td>How long do tens of thousands of scenarios take?</td><td>Parallel cores and early exit; possibly a GPU</td></tr>
-      <tr><td>Simulations inside simulations, for example projecting future capital or hedging</td><td>Can millions of projections finish in time?</td><td>Early exit and a GPU, with the accuracy checks shown later</td></tr>
+      <tr><td>Market-consistent valuation and capital</td><td>How long do tens of thousands of scenarios take?</td><td>Parallel cores and early exit</td></tr>
+      <tr><td>Simulations inside simulations, for example projecting future capital or hedging</td><td>Can millions of projections finish in time?</td><td>Parallel cores and early exit</td></tr>
     </tbody>
   </table>
-  <div class="callout" style="margin-top:22px"><ul class="cl"><li>Most of the gain comes from compilation and parallel cores, with no special hardware.</li><li>Together they ran the three monthly models about 106 to 424 times as fast as lifelib's version.</li><li>Early exit roughly doubled the speed again for three of the four models, and added nothing for the dynamic lapse model.</li></ul></div>
+  <div class="callout" style="margin-top:22px"><ul class="cl"><li>Most of the gain comes from compilation and parallel cores on an ordinary processor: about 106 to 424 times as fast as lifelib's version for the three monthly models.</li><li>Early exit roughly doubled the speed again for three of the four models, and added nothing for the dynamic lapse model.</li><li>None of these tasks needs a GPU. With parallel cores and early exit, one desktop computer projects a billion rows of the savings model in about five minutes, without the cost or limited supply of GPUs.</li></ul></div>
   <aside class="notes"><p>We tested the most extreme steps to show their costs. For most work, compilation and parallel cores are enough.</p></aside>
 </section>
 
@@ -484,9 +484,9 @@ claims  = sa * p_death</pre>
     <div class="fq rise" style="--i:0"><b>Is run time a problem?</b><span>No: change nothing, or vectorise. Speed is not free.</span></div>
     <div class="fq rise" style="--i:1"><b>Must every figure match the current model exactly?</b><span>Yes: <em>compile, and use all processor cores</em>. On the three monthly tests this ran about 106 to 424 times as fast as lifelib's version, on ordinary hardware. Recorded values match on the test portfolios; present values match when added in the original order.</span></div>
     <div class="fq rise" style="--i:2"><b>Still not fast enough?</b><span><em>Restructure</em>: stop early and rearrange sums. This is up to about twice as fast again. A proof shows equality in exact arithmetic under stated assumptions; rounding checks cover the rest.</span></div>
-    <div class="fq rise" style="--i:3"><b>Millions of projections, with results used only in total?</b><span>Use a <em>graphics processor</em>. Use 16 digits if the device is built for it. For seven digits, set an acceptable error for each reported output and check it on the intended workload, including totals, percentiles, and ratios.</span></div>
+    <div class="fq rise" style="--i:3"><b>Still too slow after that?</b><span>Only then consider a <em>graphics processor</em>. Use 16 digits if the device is built for it. For seven digits, set an acceptable error for each reported output and check it on the intended workload, including totals, percentiles, and ratios.</span></div>
   </div>
-  <aside class="notes"><p>We recommend vectorising, compilation, and parallel cores by default. They give most of the speed with the simplest evidence. Early exit and GPUs are for work like the last row of the "does an insurer need this" table.</p></aside>
+  <aside class="notes"><p>We recommend vectorising, compilation, and parallel cores by default. They give most of the speed with the simplest evidence. Early exit helps the largest runs. Consider a GPU only if a run is still too slow after that.</p></aside>
 </section>
 
 <section class="slide" data-section="[07] Choosing">
