@@ -24,6 +24,9 @@ The fast model with early exit, in double precision (about 16 digits).
 | AWS c7a.48xlarge (AMD EPYC 9R14) | 192 | 0.61 |
 | Modal, 64 cores requested | 80 logical | 1.11 |
 
+A workload ten times as large, 100 million rows, took 12.5 seconds on the 64 cores: ten times as
+long, so the time grows in step with the number of rows.
+
 Doubling the cores roughly halves the time up to 32 cores. From 32 to 64 cores the time falls by a
 further 37%. The 192-core figure is less than a second, so start-up costs inside the run limit it;
 a larger workload would use those cores better.
@@ -91,5 +94,5 @@ python benchmarks/cloud.py --no-gpu --threads 8,16,32      # any machine with li
 modal run benchmarks/cloud_modal.py --gpu H100             # needs a Modal account
 ```
 
-`benchmarks/results/cloud.jsonl` holds the Modal results. The AWS runs used the same script on
+`benchmarks/results/cloud.jsonl` holds the results. The AWS runs used the same script on
 Ubuntu 24.04 with the package versions in `benchmarks/cloud_modal.py`.
