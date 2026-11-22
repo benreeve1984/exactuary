@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..500&family=Manrope:wght@400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/base.css">
 <link rel="stylesheet" href="assets/deck.css">
-<link rel="stylesheet" href="demos.css?v=23">
+<link rel="stylesheet" href="demos.css?v=24">
 </head>
 <body class="deck" data-title="Model acceleration and evidence" data-brand="Exactuary">
 <main class="stage">
@@ -23,7 +23,7 @@
       <span class="kicker rise" style="--i:0">An experiment in model acceleration</span>
       <h1 class="rise" style="--i:1">Exactuary</h1>
       <p class="lede rise" style="--i:2; margin-top:26px">An experiment on four open source life insurance models from lifelib: how much faster actuarial cashflow models can run, what it takes to achieve each speed-up, and how we can prove that the optimised models match the originals.</p>
-      <div class="callout rise" style="--i:3; margin-top:26px"><ul class="cl"><li>Compilation and parallel cores ran a savings model about 420 times as fast as lifelib's version on one desktop computer, with identical results.</li><li>Early exit took this to about 870 times, with a mathematical proof that the results are unaffected.</li></ul></div>
+      <div class="callout rise" style="--i:3; margin-top:26px"><ul class="cl"><li>Compilation and parallel cores ran a savings model about 420 times as fast as lifelib's version on one desktop computer, with identical results.</li><li>Early exit took this to about 870 times, with a mathematical proof that the results are unaffected.</li><li>Two programs back the proofs: Z3 found them, and Lean, the proof checker mathematicians use, checked the main statements again.</li></ul></div>
       <div class="meta-row rise" style="--i:3">
         <div><span class="label">For</span><div class="v">Actuarial teams</div></div>
         <div><span class="label">Snapshot</span><div class="v">November 2026</div></div>
@@ -135,8 +135,8 @@
     <div class="rise" style="--i:0"><span class="label">01</span><h3>What a cashflow model does</h3><p>A projection follows a policy through time and repeats across the portfolio.</p></div>
     <div class="rise" style="--i:1"><span class="label">02</span><h3>Where the time goes</h3><p>How the way a computer runs a model affects run time.</p></div>
     <div class="rise" style="--i:2"><span class="label">03</span><h3>Six levels of acceleration</h3><p>Gains and changes at each level, on four open source lifelib models.</p></div>
-    <div class="rise" style="--i:3"><span class="label">04</span><h3>Checking that the models match</h3><p>Exact comparison, and tests with planted errors.</p></div>
-    <div class="rise" style="--i:4"><span class="label">05</span><h3>Mathematical proof</h3><p>Theorem provers, and the role of Lean when we change the arithmetic to optimise.</p></div>
+    <div class="rise" style="--i:3"><span class="label">04</span><h3>Checking that the models match</h3><p>Tests and proofs, comparing every value, and what tests cannot show.</p></div>
+    <div class="rise" style="--i:4"><span class="label">05</span><h3>Mathematical proof</h3><p>How mathematicians check proofs by computer, and how we used Z3 and Lean when we changed the arithmetic to optimise.</p></div>
     <div class="rise" style="--i:5"><span class="label">06</span><h3>Rounding, choosing a level of optimisation, and limitations</h3><p>Bounds on rounding error, a guide to choosing a level of optimisation, and what the evidence does not cover.</p></div>
   </div>
 </section>
@@ -277,25 +277,45 @@
 
 <section class="slide" data-section="[04] Is it the same model?">
   <span class="kicker">04 · Is it still the same model?</span>
-  <h2>Types of evidence</h2>
+  <h2>How we show that the results are unaffected</h2>
+  <p class="lede" style="font-size:20px">A faster model is a new program. Before anyone relies on it, they need evidence that it gives the same results as the original. We used three kinds.</p>
   <div class="ev">
-    <div class="ev-row rise" style="--i:0"><span class="ev-n">1</span><div><b>Exact comparison</b><p>Run the original model and record the selected values for every policy in every period of the test portfolios. The fast model must reproduce each one exactly.</p></div><span class="ev-for">Compilation and parallel cores</span></div>
-    <div class="ev-row rise" style="--i:1"><span class="ev-n">2</span><div><b>Planted-error checks</b><p>Plant errors in the fast model on purpose, and count how many the comparison catches.</p></div><span class="ev-for">Compilation and parallel cores</span></div>
-    <div class="ev-row rise" style="--i:2"><span class="ev-n">3</span><div><b>Proof in exact arithmetic</b><p>Show mathematically that the fast model equals a written description of the original for any policy, under stated assumptions.</p></div><span class="ev-for">Early exit and GPU</span></div>
-    <div class="ev-row rise" style="--i:3"><span class="ev-n">4</span><div><b>A second, independent check of the proofs</b><p>Give the same claims to a second proof checker, called Lean, which checks each one again from scratch. Its core is small enough for people to inspect, so it guards against a mistake in the first tool.</p></div><span class="ev-for">Early exit and GPU</span></div>
-    <div class="ev-row rise" style="--i:4"><span class="ev-n">5</span><div><b>Rounding error bounds</b><p>For each row in a checking run, work out a range that contains the exact answer, and measure how far each computed result can be from it.</p></div><span class="ev-for">Early exit and GPU</span></div>
+    <div class="ev-row rise" style="--i:0"><span class="ev-n">1</span><div><b>Test: compare every value</b><p>We ran the original and the fast model on test portfolios and compared 1.6 billion values, month by month. None differed. We also planted errors on purpose, to measure how many the comparison catches.</p></div><span class="ev-for">Every step</span></div>
+    <div class="ev-row rise" style="--i:1"><span class="ev-n">2</span><div><b>Prove: show the two models are equal for every policy</b><p>A program called Z3 found a mathematical proof for each formula. A second program called Lean then checked the main statements again. Lean is the proof checker mathematicians use for research.</p></div><span class="ev-for">Matters most from early exit onwards</span></div>
+    <div class="ev-row rise" style="--i:2"><span class="ev-n">3</span><div><b>Bound: limit the effect of rounding</b><p>Computers round numbers. For each row in a checking run, we worked out a guaranteed limit on how far rounding can move each result.</p></div><span class="ev-for">Early exit and GPU</span></div>
   </div>
-  <aside class="notes"><p>Each kind of evidence addresses a different source of error. Match the evidence to the level. Most teams need only the first two.</p></aside>
+  <div class="callout" style="margin-top:18px"><ul class="cl"><li>Tests cover only the policies tested. They always leave the question "did we test enough?", which is hard for a model validation team to settle.</li><li>A proof covers every policy, so that question does not arise for the calculations it covers. We rely on proofs wherever an optimisation changes the arithmetic.</li></ul></div>
+  <aside class="notes"><p>Section 04 covers testing, section 05 covers proof, and section 06 covers rounding.</p></aside>
 </section>
 
 <section class="slide" data-section="[04] Is it the same model?">
-  <span class="kicker">04 · Evidence 1 · Compare every number</span>
-  <h2>Results of the comparison</h2>
+  <span class="kicker">04 · An illustration, not from our models</span>
+  <h2>The difference between a test and a proof</h2>
+  <div class="cols c2" style="margin-top:26px; gap:50px">
+    <div class="card pf">
+      <span class="label">Testing</span>
+      <div class="pf-eq">Is 3 × (4 + 5) = 3 × 4 + 3 × 5 ?</div>
+      <div class="pf-checks"><span>27 = 27 ✓</span><span>a = 2, b = 7, c = 1 ✓</span><span>a = −1, b = 0.5, c = 8 ✓</span></div>
+      <p class="small-p">Each check convinces you about that case. No number of checks covers every case.</p>
+    </div>
+    <div class="card pf">
+      <span class="label">Proof</span>
+      <div class="pf-eq">a × (b + c) = a × b + a × c</div>
+      <div class="pf-checks"><span>for every number a, b, and c</span></div>
+      <p class="small-p">The rules of arithmetic establish this for all numbers, including ones nobody has tried.</p>
+    </div>
+  </div>
+  <p style="margin-top:30px">The same idea works for models. A test runs the original and the fast model on chosen policies and compares the numbers. A proof works on <b>symbols</b>, such as "the policy's age" and "the sum assured", and shows that the two models give the same formula for every policy.</p>
+</section>
+
+<section class="slide" data-section="[04] Is it the same model?">
+  <span class="kicker">04 · Testing · Our results</span>
+  <h2>Results of comparing every value</h2>
   <div class="cols c55" style="margin-top:14px; gap:50px; align-items:start">
     <div>
-      <p>For each test portfolio, we run the original model unchanged and record the selected values: policies in force, account values, and each cashflow, for every policy and every period. The fast model's values must be identical.</p>
-      <p>We compare every value, not just the totals, for two reasons. First, two errors can cancel each other out, so a total can look right when the values behind it are wrong. Second, when a single value differs, we can see exactly which calculation went wrong.</p>
-      <p>The test portfolios include each model's own sample policies and a set of unusual cases. These include policies not yet started or already matured, ages at the ends of the mortality table, zero or extreme amounts, and cases where the original model itself gives an undefined result.</p>
+      <p>We ran the original model unchanged on each test portfolio. We recorded the selected values for every policy in every month: policies in force, account values, and each cashflow. The fast model's values must be identical.</p>
+      <p>The portfolios include each model's sample policies and a set of unusual cases: policies not yet started or already matured, ages at the ends of the mortality table, and zero or extreme amounts.</p>
+      <div class="callout" style="margin-top:14px"><ul class="cl"><li>1.6 billion values compared across the four models.</li><li>None differed.</li></ul></div>
     </div>
     <div>
       <table class="t">
@@ -313,13 +333,17 @@
 </section>
 
 <section class="slide" id="defects" data-section="[04] Is it the same model?">
-  <span class="kicker">04 · Evidence 2 · Test the test</span>
-  <h2>Testing the comparison with planted errors</h2>
+  <span class="kicker">04 · Testing · Our results</span>
+  <h2>Why we compare every value, not only totals</h2>
   <div class="cols c55" style="margin-top:6px; gap:50px; align-items:start">
     <div>
-      <p>To measure how good a check is, we planted errors in the fast model, one at a time. They were common kinds of error: a plus instead of a minus, a wrong constant, the wrong row of a table, the wrong variable, or a comparison that is out by one. We then ran each check against each planted error.</p>
-      <p>Comparing portfolio totals, or even each policy's present values, catches only 58% to 73% of them. Many errors affect amounts that present values never use, such as margins, account values, and policy counts. Others cancel out.</p>
-      <p>Comparing every recorded value catches 95% to 99%. For most of the rest, the proofs in section 05 either find a difference or show that the change makes no difference in exact arithmetic.</p>
+      <p>To measure how good a check is, we planted errors in the fast model on purpose, one at a time: a plus instead of a minus, a wrong constant, the wrong row of a table. We then counted how many each check caught.</p>
+      <ul class="plain small" style="margin-top:10px">
+        <li>Comparing portfolio totals, or each policy's present values, caught only 58% to 73%. Some errors cancel out. Others change amounts that the totals never use.</li>
+        <li>Comparing every value in every month caught 95% to 99%. A difference in one value also shows which calculation went wrong.</li>
+        <li>For most of the rest, the proofs either find a difference or show that the change makes no difference.</li>
+      </ul>
+      <p class="src" style="margin-top:12px">How to read the chart: each bar is the share of planted errors that one check caught. A longer bar means a better check.</p>
     </div>
     <div>
       <div class="tabs" id="df-tabs" role="radiogroup" aria-label="Model"></div>
@@ -329,41 +353,55 @@
 </section>
 
 <section class="slide" data-section="[04] Is it the same model?">
-  <span class="kicker">04 · Is it still the same model?</span>
-  <h2>Limits of testing</h2>
-  <div class="cols c3" style="margin-top:30px">
-    <div class="card q3 rise" style="--i:0"><span class="label">Problem 1</span><h3>Untested policies</h3><p class="small-p">A comparison says nothing about a policy that is not in the portfolio, such as an age, term, or duration that nobody thought to include.</p></div>
-    <div class="card q3 rise" style="--i:1"><span class="label">Problem 2</span><h3>Rearranged sums</h3><p class="small-p">Stopping early, or rearranging the sums so they run faster, adds arithmetic that is not in the original. Results can differ in the last digit, so exact matching is no longer the test.</p></div>
-    <div class="card q3 rise" style="--i:2"><span class="label">Problem 3</span><h3>Different hardware</h3><p class="small-p">A graphics processor may combine a multiplication and an addition into one operation, and at seven digits it keeps fewer digits. Results differ by design.</p></div>
+  <span class="kicker">04 · Testing</span>
+  <h2>What comparison tests cannot show</h2>
+  <p class="lede" style="font-size:20px">These limits apply to any test that compares two models on chosen policies, including ours.</p>
+  <div class="cols c3" style="margin-top:22px">
+    <div class="card q3 rise" style="--i:0"><span class="label">Limit 1</span><h3>Untested policies</h3><p class="small-p">A comparison says nothing about a policy that is not in the portfolio, such as an age, term, or duration that nobody thought to include.</p></div>
+    <div class="card q3 rise" style="--i:1"><span class="label">Limit 2</span><h3>Rearranged sums</h3><p class="small-p">Stopping early, or rearranging the sums so they run faster, adds arithmetic that is not in the original. Results can differ in the last digit, so an exact match is no longer the test.</p></div>
+    <div class="card q3 rise" style="--i:2"><span class="label">Limit 3</span><h3>Different hardware</h3><p class="small-p">A GPU may combine a multiplication and an addition into one operation, and at seven digits it keeps fewer digits. Results differ by design.</p></div>
   </div>
-  <div class="callout rise" style="--i:3; margin-top:30px"><ul class="cl"><li>A statement about every policy helps with all three problems, and a proof can give one under stated assumptions.</li><li>For rearranged sums and different hardware, you also need to know how far rounding can move the answer. Section 06 covers this.</li></ul></div>
+  <div class="callout rise" style="--i:3; margin-top:26px"><ul class="cl"><li>A proof answers the first limit: it covers every policy, under stated assumptions. Section 05 explains how.</li><li>For the second and third, we also need to know how far rounding can move each result. Section 06 covers this.</li></ul></div>
 </section>
 
 <!-- ================= 05 PROOF ================= -->
 <section class="slide" data-section="[05] Proof">
-  <span class="kicker">05 · Proof, from first principles</span>
-  <h2>Tests and proofs</h2>
-  <div class="cols c2" style="margin-top:26px; gap:50px">
-    <div class="card pf">
-      <span class="label">Testing</span>
-      <div class="pf-eq">Is 3 × (4 + 5) = 3 × 4 + 3 × 5 ?</div>
-      <div class="pf-checks"><span>27 = 27 ✓</span><span>a = 2, b = 7, c = 1 ✓</span><span>a = −1, b = 0.5, c = 8 ✓</span></div>
-      <p class="small-p">Each check convinces you about that case. No number of checks covers every case.</p>
-    </div>
-    <div class="card pf">
-      <span class="label">Proof</span>
-      <div class="pf-eq">a × (b + c) = a × b + a × c</div>
-      <div class="pf-checks"><span>for every number a, b, and c</span></div>
-      <p class="small-p">The rules of arithmetic establish this for all numbers, including ones nobody has tried.</p>
-    </div>
+  <span class="kicker">05 · Background, not from our models</span>
+  <h2>How mathematicians use computers to check proofs</h2>
+  <p class="lede" style="font-size:20px">A proof is a chain of steps, each following from the last by the rules of logic. Long proofs are hard for people to check, so mathematicians now write them in a form a computer can check.</p>
+  <div class="cols c3" style="margin-top:20px; gap:16px">
+    <div class="card mc rise" style="--i:0"><span class="label">Proof checkers</span><h3>Check every step</h3><p class="small-p">A proof checker such as Lean accepts a statement only when every step of its proof follows from the rules. The part that does the checking is small, and many people have studied it closely.</p></div>
+    <div class="card mc rise" style="--i:1"><span class="label">Theorem provers</span><h3>Search for a proof</h3><p class="small-p">A theorem prover such as Z3 looks for a proof without help. When a statement is false, it can give a counterexample. It is a large program, so its answers deserve a second check.</p></div>
+    <div class="card mc rise" style="--i:2"><span class="label">In use</span><h3>Famous problems</h3><p class="small-p">In 2014 a computer-checked proof settled Kepler's 400-year-old conjecture about stacking spheres. In November 2026 the Lean community confirmed that Lean had checked a 17-million-line proof of the Riemann hypothesis, the best-known open problem in mathematics.</p></div>
   </div>
-  <p style="margin-top:30px">The same idea works for models. Instead of running the original and the fast model on numbers, run them on <b>symbols</b>, such as "the policy's age", "the sum assured" and "the mortality rate at this age". Each model then produces an algebraic expression. The question becomes: are the two expressions always equal?</p>
-  <aside class="notes"><p>The rest of this section depends on this one idea. A program performs the algebra.</p></aside>
+  <div class="callout rise" style="--i:3; margin-top:20px"><ul class="cl"><li>We use the same tools on much smaller statements: that each formula in the fast model equals the matching formula in the original.</li><li>Z3 finds each proof, and Lean checks it again.</li></ul></div>
+  <p class="src" style="margin-top:10px">Riemann hypothesis: <a href="https://leanprover-community.github.io/blog/posts/riemann-hypothesis/">joint statement by the Lean and Mathlib communities</a>, 21 November 2026.</p>
 </section>
 
 <section class="slide" data-section="[05] Proof">
-  <span class="kicker">05 · Proof, from first principles</span>
+  <span class="kicker">05 · Our method</span>
+  <h2>How we use Z3 and Lean</h2>
+  <div class="cols c2" style="margin-top:26px; gap:40px">
+    <div class="card tool">
+      <span class="label">Theorem prover · Z3</span>
+      <h3>Finds proofs and counterexamples</h3>
+      <p class="small-p">Z3 comes from Microsoft Research. We give it a statement, such as "for every policy, these two formulas are equal". It finds a proof, or returns a counterexample: a specific policy on which the two models disagree. It can also report that it cannot decide.</p>
+      <p class="small-p">It is a large program, and its answer depends on that program being correct.</p>
+    </div>
+    <div class="card tool">
+      <span class="label">Proof checker · Lean</span>
+      <h3>Checks every step of a proof</h3>
+      <p class="small-p">We export each statement to Lean, which checks its own proof of it from scratch. We then no longer rely on Z3 being correct.</p>
+      <p class="small-p">Lean checked every main statement for all four models. The table two slides on gives the counts.</p>
+    </div>
+  </div>
+  <div class="callout" style="margin-top:24px"><ul class="cl"><li>Think of Z3 as a gifted student who solves the problem quickly, and Lean as the examiner who checks every line of the working.</li><li>When both accept a result, rely on the examiner's check.</li></ul></div>
+</section>
+
+<section class="slide" data-section="[05] Proof">
+  <span class="kicker">05 · Our method · A real example from the term assurance model</span>
   <h2>Running both models on symbols</h2>
+  <p class="lede" style="font-size:19px">To prove two formulas equal, the program replaces each input with a symbol, such as "sum assured", and works through both models' code. If both reduce to the same expression, they are equal for every policy.</p>
   <div class="sym">
     <div class="card sym-col rise" style="--i:0">
       <span class="label">The original model, as written</span>
@@ -384,12 +422,12 @@ def pols_death(t):
 claims  = sa * p_death</pre>
     </div>
   </div>
-  <p style="margin-top:24px">The program reads the supported formulas in the original model's own code and runs them on symbols. A separate written description supplies assumptions for the other parts, such as reading a value from a table or drawing random numbers. In the annual model it also includes a handwritten reserve formula. Each assumption needs its own tests and review: for tables, we try every position.</p>
-  <aside class="notes"><p>A real example from the term assurance model, slightly simplified. The proof covers every selected result of the model, not just claims: between 20 and 77 results for each model.</p></aside>
+  <div class="callout" style="margin-top:20px"><ul class="cl"><li>The program reads the original model's own code, so nobody retypes the formulas.</li><li>A short written description covers the parts it cannot read, such as table lookups and random numbers. A reviewer must check that description; for tables, we test every position.</li></ul></div>
+  <aside class="notes"><p>Slightly simplified. The proof covers every selected result of the model, not just claims: between 20 and 77 results for each model. In the annual model the written description also includes a handwritten reserve formula.</p></aside>
 </section>
 
 <section class="slide" id="dominoes" data-section="[05] Proof">
-  <span class="kicker">05 · Proof, from first principles</span>
+  <span class="kicker">05 · Our method</span>
   <h2>Proving every month</h2>
   <div class="dom" id="dom"></div>
   <div class="cols c2" style="margin-top:24px; gap:44px">
@@ -401,60 +439,45 @@ claims  = sa * p_death</pre>
 </section>
 
 <section class="slide" data-section="[05] Proof">
-  <span class="kicker">05 · What a theorem prover is</span>
-  <h2>Z3 and Lean</h2>
-  <div class="cols c2" style="margin-top:26px; gap:40px">
-    <div class="card tool">
-      <span class="label">Theorem prover · Z3</span>
-      <h3>Finds proofs and counterexamples</h3>
-      <p class="small-p">Z3 comes from Microsoft Research. You give it a statement, such as "for every policy, the two formulas are equal", and it searches for a proof. If the statement is false, it returns a counterexample: specific values, such as an age, term, and amounts, on which the two models disagree. It can also report that it cannot decide.</p>
-      <p class="small-p">It is a large program, and its verdict depends on that program being correct.</p>
-    </div>
-    <div class="card tool">
-      <span class="label">Proof assistant · Lean</span>
-      <h3>Checks every step of a proof</h3>
-      <p class="small-p">Mathematicians use Lean to check research proofs line by line. It accepts a statement only when every step of the proof follows from the rules. The part that does the checking is small, and many people have studied it closely.</p>
-      <p class="small-p">Exactuary exports each statement to Lean, which checks its own proof of it. This removes the reliance on Z3's verdict. Z3 works with real numbers here; Lean works with fractions.</p>
-    </div>
-  </div>
-  <div class="callout" style="margin-top:24px"><ul class="cl"><li>Think of Z3 as a gifted student who solves the problem quickly, and Lean as the examiner who checks every line of the working.</li><li>When both accept a result, rely on the examiner's check.</li></ul></div>
-</section>
-
-<section class="slide" data-section="[05] Proof">
-  <span class="kicker">05 · Proof</span>
-  <h2>Examples from the proofs</h2>
+  <span class="kicker">05 · Our results</span>
+  <h2>Two errors the proofs caught, and the proof counts</h2>
   <div class="cols c2" style="margin-top:22px; gap:40px">
     <div class="card cx">
-      <span class="label">Example 1 · Working out a constant in advance</span>
-      <p class="small-p">To speed up the savings model, we rewrote <code>account × (1 − 0.01 / 12)</code> with the constant worked out in advance as <code>0.99916666…</code>.</p>
-      <div class="cx-v">Z3 rejects this change. The written decimal is not exactly the same number as 1 − 0.01/12, so the two models are not equal for every policy. A comparison would show a difference only in the last digits, and a tolerance wider than that difference would accept the change.</div>
+      <span class="label">A shortcut we tried on the savings model</span>
+      <p class="small-p">To save time, we rewrote <code>account × (1 − 0.01 / 12)</code> with the constant worked out in advance as <code>0.99916666…</code>.</p>
+      <div class="cx-v">Z3 rejected it. The written decimal is not exactly 1 − 0.01/12, so the two models are not equal for every policy. A test with a tolerance would have accepted it.</div>
     </div>
     <div class="card cx">
-      <span class="label">Example 2 · The wrong table row</span>
-      <p class="small-p">A planted error read the initial commission from the next product's row of the expense table.</p>
-      <div class="cx-v">Z3 rejects this change and gives a counterexample policy. Comparison caught it too, because neighbouring products have different commission rates. The proof finds the wrong row even where the tested table values happen to agree.</div>
+      <span class="label">An error we planted on purpose</span>
+      <p class="small-p">We made the fast model read the initial commission from the next product's row of the expense table.</p>
+      <div class="cx-v">Z3 rejected it and gave a policy that shows the difference. The proof finds the wrong row even where the tested table values happen to agree.</div>
     </div>
   </div>
   <table class="t" style="margin-top:26px">
-    <thead><tr><th>Model</th><th>Z3 proof count (main statements + early exit)</th><th>Lean check count</th><th>Proof outcomes for planted errors</th></tr></thead>
+    <thead><tr><th>Model</th><th>Statements Z3 proved (main + early exit)</th><th>Statements Lean checked again</th><th>What the proof showed for planted errors</th></tr></thead>
+    <tbody>
     <tbody>
       <tr><td>Savings</td><td>114 + 20 for stopping early, both versions</td><td>134 of 134, both versions</td><td>195 of 195 differ</td></tr>
       <tr><td>Savings with dynamic lapses</td><td>124 + 52, each of 5 configurations</td><td>158 of 158 (124 + 34 early exit), each</td><td>428 differ, 4 make no difference</td></tr>
       <tr><td>Term assurance</td><td>44 + 12, both versions</td><td>56 of 56, both versions</td><td>104 differ, 1 makes no difference</td></tr>
       <tr><td>Traditional life, annual</td><td>158 + 8, both versions</td><td>166 of 166, both versions</td><td>253 differ, 9 make no difference, 2 cannot be processed</td></tr>
     </tbody>
+    </tbody>
   </table>
 </section>
 
 <section class="slide" data-section="[05] Proof">
-  <span class="kicker">05 · Proof</span>
-  <h2>Why Lean matters when we change the arithmetic</h2>
-  <div class="push">
-    <div class="push-col"><span class="label">Compilation and parallel cores</span><h3>Comparison</h3><p class="small-p">The fast model reproduces the original's recorded values on the test portfolios. Proof extends this to any policy under stated assumptions, but a reviewer can rely on the comparison.</p><div class="push-bar" style="--w:30%"></div></div>
-    <div class="push-col"><span class="label">Early exit</span><h3>Proof</h3><p class="small-p">Stopping early and rearranging sums change the arithmetic. The claim that results agree in exact arithmetic comes from the proof, and separate checks measure the effect of rounding.</p><div class="push-bar" style="--w:65%"></div></div>
-    <div class="push-col"><span class="label">GPU</span><h3>Proof and error bounds</h3><p class="small-p">The proof covers the calculation in exact arithmetic. The error bound says how far rounding can have moved the answer. Both are needed.</p><div class="push-bar" style="--w:100%"></div></div>
-  </div>
-  <div class="callout" style="margin-top:24px"><ul class="cl"><li>Once early exit or a GPU changes the arithmetic, a separate proof checker matters.</li><li>A large automated tool, Z3, finds the proofs; Lean then checks a separate proof of each statement with a small, widely examined checking program.</li><li>The translation into Lean, the assumptions, and the connection to the full projection still need review.</li></ul></div>
+  <span class="kicker">05 · Summary</span>
+  <h2>What we rely on at each step</h2>
+  <table class="t need" style="margin-top:26px">
+    <thead><tr><th>Step</th><th>What changes in the arithmetic</th><th>What we rely on</th></tr></thead>
+    <tbody>
+      <tr><td>Compilation and parallel cores</td><td>Nothing</td><td>Comparison of every value. The proof adds cover for policies nobody tested.</td></tr>
+      <tr><td>Early exit</td><td>Projections stop early, and some sums are rearranged</td><td>The proof, checked by Lean, and rounding checks.</td></tr>
+      <tr><td>Move to a GPU, reduce GPU precision</td><td>Different hardware, and fewer digits at reduced precision</td><td>The proof, checked by Lean, and the rounding error bounds. Both are needed.</td></tr>
+    </tbody>
+  </table>
+  <div class="callout" style="margin-top:24px"><ul class="cl"><li>The more an optimisation changes the arithmetic, the more we rely on proof and the less on comparison.</li><li>Z3 finds the proofs, and Lean checks each one again with a small, widely examined checking program.</li><li>People still need to review three things: the translation into Lean, the assumptions, and the link from each month's proof to the full projection.</li></ul></div>
   <aside class="notes"><p>A caveat, repeated on the limits slide. Our own code and a short written description of the model produce the statements, and Lean checks them. Someone has to review both the code and the description.</p></aside>
 </section>
 
@@ -464,8 +487,8 @@ claims  = sa * p_death</pre>
   <h2>How computers round numbers</h2>
   <div class="cols c55" style="margin-top:14px; gap:50px; align-items:start">
     <div>
-      <p>Proofs deal with exact numbers. Computers store a fixed number of digits: about 16 in double precision, the normal choice for financial work, and about seven in single precision, which graphics processors handle many times faster.</p>
-      <p>Computer arithmetic rounds results to fit the available digits. Usually the effect is tiny. When large amounts nearly cancel, a small error in either amount can become a large share of the difference. Net cashflow can be sensitive for this reason.</p>
+      <p>Proofs deal with exact numbers. Computers keep a fixed number of digits: about 16 as standard, or about seven on a GPU at reduced precision.</p>
+      <p>Each result is rounded to fit. The effect is usually tiny, but it grows when two large amounts nearly cancel. Net cashflow is sensitive for this reason.</p>
     </div>
     <div class="card fl">
       <label class="label" for="fl-in">Type a number</label>
@@ -479,18 +502,19 @@ claims  = sa * p_death</pre>
 
 <section class="slide" id="interval" data-section="[06] Rounding">
   <span class="kicker">06 · How far rounding can move an answer</span>
-  <h2>Interval arithmetic</h2>
+  <h2>A guaranteed limit on rounding error</h2>
   <div class="cols c46" style="margin-top:10px; gap:46px; align-items:start">
     <div>
-      <p>We run the fast model once more, this time carrying every number as a pair: one known to be below the exact value, and one above. Every sum rounds the lower number down and the upper number up, so the exact answer cannot escape. When the pair cannot settle a comparison, the program keeps both outcomes. This method is interval arithmetic.</p>
-      <p>The result for each row in the checking run is a narrow range. It contains the exact answer for the prepared inputs, provided the interval program is correct. You can then measure any computed answer in seven or 16 digits, from any device, against it. The check reports any row it cannot bound.</p>
+      <p>We run the fast model once more, carrying every number as a pair: one value known to be below the exact answer, and one above.</p>
+      <p>Every sum rounds the lower value down and the upper value up, so the exact answer always lies between them. This method is called interval arithmetic.</p>
+      <p>Each row ends with a narrow range that contains the exact answer. The distance from any computed result to the far end of that range is a guaranteed limit on its error.</p>
     </div>
     <div class="card iv">
       <p class="src" style="margin:0 0 6px">Illustrative positions, not to scale. A computed result can lie outside the range; its distance to the far end bounds its error.</p><svg id="iv-svg" viewBox="0 0 760 330" role="img" aria-label="An interval containing the exact result, with computed results placed against it"></svg>
     </div>
   </div>
   <i data-step="1"></i><i data-step="2"></i>
-  <aside class="notes"><p>Press → twice. The positions are for illustration, not to scale. The range is typically about a millionth of a millionth of the value wide. Results at seven digits fall well outside it. Their error is at most the distance to the far end of the range.</p></aside>
+  <aside class="notes"><p>Press → twice. The positions are for illustration, not to scale. The range is typically about a millionth of a millionth of the value wide. Results at seven digits fall well outside it. The guarantee holds for the prepared inputs, provided the interval program is correct, and the check reports any row it cannot bound.</p></aside>
 </section>
 
 <section class="slide" data-section="[06] Rounding">
@@ -605,8 +629,8 @@ claims  = sa * p_death</pre>
 </section>
 
 </main>
-<script src="data.js?v=23"></script>
-<script src="assets/deck.js?v=23"></script>
-<script src="demos.js?v=23"></script>
+<script src="data.js?v=24"></script>
+<script src="assets/deck.js?v=24"></script>
+<script src="demos.js?v=24"></script>
 </body>
 </html>
