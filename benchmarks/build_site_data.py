@@ -9,7 +9,7 @@ MODELS = [("lifelib_savings", "Savings", "CashValue_ME"), ("lifelib_savings_dyna
           ("lifelib_basicterm", "Term assurance", "BasicTerm_ME"), ("lifelib_fastlife", "Traditional life, annual", "fastlife")]
 STEPS = [("cpu 1 core, float64, no early exit", "Compiled, one core"), ("cpu all cores, float64, no early exit", "All 20 processor cores"),
          ("cpu all cores, float64", "Stop when nothing is left"), ("gpu, float64", "Graphics processor, 16 digits"),
-         ("gpu, float32", "Graphics processor, 7 digits")]
+         ("gpu, float32", "Graphics processor, seven digits")]
 t = R("benchmarks", "results", "timings.json"); c = R("benchmarks", "results", "certify.json")
 # one policy at a time (lifelib's unvectorised siblings), seconds per million rows
 sav = R("examples", "lifelib_savings", "results", "baseline.json")

@@ -34,12 +34,14 @@
   // ---------- title: one 10M-row run ----------
   (function () {
     const box = $('#title-bars'); if (!box) return;
-    const pick = [0, 1, 4, 5, 6].map(i => SAV.steps[i]);
-    const names = ['One policy at a time', 'Vectorised, as lifelib supplies it', 'Compiled, 20 cores, early exit', 'Graphics processor, 16 digits', 'Graphics processor, seven digits'];
+    const pick = [1, 3, 4, 5, 6].map(i => SAV.steps[i]);
+    const names = ['Vectorised, as lifelib supplies it', 'Compiled, 20 cores', 'Compiled, 20 cores, early exit', 'Graphics processor, 16 digits', 'Graphics processor, seven digits'];
+    const notes = ['The starting point', 'Every recorded value identical to the original', 'Proved equal in exact arithmetic; results agree to about 11 significant figures', 'Results agree to about ten significant figures', 'Portfolio totals agree to within one part in a million; single policies differ by up to 6%'];
     const t = pick.map(s => s.s * 10), lo = Math.log10(Math.min(...t)) - 0.6, hi = Math.log10(Math.max(...t));
+    const sig2 = x => { const p = 10 ** (Math.floor(Math.log10(x)) - 1); return (Math.round(x / p) * p).toLocaleString('en-GB'); };
     const rows = pick.map((s, i) => {
-      const r = el('div', { class: 'tb-row' + (s.kind === 'original' ? ' orig' : '') },
-        `<span class="nm">${names[i]}</span><span class="tk"><span class="bar"></span></span><span class="val">${dur(t[i])}</span>`);
+      const r = el('div', { class: 'tb-row' + (i === 0 ? ' orig' : '') },
+        `<span class="nm">${names[i]}</span><span class="tk"><span class="bar"></span></span><span class="val">${dur(t[i])}</span><span class="x">${i === 0 ? '' : sig2(t[0] / t[i]) + '×'}</span><span class="note">${notes[i]}</span>`);
       box.appendChild(r); return r;
     });
     const go = () => rows.forEach((r, i) => setTimeout(() => { r.querySelector('.bar').style.width = `${((Math.log10(t[i]) - lo) / (hi - lo)) * 100}%`; }, 250 + i * 140));

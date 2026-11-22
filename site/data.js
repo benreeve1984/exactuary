@@ -46,7 +46,7 @@ window.EXA = {
      "kind": "kernel"
     },
     {
-     "label": "Graphics processor, 7 digits",
+     "label": "Graphics processor, seven digits",
      "s": 0.012627906099805842,
      "kind": "kernel"
     }
@@ -139,7 +139,7 @@ window.EXA = {
      "kind": "kernel"
     },
     {
-     "label": "Graphics processor, 7 digits",
+     "label": "Graphics processor, seven digits",
      "s": 0.0036403353995410727,
      "kind": "kernel"
     }
@@ -237,7 +237,7 @@ window.EXA = {
      "kind": "kernel"
     },
     {
-     "label": "Graphics processor, 7 digits",
+     "label": "Graphics processor, seven digits",
      "s": 0.0029921802000899334,
      "kind": "kernel"
     }
@@ -335,7 +335,7 @@ window.EXA = {
      "kind": "kernel"
     },
     {
-     "label": "Graphics processor, 7 digits",
+     "label": "Graphics processor, seven digits",
      "s": 0.0039405149894801,
      "kind": "kernel"
     }

@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..500&family=Manrope:wght@400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/base.css">
 <link rel="stylesheet" href="assets/deck.css">
-<link rel="stylesheet" href="demos.css?v=11">
+<link rel="stylesheet" href="demos.css?v=12">
 </head>
 <body class="deck" data-title="Model acceleration and evidence" data-brand="Exactuary">
 <main class="stage">
@@ -23,23 +23,23 @@
       <span class="kicker rise" style="--i:0">An experiment in model acceleration</span>
       <h1 class="rise" style="--i:1">Exactuary</h1>
       <p class="lede rise" style="--i:2; margin-top:26px">An experiment on four open source life insurance models from lifelib: how much faster actuarial cashflow models can run, what it takes to achieve each speed-up, and how we can prove that the optimised models match the originals.</p>
-      <div class="meta-row res-row rise" style="--i:3">
-        <div><div class="v">About 420×</div><p>Compiled, all processor cores. Every one of 1.6 billion recorded values identical to the original.</p></div>
-        <div><div class="v">About 870×</div><p>Restructured to stop early. Proved equal to the original in exact arithmetic, under stated assumptions. Lean re-checked the main statements.</p></div>
-        <div><div class="v">About 22,000×</div><p>Graphics processor, seven digits. Single policies differed by up to 14%.</p></div>
+      <div class="callout rise" style="--i:3; margin-top:26px">Main result: compiled code on one desktop computer ran a savings model about 420 times as fast as lifelib's version, with identical results. Stopping each projection early took this to about 870 times, with a mathematical proof that the change leaves the results unaffected.</div>
+      <div class="meta-row rise" style="--i:3">
+        <div><span class="label">For</span><div class="v">Actuarial teams</div></div>
+        <div><span class="label">Snapshot</span><div class="v">November 2026</div></div>
+        <div><span class="label">Code</span><div class="v"><a href="https://github.com/benreeve1984/exactuary">GitHub</a></div></div>
       </div>
-      <p class="src rise" style="--i:3; margin-top:10px">Speed-ups for the savings model on one desktop computer, against lifelib's own version. Recorded values cover all four models. Snapshot November 2026 · <a href="https://github.com/benreeve1984/exactuary">Code on GitHub</a></p>
       <p class="label rise" style="--i:4; margin-top:40px">Press → to start · O for overview · N for notes</p>
     </div>
     <div class="rise title-visual" style="--i:2">
       <div class="card tv">
-        <div class="tv-h"><span class="label">Time to project ten million policy-scenario pairs of a savings model</span></div>
+        <div class="tv-h"><span class="label">Time to project ten million policy-scenario pairs of a savings model, and speed-up against lifelib's version</span></div>
         <div id="title-bars"></div>
         <p class="src" style="margin-top:10px">Bar lengths use a logarithmic scale so that short and long runs fit on one chart. Projection time only: preparing inputs and checking results are extra. One desktop-sized computer, described near the end.</p>
       </div>
     </div>
   </div>
-  <aside class="notes"><p>The headline. Written to handle one policy at a time, this run takes 18 days. As lifelib supplies it, it takes 47 minutes. Compiled and run on 20 processor cores with early exit (level 4), it takes 3.2 seconds. On a graphics processor it takes a tenth of a second, and the results can differ materially for individual policies.</p><p>The rest of the deck explains where each gain comes from, what it takes to achieve, and how we check that the results match.</p></aside>
+  <aside class="notes"><p>The headline. As lifelib supplies it, this run takes 47 minutes. Compiled and run on 20 processor cores with early exit (level 4), it takes 3.2 seconds. On a graphics processor it takes a tenth of a second, and the results can differ materially for individual policies.</p><p>The rest of the deck explains where each gain comes from, what it takes to achieve, and how we check that the results match.</p></aside>
 </section>
 
 <section class="slide" data-section="Introduction">
@@ -543,8 +543,8 @@ claims  = sa * p_death</pre>
 </section>
 
 </main>
-<script src="data.js?v=11"></script>
-<script src="assets/deck.js?v=11"></script>
-<script src="demos.js?v=11"></script>
+<script src="data.js?v=12"></script>
+<script src="assets/deck.js?v=12"></script>
+<script src="demos.js?v=12"></script>
 </body>
 </html>
