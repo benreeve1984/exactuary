@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..500&family=Manrope:wght@400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/base.css">
 <link rel="stylesheet" href="assets/deck.css">
-<link rel="stylesheet" href="demos.css?v=7">
+<link rel="stylesheet" href="demos.css?v=8">
 </head>
 <body class="deck" data-title="Model acceleration and evidence" data-brand="Exactuary">
 <main class="stage">
@@ -22,7 +22,7 @@
     <div>
       <span class="kicker rise" style="--i:0">An experiment in model acceleration</span>
       <h1 class="rise" style="--i:1">Exactuary</h1>
-      <p class="lede rise" style="--i:2; margin-top:26px">An experiment on four open source lifelib models: how much faster actuarial cashflow models can run, what it takes to achieve each speed-up, and how we can prove that the optimised models match the originals.</p>
+      <p class="lede rise" style="--i:2; margin-top:26px">An experiment on four open source life insurance models from lifelib: how much faster actuarial cashflow models can run, what it takes to achieve each speed-up, and how we can prove that the optimised models match the originals.</p>
       <div class="meta-row rise" style="--i:3">
         <div><span class="label">For</span><div class="v">Actuarial teams</div></div>
         <div><span class="label">Snapshot</span><div class="v">November 2026</div></div>
@@ -39,6 +39,28 @@
     </div>
   </div>
   <aside class="notes"><p>The headline. Written to handle one policy at a time, this run takes 18 days. As lifelib supplies it, it takes 47 minutes. Compiled and run on 20 processor cores with early exit (level 4), it takes 3.2 seconds. On a graphics processor it takes a tenth of a second, and the results can differ materially for individual policies.</p><p>The rest of the deck explains where each gain comes from, what it takes to achieve, and how we check that the results match.</p></aside>
+</section>
+
+<section class="slide" data-section="Introduction">
+  <span class="kicker">Background</span>
+  <h2>Actuarial cashflow models</h2>
+  <div class="cols c55" style="margin-top:30px; gap:48px">
+    <div>
+      <p>Life insurers use actuarial cashflow models to estimate what their policies will pay out and bring in over many years. The model takes each policy, such as a savings plan or a life cover, and projects its premiums, claims, surrenders and expenses month by month. It then discounts these future cashflows to a single value today.</p>
+      <p>Insurers use the results to set reserves, price new products, report under rules such as Solvency II and IFRS 17, and work out how much capital to hold. A full run covers every policy, often under hundreds or thousands of economic scenarios. Many teams write these models in Python or in specialist actuarial software.</p>
+    </div>
+    <div>
+      <span class="label">The four models in this experiment</span>
+      <div class="cols c2" style="margin-top:12px; gap:14px">
+        <div class="card"><h3 style="font-size:18px">Savings</h3><p class="small-p">A savings policy with an account value, investment returns, fees, and guaranteed death and maturity benefits.</p></div>
+        <div class="card"><h3 style="font-size:18px">Savings with dynamic lapses</h3><p class="small-p">The same product, but more people cancel when the guarantee is worth little.</p></div>
+        <div class="card"><h3 style="font-size:18px">Term assurance</h3><p class="small-p">Life cover for a fixed term, with monthly premiums.</p></div>
+        <div class="card"><h3 style="font-size:18px">Traditional life, annual</h3><p class="small-p">Term, whole life and endowment policies, with reserves and cash values, projected year by year.</p></div>
+      </div>
+      <p class="small-p" style="margin-top:14px">All four come from lifelib, an open source library of actuarial models written in Python. They are simpler than production models, but they use the same kinds of calculation.</p>
+    </div>
+  </div>
+  <aside class="notes"><p>This slide sets the scene for readers outside actuarial work. Everything later in the deck applies to these four models.</p></aside>
 </section>
 
 <section class="slide" data-section="Introduction">
@@ -520,8 +542,8 @@ claims  = sa * p_death</pre>
 </section>
 
 </main>
-<script src="data.js?v=7"></script>
-<script src="assets/deck.js?v=7"></script>
-<script src="demos.js?v=7"></script>
+<script src="data.js?v=8"></script>
+<script src="assets/deck.js?v=8"></script>
+<script src="demos.js?v=8"></script>
 </body>
 </html>
