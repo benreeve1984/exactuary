@@ -62,6 +62,45 @@ At the on-demand list price of 3.28 US dollars an hour for the 64-core machine, 
 this model cost about 11 US cents to project. The price was the AWS list price for us-east-1 on 22
 November 2026.
 
+## Vectorised code on a GPU
+
+A common way to speed up a vectorised Python model is to run the same code on a GPU. CuPy is a
+library that mirrors NumPy on a GPU, so whole-array code moves across with almost no change.
+`benchmarks/vectorised_gpu.py` runs the savings model in this style: one month for all ten million
+rows, then the next month. The table compares it with the compiled fast model.
+
+| Route | Hardware | Seconds for ten million rows | Speed against lifelib's version |
+|---|---|---|---|
+| lifelib's vectorised model | Desktop processor | 2,794 | 1 |
+| The same arithmetic as whole arrays in NumPy | Desktop processor | 597 | 4.7 |
+| Whole arrays on a GPU with CuPy | NVIDIA GB10 | 176 | 16 |
+| Whole arrays on a GPU with CuPy | NVIDIA H100 | 12.5 | 224 |
+| Compiled fast model | 20-core desktop, no GPU | 3.1 | 896 |
+| Compiled fast model | 64 rented cores, no GPU | 1.2 | 2,370 |
+| Compiled fast model | NVIDIA GB10 | 1.5 | 1,840 |
+| Compiled fast model | NVIDIA H100 | 0.06 | 46,000 |
+
+All rows use double precision. The NumPy figure scales up a run of 200,000 rows. The whole-array
+runs cover every month, as lifelib's model does, and the compiled runs on processor cores use early
+exit.
+
+The whole-array results equal the compiled results exactly in double precision, because both
+perform the same operations in the same order.
+
+Vectorised code on the fastest GPU we tried took about ten times as long as the compiled model on
+64 ordinary processor cores, and about 200 times as long as the compiled model on that GPU. Each
+whole-array operation reads and writes all ten million values, so the speed of memory limits it on
+any hardware. The compiled model takes one policy through all its months and keeps that policy's
+few values inside the processor.
+
+In single precision, the whole-array runs took 110 seconds on the GB10 and 9.9 seconds on the H100,
+and 1.48% of rows came out undefined. Whole-array code keeps calculating every policy to the last
+month. In single precision, the account values of finished policies grow until they overflow. The
+compiled model stops each policy when nothing is left in force, so it avoids this.
+
+This test covers one way to run vectorised code on a GPU. A platform that compiles whole formulas
+for the GPU could do better than CuPy. We did not test any commercial platform.
+
 ## GPUs
 
 Seconds for ten million rows.

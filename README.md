@@ -28,8 +28,11 @@ code equals the original to support model validation. Exactuary tests that route
 
 On the savings example, 64 rented processor cores project 100 million rows in 12.5 seconds, for
 about one US cent. lifelib's version would take about 7.8 hours on a desktop computer. The
-recorded values are identical on the test portfolios. See
-[Results on other hardware](docs/hardware.md).
+recorded values are identical on the test portfolios.
+
+We also took the vectorised code straight to a GPU, with a library that mirrors NumPy. On the
+fastest GPU we tried, it took about ten times as long as the compiled model on those 64 processor
+cores. See [Results on other hardware](docs/hardware.md).
 
 ## The idea
 
