@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..500&family=Manrope:wght@400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/base.css">
 <link rel="stylesheet" href="assets/deck.css">
-<link rel="stylesheet" href="demos.css?v=27">
+<link rel="stylesheet" href="demos.css?v=28">
 </head>
 <body class="deck" data-title="Model acceleration and evidence" data-brand="Exactuary">
 <main class="stage">
@@ -23,13 +23,9 @@
       <span class="kicker rise" style="--i:0">An experiment in model acceleration</span>
       <h1 class="rise" style="--i:1">Exactuary</h1>
       <p class="lede rise" style="--i:2; margin-top:26px">AI coding agents can now rewrite actuarial models as fast, low-level code. We tested how far that goes on ordinary processors, without GPUs, and how mathematical proof can show that the optimised models match the originals. The test used four open source life insurance models from lifelib.</p>
-      <div class="callout rise" style="--i:3; margin-top:26px"><ul class="cl"><li>Compiled code from the coding agent ran a savings model about 420 times as fast as lifelib's version on one desktop computer, with identical results, and about 870 times with early exit.</li><li>The usual shortcut, running the existing vectorised code on a GPU, was about ten times slower than our compiled code on 64 ordinary processor cores, even on a data-centre GPU.</li><li>Mathematical proof backs the changes: Z3 found the proofs, and Lean, the proof checker mathematicians use, checked the main statements again.</li></ul></div>
-      <div class="meta-row rise" style="--i:3">
-        <div><span class="label">For</span><div class="v">Actuarial teams</div></div>
-        <div><span class="label">Snapshot</span><div class="v">November 2026</div></div>
-        <div><span class="label">Code</span><div class="v"><a href="https://github.com/benreeve1984/exactuary">GitHub</a></div></div>
-      </div>
-      <p class="label rise" style="--i:4; margin-top:20px">Press → to start · O for overview · N for notes</p>
+      <div class="callout rise" style="--i:3; margin-top:26px"><ul class="cl"><li>Compiled code from the coding agent ran a savings model about 420 times as fast as lifelib's version on one desktop computer, with identical results.</li><li>The usual shortcut, running the existing vectorised code on a data-centre GPU, was about ten times slower than our compiled code on 64 ordinary processor cores.</li><li>Mathematical proof backs the changes: Z3 found the proofs, and Lean checked the main statements again.</li></ul></div>
+      <p class="src rise" style="--i:3; margin-top:14px">For actuarial teams · November 2026 · <a href="https://github.com/benreeve1984/exactuary">Code on GitHub</a></p>
+      <p class="label rise" style="--i:4; margin-top:16px">Press → to start · O for overview · N for notes</p>
     </div>
     <div class="rise title-visual" style="--i:2">
       <div class="card tv">
@@ -666,8 +662,8 @@ claims  = sa * p_death</pre>
 </section>
 
 </main>
-<script src="data.js?v=27"></script>
-<script src="assets/deck.js?v=27"></script>
-<script src="demos.js?v=27"></script>
+<script src="data.js?v=28"></script>
+<script src="assets/deck.js?v=28"></script>
+<script src="demos.js?v=28"></script>
 </body>
 </html>
