@@ -20,6 +20,31 @@ levels and the evidence for each, and sets out how to choose between them. The
 Levels 2 and 3 are separate because level 2 changes the model. Level 3 changes only the number of
 processors.
 
+## What the conversion changes in the code
+
+The conversion changes how the calculation runs. It does not change the arithmetic. The table uses
+the savings model as an example.
+
+| Optimisation | lifelib's model | Fast model | Effect on results |
+|---|---|---|---|
+| One step function | 79 formulas that call each other, with modelx storing each result | One straight-line function of about 60 lines, for one policy in one month | Identical |
+| Loop order and memory | One month for all policies, then the next month, keeping every month's values | One policy through all its months, carrying two values: the account value and the policies in force | Identical |
+| Table lookups | pandas looks up each rate by its labels, every month | Direct lookups by position in plain arrays | Identical, and every table position is tested |
+| Work moved out of the loop | Monthly rates, discount factors, and inflation factors come from powers and exponentials inside the formulas | Worked out once before the projection with the same expressions, then read from tables | Identical |
+| Choices without branches | Conditions on whole arrays | A select operation picks one of two values, so the processor or GPU runs straight through | Identical |
+| Running totals | Stores every cashflow, then discounts and adds them | Adds each discounted cashflow to a running total as it goes | Last digits differ |
+| Early exit | Projects every policy to the longest term | Stops a policy once nothing is left in force | Proven equal in exact arithmetic |
+| Parallel rows | Mostly one processor core | Rows shared across all processor cores, or one GPU thread for each row | Identical on processor cores |
+
+Up to level 3, every operation runs in the original order, which is why the recorded values are
+identical. The savings example also has a version with the algebra rearranged to save operations.
+The proof shows that version equal in exact arithmetic, and the rounding checks bound the
+difference.
+
+A person or an AI coding agent makes these changes by following the procedure in
+`skills/convert-model/SKILL.md`. Compilation is automatic: Exactuary turns the step function into
+machine code.
+
 ## The checks
 
 There are five complementary checks. Each addresses a different source of error.

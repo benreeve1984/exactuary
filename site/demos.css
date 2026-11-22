@@ -236,3 +236,6 @@ table.trade-t td { font-size: 14.5px; }
 
 table.t.need tbody tr { height: 66px; }
 table.t.need tbody td { vertical-align: middle; }
+
+table.opt-t td { padding: 7px 10px; font-size: 14.5px; }
+table.opt-t td:first-child { white-space: nowrap; }

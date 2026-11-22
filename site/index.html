@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..500&family=Manrope:wght@400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/base.css">
 <link rel="stylesheet" href="assets/deck.css">
-<link rel="stylesheet" href="demos.css?v=28">
+<link rel="stylesheet" href="demos.css?v=29">
 </head>
 <body class="deck" data-title="Model acceleration and evidence" data-brand="Exactuary">
 <main class="stage">
@@ -230,6 +230,27 @@
   </table>
   <div class="callout" style="margin-top:18px"><ul class="cl"><li>There is no free lunch: each step takes the model further from the validated original.</li><li>After compilation and parallel cores, you can still check the fast model by comparing every recorded value with the original.</li><li>From early exit onwards, the fast model does sums that are not in the original, so comparison alone is not enough.</li></ul></div>
   <aside class="notes"><p>The "gain" column shows how many times faster each level is than the row above it, for the savings model. The previous slide has the other three models.</p></aside>
+</section>
+
+<section class="slide" data-section="[03] Six levels">
+  <span class="kicker">03 · Six levels of acceleration</span>
+  <h2>What the coding agent changed in the code</h2>
+  <p class="lede" style="font-size:20px">The savings model, as an example. The agent changes how the calculation runs, not the arithmetic.</p>
+  <table class="t opt-t" style="margin-top:14px">
+    <thead><tr><th>Optimisation</th><th>lifelib's model</th><th>Fast model</th><th>Effect on results</th></tr></thead>
+    <tbody>
+      <tr><td>One step function</td><td>79 formulas that call each other, with modelx storing each result</td><td>One straight-line function of about 60 lines, for one policy in one month</td><td>Identical</td></tr>
+      <tr><td>Loop order and memory</td><td>One month for all policies, then the next month, keeping every month's values</td><td>One policy through all its months, carrying two values: the account value and the policies in force</td><td>Identical</td></tr>
+      <tr><td>Table lookups</td><td>pandas looks up each rate by its labels, every month</td><td>Direct lookups by position in plain arrays</td><td>Identical, and every table position is tested</td></tr>
+      <tr><td>Work moved out of the loop</td><td>Monthly rates, discount factors, and inflation factors come from powers and exponentials inside the formulas</td><td>Worked out once before the projection with the same expressions, then read from tables</td><td>Identical</td></tr>
+      <tr><td>Choices without branches</td><td>Conditions on whole arrays</td><td>A select operation picks one of two values, so the processor or GPU runs straight through</td><td>Identical</td></tr>
+      <tr><td>Running totals</td><td>Stores every cashflow, then discounts and adds them</td><td>Adds each discounted cashflow to a running total as it goes</td><td>Last digits differ</td></tr>
+      <tr><td>Early exit</td><td>Projects every policy to the longest term</td><td>Stops a policy once nothing is left in force</td><td>Proven equal in exact arithmetic</td></tr>
+      <tr><td>Parallel rows</td><td>Mostly one processor core</td><td>Rows shared across all processor cores, or one GPU thread for each row</td><td>Identical on processor cores</td></tr>
+    </tbody>
+  </table>
+  <div class="callout" style="margin-top:14px"><ul class="cl"><li>Up to parallel cores, every sum runs in the original order, which is why the results are identical.</li><li>The agent also wrote a version with the algebra rearranged to save operations. The proof shows it equal in exact arithmetic, and the rounding checks bound the difference.</li></ul></div>
+  <aside class="notes"><p>The agent follows a written conversion procedure, in skills/convert-model in the repository. Compilation itself is automatic: the pipeline turns the step function into machine code.</p></aside>
 </section>
 
 <section class="slide" data-section="[03] Six levels">
@@ -662,8 +683,8 @@ claims  = sa * p_death</pre>
 </section>
 
 </main>
-<script src="data.js?v=28"></script>
-<script src="assets/deck.js?v=28"></script>
-<script src="demos.js?v=28"></script>
+<script src="data.js?v=29"></script>
+<script src="assets/deck.js?v=29"></script>
+<script src="demos.js?v=29"></script>
 </body>
 </html>
