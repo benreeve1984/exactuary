@@ -1,7 +1,7 @@
 # Levels of acceleration
 
 You can make a cashflow model faster in a series of levels. Each level moves the model further
-from its validated form, so each level needs more evidence of agreement. This page defines the
+from its validated form, so each level needs stronger checks that it still matches the original. This page defines the
 levels and the evidence for each, and sets out how to choose between them. The
 [glossary](../README.md#glossary) explains the terms.
 
@@ -22,7 +22,7 @@ processors.
 
 ## The checks
 
-There are 5 complementary checks. Each addresses a different source of error.
+There are five complementary checks. Each addresses a different source of error.
 
 1. Comparison of recorded values. Run the original model on a test portfolio and record each
    selected intermediate value in each period. The fast model must reproduce each value exactly.
@@ -46,7 +46,7 @@ There are 5 complementary checks. Each addresses a different source of error.
 
 A running total of present values can differ in the last digits from the original model's method,
 which multiplies cashflows by discount factors and adds them. Across the saved exact-comparison
-runs, the largest reported relative difference from a running total is about 1.27 parts in 10
+runs, the largest reported relative difference from a running total is about 1.27 parts in ten
 billion, for configuration 3 of savings with dynamic lapses. Matching the original summation
 order removes this difference on those tests.
 

@@ -1,6 +1,6 @@
 # Examples
 
-These are 4 public teaching models from the open-source [lifelib](https://lifelib.io) project
+These are four open source models from the [lifelib](https://lifelib.io) project
 (version 0.17.3). Each example contains a converted fast model and results for the acceleration
 checks. Install the original models through lifelib and run them unchanged for comparison. The
 [glossary](../README.md#glossary) explains the terms on this page.
@@ -33,4 +33,4 @@ The `harness` command tests the checks with planted errors (the code calls these
 defects"). The `prove` command uses Z3, and the `lean` command uses Lean.
 
 The scripts in [`../benchmarks`](../benchmarks/) produce rounding error bounds and timings on a
-common basis for all 4 models.
+common basis for all four models.

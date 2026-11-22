@@ -20,7 +20,7 @@ portfolio adds policies:
 
 ## Fast model
 
-The step function has about 60 lines. It carries 2 values per policy from one month to the next:
+The step function has about 60 lines. It carries two values per policy from one month to the next:
 the account value and the policies in force.
 
 A second, rearranged version groups the arithmetic differently. Its stored values are not always
@@ -40,5 +40,5 @@ identical to the original model's. It shows what proof allows.
 ## Level 0 baseline
 
 lifelib's `CashValue_SE` projects one policy at a time. Its results agree with the vectorised
-original model to 4 parts in 10^13. The scalar run takes about 156 milliseconds per policy on 300
+original model to four parts in 10^13. The scalar run takes about 156 milliseconds per policy on 300
 policies. On that same portfolio it takes about 21 times as long as the vectorised run.

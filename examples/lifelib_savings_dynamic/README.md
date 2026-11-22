@@ -6,12 +6,12 @@ The [glossary](../../README.md#glossary) explains the terms on this page.
 
 This is the savings model with switches for fees, mortality and lapses. Its lapse rate depends on
 the value of the guarantee, measured as the ratio of sum assured to account value. lifelib
-defines 5 configurations (`sim_id` 1 to 5), and the example includes all 5. The model has 92
+defines five configurations (`sim_id` 1 to 5), and the example includes all five. The model has 92
 formulas.
 
 ## Fast model
 
-There are 2 versions of the fast model:
+There are two versions of the fast model:
 
 - a static version for configurations 1 to 4
 - a dynamic version for configuration 5

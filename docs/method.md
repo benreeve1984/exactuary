@@ -69,7 +69,7 @@ For proof, the proof tool reads supported formulas from the original source. An 
 program that evaluates formulas) evaluates them with symbols. This gives a formula for each value
 in terms of the policy data. A separate description supplies assumptions for unsupported parts.
 The annual example includes a handwritten reserve formula. Each assumption needs its own tests
-and review. There are 2 qualifications.
+and review. There are two qualifications.
 
 First, Python does not run the original formulas. The interpreter accepts a listed set of Python
 constructs and rejects others. Tests found incorrect readings, and the interpreter now rejects
@@ -102,7 +102,7 @@ key, or wrongly treats a table as constant, the proof follows the wrong descript
 
 ## The proof
 
-Split the proof into statements (proof obligations). For each output, Z3 checks 2 statements.
+Split the proof into statements (proof obligations). For each output, Z3 checks two statements.
 
 1. In period 0, the fast model's value equals the original model's value for every possible
    policy.
@@ -113,7 +113,7 @@ Split the proof into statements (proof obligations). For each output, Z3 checks 
 If both hold for every output, induction (a proof that agreement carries from one period to the
 next) gives equality in every period.
 
-Lean proves 2 general results once, in `exactuary/lean/Glue.lean`:
+Lean proves two general results once, in `exactuary/lean/Glue.lean`:
 
 - the induction itself
 - the equality of present values as running totals
@@ -130,7 +130,7 @@ in force. The compiled code runs this rule, and the statements for early exit co
 rule.
 
 For period 0, for any later period and for any carried values, Z3 must prove the following. If the
-rule holds after a period, then in the next period every accumulated cashflow is 0 and the rule
+rule holds after a period, then in the next period every accumulated cashflow is zero and the rule
 holds again.
 
 Then compare the stopped and full projections, value for value, on every test portfolio.
@@ -142,13 +142,13 @@ infinite value. The examples report the affected rows.
 ## Rounding
 
 Proof of equality in exact arithmetic does not establish equality of computed results, because
-computer arithmetic rounds. There are 2 cases.
+computer arithmetic rounds. There are two cases.
 
 If the fast model performs the original model's operations in the original order, expect agreement.
 Exact comparison confirms it on the portfolios tested.
 
 If the implementation changes operation order, device or precision, run the fast model through the
-interval program. The program stores each value as 2 endpoints, one on either side of the exact
+interval program. The program stores each value as two endpoints, one on either side of the exact
 result. Each operation rounds the lower endpoint down and the upper endpoint up. Where the
 intervals cannot decide a comparison, the program keeps both outcomes.
 

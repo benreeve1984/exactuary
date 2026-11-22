@@ -35,7 +35,7 @@
   (function () {
     const box = $('#title-bars'); if (!box) return;
     const pick = [0, 1, 4, 5, 6].map(i => SAV.steps[i]);
-    const names = ['One policy at a time', 'Vectorised, as shipped', 'Compiled, 20 cores, early exit', 'Graphics processor, 16 digits', 'Graphics processor, 7 digits'];
+    const names = ['One policy at a time', 'Vectorised, as shipped', 'Compiled, 20 cores, early exit', 'Graphics processor, 16 digits', 'Graphics processor, seven digits'];
     const t = pick.map(s => s.s * 10), lo = Math.log10(Math.min(...t)) - 0.6, hi = Math.log10(Math.max(...t));
     const rows = pick.map((s, i) => {
       const r = el('div', { class: 'tb-row' + (s.kind === 'original' ? ' orig' : '') },
@@ -163,7 +163,7 @@
       ['3 · All 20 processor cores', 'The cores share the policies. Results are identical to one core.'],
       ['4 · Stop when nothing is left', 'A projection ends once no policies remain in force, not at the longest term.'],
       ['5 · Graphics processor, 16 digits', 'Thousands of policies at once, keeping about 16 digits. The last digits can differ.'],
-      ['6 · Graphics processor, 7 digits', 'Keeping about 7 digits. Many times faster on most graphics processors, and less accurate.'],
+      ['6 · Graphics processor, seven digits', 'Keeping about seven digits. Many times faster on most graphics processors, and less accurate.'],
     ];
     side.innerHTML = descr.map(([a, b], i) => `<div class="ls-step" data-i="${i}"><b>${a}</b><span>${b}</span></div>`).join('');
     let model = SAV, step = 0;
@@ -216,7 +216,7 @@
       ['3 · All processor cores', st[3].s, st[2].s, 'The cores share the policies', '<span class="yes">Yes</span>', 'None'],
       ['4 · Stop when nothing is left', st[4].s, st[3].s, 'Projections end early', '<span class="part">Equal in exact arithmetic</span> under stated assumptions', 'A proof that stopping loses nothing'],
       ['5 · Graphics processor, 16 digits', st[5].s, st[4].s, 'The same sums on different hardware', '<span class="part">Last digits differ</span>', 'A graphics processor, and error bounds'],
-      ['6 · Graphics processor, 7 digits', st[6].s, st[5].s, 'About 7 digits instead of 16', '<span class="part">No: depends on the output; see section 06</span>', 'Error bounds, checked for each reported output'],
+      ['6 · Graphics processor, seven digits', st[6].s, st[5].s, 'About seven digits instead of 16', '<span class="part">No: depends on the output; see section 06</span>', 'Error bounds, checked for each reported output'],
     ];
     tb.innerHTML = rows.map(r => `<tr><td>${r[0]}</td><td class="num">×${fmtX(r[2] / r[1])}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td></tr>`).join('');
   })();
@@ -225,14 +225,14 @@
   (function () {
     const box = $('#hero-row'); if (!box) return;
     const st = SAV.steps;
-    const pick = [[0, 'One policy at a time'], [1, 'Vectorised, as shipped'], [2, 'Compiled, one core'], [4, 'Compiled, 20 cores, stopping early'], [5, 'Graphics processor, 16 digits'], [6, 'Graphics processor, 7 digits']];
+    const pick = [[0, 'One policy at a time'], [1, 'Vectorised, as shipped'], [2, 'Compiled, one core'], [4, 'Compiled, 20 cores, stopping early'], [5, 'Graphics processor, 16 digits'], [6, 'Graphics processor, seven digits']];
     box.innerHTML = pick.map(([i, lab]) => `<div class="${st[i].kind === 'kernel' ? 'k' : ''}"><span class="label">${st[i].kind === 'kernel' ? 'Fast model' : 'Original'}</span><span class="big-num">${dur(st[i].s * 10)}</span><span class="lab">${lab}</span></div>`).join('');
   })();
 
   // ---------- defects ----------
   (function () {
     const box = $('#df-chart'), tb = $('#df-tabs'); if (!box) return;
-    const names = { 'portfolio totals within 1e-6, sample portfolio': 'Portfolio totals agree to 1 part in a million', 'per-policy present values within 1e-9, sample portfolio': 'Each policy\'s present values agree to 1 part per billion', 'every intermediate exact, sample portfolio': 'Every recorded value exactly, sample portfolio', 'every intermediate exact, all portfolios': 'Every recorded value exactly, sample and unusual cases' };
+    const names = { 'portfolio totals within 1e-6, sample portfolio': 'Portfolio totals agree to one part in a million', 'per-policy present values within 1e-9, sample portfolio': 'Each policy\'s present values agree to one part per billion', 'every intermediate exact, sample portfolio': 'Every recorded value exactly, sample portfolio', 'every intermediate exact, all portfolios': 'Every recorded value exactly, sample and unusual cases' };
     tabs(tb, D.models.map(m => ({ label: m.name, m })), it => {
       const rows = it.m.defects;
       box.innerHTML = rows.map((r, i) => `<div class="df-row ${i < 2 ? 'weak' : ''}"><div class="nm"><span>${names[r.check] || r.check}</span><b>${r.caught} of ${r.of} · ${Math.round(100 * r.caught / r.of)}%</b></div><div class="df-track"><div class="df-bar" style="width:0"></div></div></div>`).join('') +
@@ -294,7 +294,7 @@
     add(s1, 'line', { x1: 370, y1: 86, x2: 375, y2: 150, stroke: '#8b8f99' });
     const s2 = g({}, 2);
     add(s2, 'circle', { cx: 610, cy: 160, r: 7, fill: '#e5892a', stroke: '#fff', 'stroke-width': 2 });
-    add(s2, 'text', { x: 610, y: 128, 'text-anchor': 'middle', class: 'lbl' }, 'GPU at 7 digits');
+    add(s2, 'text', { x: 610, y: 128, 'text-anchor': 'middle', class: 'lbl' }, 'GPU at seven digits');
     add(s2, 'line', { x1: 330, x2: 610, y1: 280, y2: 280, stroke: '#e5892a', 'stroke-width': 2 });
     add(s2, 'line', { x1: 330, x2: 330, y1: 272, y2: 288, stroke: '#e5892a', 'stroke-width': 2 });
     add(s2, 'line', { x1: 610, x2: 610, y1: 272, y2: 288, stroke: '#e5892a', 'stroke-width': 2 });
@@ -306,8 +306,8 @@
   // ---------- certified distances ----------
   (function () {
     const hd = $('#cert-head'), bd = $('#cert-body'); if (!hd) return;
-    const cols = [["original's summation (float64)", 'Fast-model values, original summation order'], ['gpu float64', 'GPU, 16 digits'], ['cpu float32', 'Processor, 7 digits'], ['gpu float32', 'GPU, 7 digits']];
-    hd.innerHTML = `<tr><th>Model</th><th class="num">Rows</th>${cols.map(c => `<th class="num">${c[1]}</th>`).join('')}<th class="num">Net cashflow, GPU at 7 digits</th></tr>`;
+    const cols = [["original's summation (float64)", 'Fast-model values, original summation order'], ['gpu float64', 'GPU, 16 digits'], ['cpu float32', 'Processor, seven digits'], ['gpu float32', 'GPU, seven digits']];
+    hd.innerHTML = `<tr><th>Model</th><th class="num">Rows</th>${cols.map(c => `<th class="num">${c[1]}</th>`).join('')}<th class="num">Net cashflow, GPU at seven digits</th></tr>`;
     bd.innerHTML = D.models.map(m => {
       const v = m.certify.variants;
       return `<tr><td>${m.name}</td><td class="num">${m.certify.rows.toLocaleString('en-GB')}</td>` + cols.map(c => { const w = v[c[0]].worst; return `<td class="num ${w > 1e-3 ? 'hi' : ''}">${sci(w)}</td>`; }).join('') +

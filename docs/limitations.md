@@ -3,7 +3,7 @@
 The [glossary](../README.md#glossary) explains the terms on this page. The current limitations
 are as follows.
 
-1. Scope of the examples. The examples are public teaching models from the lifelib project. They
+1. Scope of the examples. The examples are open source lifelib models. They
    are smaller and more regular than production models. Production models often include
    management actions, nested stochastic projections and interactions between policies. The
    examples omit these features unless their README states otherwise.
@@ -33,7 +33,7 @@ are as follows.
    savings example has additional Z3 goals outside that exported set. Review must still connect
    each model's statements to the general induction result.
 9. Current restrictions. The current implementation has the following restrictions. Of the items
-   in this list, only the first 2 kinds of calculation lack proofs:
+   in this list, only the first two kinds of calculation lack proofs:
    - values defined backwards in time (a present value at t defined from t+1), which have exact
      comparison tests only
    - quantities derived from totals over the whole projection (a premium solved from present

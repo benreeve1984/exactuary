@@ -4,7 +4,7 @@ The [glossary](../../README.md#glossary) explains the terms on this page.
 
 ## Model
 
-This is lifelib's annual model of term, whole-life and endowment business. It spans 4 source
+This is lifelib's annual model of term, whole-life and endowment business. It spans four source
 files: projection, policy, assumptions and economic. It covers:
 
 - net-premium reserves from commutation columns
@@ -14,7 +14,7 @@ files: projection, policy, assumptions and economic. It covers:
 
 ## Fast model
 
-The fast model carries 2 values between years: the policies in force and the accumulated
+The fast model carries two values between years: the policies in force and the accumulated
 cashflow. Input preparation computes commutation columns and rates for each policy once. Tests
 compare them with the original model's values.
 
@@ -33,7 +33,7 @@ compare them with the original model's values.
 ## Other notes
 
 20 cells (formula results) of the original model raise errors with lifelib 0.17.3 and pandas 3.1.
-These are 10 valuation-basis reserve cells and 10 present-value cells. The comparison excludes
+These are ten valuation-basis reserve cells and ten present-value cells. The comparison excludes
 them.
 
 Exact comparison covers the present values defined backwards, and proof coverage excludes them.

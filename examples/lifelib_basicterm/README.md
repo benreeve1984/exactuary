@@ -6,7 +6,7 @@ The [glossary](../../README.md#glossary) explains the terms on this page.
 
 This is lifelib's monthly level term assurance model. It has 44 formulas. Premiums come from a
 premium table. The model also computes the net premium from its own present values. The example
-uses this to show a calculation in 2 passes: first price, then project.
+uses this to show a calculation in two passes: first price, then project.
 
 ## Fast model
 

@@ -1,7 +1,7 @@
 # Exactuary
 
-Exactuary is an experimental toolkit for faster actuarial cashflow models. It also produces
-evidence about whether a faster version gives the same results as the original.
+Exactuary is an experimental toolkit for faster actuarial cashflow models. It also checks, and
+where possible proves, that an optimised model gives the same results as the original.
 
 A person or an AI coding agent rewrites the original model as a small function for one projection
 period of one policy. Exactuary translates that function into processor instructions and checks
@@ -9,7 +9,7 @@ its results against the unchanged original model. The original models come from
 [lifelib](https://lifelib.io) and use modelx, a Python tool for expressing models as formulas.
 The [glossary](#glossary) explains the terms these pages use.
 
-Exactuary is a research prototype. The examples cover 4 public teaching models. It is not a
+Exactuary is a research prototype. The examples cover four open source lifelib models. It is not a
 validated production tool.
 
 [Read the illustrated explanation](https://benreeve1984.github.io/exactuary/). It describes how
@@ -25,7 +25,7 @@ Compiler research calls this arrangement translation validation.
 
 The fast model uses a step function for one period of one policy. Execution code repeats the step
 through the projection. The author writes the step function in a restricted language, so
-Exactuary can use the same text in 4 ways:
+Exactuary can use the same text in four ways:
 
 - compile it for a processor
 - compile it for a graphics processor (GPU)
@@ -50,7 +50,7 @@ them.
 
 ## Results on the example models
 
-The examples convert 4 lifelib models:
+The examples convert four lifelib models:
 
 - Savings: universal-life savings with stochastic returns (`CashValue_ME`)
 - Savings with dynamic lapses (`CashValue_ME_EX2`)
@@ -87,8 +87,8 @@ The timing workloads have 1,141 monthly periods for savings, 121 monthly periods
 savings (configuration 5), 277 monthly periods for term assurance and 103 yearly periods for the
 annual model.
 
-Fast-model times are the best of 2 single-core runs or 5 parallel or GPU runs after warm-up, on
-about 10 million rows. The original model runs once on a smaller workload, and the benchmark
+Fast-model times are the best of two single-core runs or five parallel or GPU runs after warm-up, on
+about ten million rows. The original model runs once on a smaller workload, and the benchmark
 scales its time up linearly. These are projection-stage comparisons at different portfolio sizes.
 The dynamic original timing also includes simulation summaries. The fast-model timing excludes
 them. The figures do not measure a complete reporting workflow.
@@ -112,7 +112,7 @@ without a bound.
 Each figure is the largest upper bound for the selected accumulated outputs. Net cashflow has a
 separate column. The check divides each bound by the greater of 1 and the absolute midpoint of
 its interval. The figures are upper bounds and do not measure the actual errors. The notation
-1.4e-7 means 1.4 parts in 10 million. For example, a bound of 1.9e-2 on a net cashflow of 1,000
+1.4e-7 means 1.4 parts in ten million. For example, a bound of 1.9e-2 on a net cashflow of 1,000
 places the computed value within 19 of the exact fast-model result, in the same currency.
 
 | Model | Fast-model values with original summation order | GPU double precision | GPU single precision | GPU single precision, net cashflow |
@@ -131,8 +131,8 @@ Exactuary plants errors in each fast model, one small edit at a time. Reconcilin
 detects 58% to 72% of them. Comparing every recorded intermediate value detects 95% to 99%.
 
 Proof handles most of the rest. For the annual model, 14 planted errors survive comparison. Proof
-finds a difference for 3 and establishes equality in exact arithmetic for 9. The symbolic check
-rejects 2 because it cannot process their table indices.
+finds a difference for three and establishes equality in exact arithmetic for 9. The symbolic check
+rejects two because it cannot process their table indices.
 
 ### Proof
 
@@ -158,7 +158,7 @@ These figures cover different workloads and measures.
 The checks aim to detect errors made in good faith during a conversion. They do not defend against
 someone who deliberately seeks a pass for a wrong model. The proofs concern exact arithmetic and a
 formal description of the original model, and a reviewer must check that description. The
-examples are teaching models. See [Dependencies of the evidence](docs/trusted-base.md) and
+examples are open source lifelib models, not production models. See [Dependencies of the evidence](docs/trusted-base.md) and
 [Limitations](docs/limitations.md).
 
 Tests in `tests/` include deliberately wrong models, descriptions and proof statements. The checks
