@@ -129,7 +129,7 @@
     const modes = [
       { label: 'One at a time', title: 'One number at a time', text: 'Python reads and works out each instruction again for every single number. This is simple and flexible, but most of the time goes on handling each instruction, and little on the arithmetic itself.', kv: [['Worked on together', 'one square'], ['Kept in memory', 'one policy'], ['Savings model', `${fmtS(sv[0].s)} s per million rows`]], tick: 35 },
       { label: 'Vectorised', title: 'Vectorised: one month for all policies', text: 'The computer works out a whole column at once, which removes most of the bookkeeping. But months still come one after another, the computer keeps every month of every policy in memory, and it keeps calculating matured policies to the end.', kv: [['Worked on together', 'a column'], ['Kept in memory', 'everything (orange)'], ['Savings model', `${fmtS(sv[1].s)} s per million rows`]], tick: 220 },
-      { label: 'Compiled', title: 'Compiled: one policy through all its months', text: 'The model is translated into the processor\'s own instructions. Each policy runs from its first month to its last and passes a small set of values to the next month. The striped squares show early exit, which is a separate change at level 4: the projection stops when nothing is left in force.', kv: [['Worked on together', 'one row, very fast'], ['Kept in memory', 'two numbers per policy'], ['Savings model', `${fmtS(sv[2].s)} s per million rows`]], tick: 22 },
+      { label: 'Compiled', title: 'Compiled: one policy through all its months', text: 'The model is compiled to machine code. Each policy runs from its first month to its last and passes a small set of values to the next month. The striped squares show early exit, which is a separate change at level 4: the projection stops when nothing is left in force.', kv: [['Worked on together', 'one row, very fast'], ['Kept in memory', 'two numbers per policy'], ['Savings model', `${fmtS(sv[2].s)} s per million rows`]], tick: 22 },
       { label: 'All cores / GPU', title: 'Many policies at once', text: 'Policies do not affect each other, so the computer shares the rows out: 20 at a time across the processor cores here, and thousands at a time on a graphics processor. Each row still runs its months in order.', kv: [['Worked on together', 'many rows'], ['Kept in memory', 'two numbers per policy'], ['Savings model', `${fmtS(sv[4].s)} s (cores) · ${fmtS(sv[6].s)} s (GPU)`]], tick: 160 },
     ];
     let timer = null, mode = 0, active = false;
@@ -161,7 +161,7 @@
     const box = $('#lad-chart'), side = $('#lad-side'), tb = $('#lad-tabs'); if (!box) return;
     const tip = el('div', { class: 'lad-tip' }); box.appendChild(tip);
     const descr = [
-      ['2 · Compiled, one core', 'Each policy runs through its months in the processor\'s own instructions, passing two or three numbers forward.'],
+      ['2 · Compiled, one core', 'Each policy runs through its months as machine code, passing two or three numbers forward.'],
       ['3 · All 20 processor cores', 'The cores share the policies. Results are identical to one core.'],
       ['4 · Stop when nothing is left', 'A projection ends once no policies remain in force, not at the longest term.'],
       ['5 · Graphics processor, 16 digits', 'Thousands of policies at once, keeping about 16 digits. The last digits can differ.'],
@@ -214,7 +214,7 @@
     const st = SAV.steps;
     const rows = [
       ['1 · Vectorised, as lifelib supplies it', st[1].s, st[0].s, 'The computer works out all policies together, one month at a time', '<span class="yes">Yes</span>: it is the reference', 'No conversion for these lifelib examples'],
-      ['2 · Compiled, one core', st[2].s, st[1].s, 'Each policy runs in the processor\'s own instructions, keeping only a few numbers', '<span class="yes">Yes</span> for recorded values on the test portfolios', 'Rewrite the model in a simple, restricted form'],
+      ['2 · Compiled, one core', st[2].s, st[1].s, 'Each policy runs as machine code, keeping only a few numbers', '<span class="yes">Yes</span> for recorded values on the test portfolios', 'Rewrite the model in a simple, restricted form'],
       ['3 · All processor cores', st[3].s, st[2].s, 'The cores share the policies', '<span class="yes">Yes</span>', 'None'],
       ['4 · Stop when nothing is left', st[4].s, st[3].s, 'Projections end early', '<span class="part">Equal in exact arithmetic</span> under stated assumptions', 'A proof that stopping loses nothing'],
       ['5 · Graphics processor, 16 digits', st[5].s, st[4].s, 'The same sums on different hardware', '<span class="part">Last digits differ</span>', 'A graphics processor, and error bounds'],

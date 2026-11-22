@@ -4,7 +4,7 @@ Exactuary is an experimental toolkit for faster actuarial cashflow models. It al
 where possible proves, that an optimised model gives the same results as the original.
 
 A person or an AI coding agent rewrites the original model as a small function for one projection
-period of one policy. Exactuary translates that function into processor instructions and checks
+period of one policy. Exactuary compiles that function to machine code and checks
 its results against the unchanged original model. The original models come from
 [lifelib](https://lifelib.io) and use modelx, a Python tool for expressing models as formulas.
 The [glossary](#glossary) explains the terms these pages use.
@@ -42,7 +42,7 @@ them.
 |---|---|---|
 | 0. One policy at a time | lifelib's separate model processes one policy at a time, where such a model exists | Baseline checks against the level 1 model |
 | 1. Vectorised | The unchanged original model processes policies together. It is the comparison reference | Baseline checks against the separate level 0 model, where available |
-| 2. Compiled | Processor instructions project each policy on one core | Compare every recorded intermediate value. Present values agree when both models add them in the same order |
+| 2. Compiled | Machine code projects each policy on one core | Compare every recorded intermediate value. Present values agree when both models add them in the same order |
 | 3. All processor cores (parallel) | The compiled model runs on all cores | As level 2 |
 | 4. Restructured | Early exit stops a projection once nothing is in force. The arithmetic may also change order | Equality under stated assumptions in exact arithmetic, a Lean check, and rounding checks where rounding changes |
 | 5. GPU, double precision | The same arithmetic runs on a GPU, with about 16 significant digits | As level 4, with rounding error bounds |
@@ -220,7 +220,7 @@ check fails. To convert another model, see [Adding a model](docs/adding-a-model.
 - Row: one policy in one scenario.
 - Period: one projection step, such as a month or a year.
 - Vectorised: calculating values for many policies together.
-- Compiled: translated into processor instructions.
+- Compiled: translated into machine code, the instructions a processor runs directly.
 - Processor core: a part of the processor that can execute a stream of instructions.
 - Double precision: a number format with about 16 significant digits. Single precision has about 7.
 - Backend: the code that runs the fast model on a particular device.

@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..500&family=Manrope:wght@400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/base.css">
 <link rel="stylesheet" href="assets/deck.css">
-<link rel="stylesheet" href="demos.css?v=16">
+<link rel="stylesheet" href="demos.css?v=17">
 </head>
 <body class="deck" data-title="Model acceleration and evidence" data-brand="Exactuary">
 <main class="stage">
@@ -93,9 +93,9 @@
   <h2>Two ways to make a model faster</h2>
   <div class="base-row rise" style="--i:0"><span class="label">Starting point · Level 1</span><span>The model as lifelib supplies it, which works out all policies together, one month at a time.</span></div>
   <div class="routes">
-    <div class="route r1 rise" style="--i:1"><span class="rn">1</span><div><h3>Optimised code</h3><p class="small-p">Rewrite the model as lower-level code, compiled to run directly on the processor and spread across all its cores.</p></div></div>
+    <div class="route r1 rise" style="--i:1"><span class="rn">1</span><div><h3>Optimised code</h3><p class="small-p">An AI coding agent rewrites the model by following a set conversion procedure. An automated pipeline then compiles it to machine code, spreads it across all processor cores, and checks it against the original.</p></div></div>
     <div class="steps">
-      <div class="card mc step s1 rise" style="--i:2"><span class="label">Level 2</span><h3>Compiled, one core</h3><p class="small-p">Turned into the processor's own instructions, one policy at a time.</p></div>
+      <div class="card mc step s1 rise" style="--i:2"><span class="label">Level 2</span><h3>Compiled, one core</h3><p class="small-p">Compiled to machine code, one policy at a time.</p></div>
       <div class="card mc step s1 rise" style="--i:3"><span class="label">Level 3</span><h3>All processor cores</h3><p class="small-p">The cores share the policies between them.</p></div>
       <div class="card mc step s1 rise" style="--i:4"><span class="label">Level 4</span><h3>Restructured</h3><p class="small-p">Each projection stops once nothing is left in force, and some sums are rearranged.</p></div>
     </div>
@@ -205,7 +205,7 @@
     <div class="card q3 rise" style="--i:1"><span class="label">Across months</span><h3>Sequential periods</h3><p class="small-p">Month 13 needs the policies in force and the account value at the end of month 12. However you arrange the work, each policy's months come one after another.</p></div>
     <div class="card q3 rise" style="--i:2"><span class="label">Inside one month</span><h3>Calculations within a period</h3><p class="small-p">A computer can work out premiums and claims for the same month side by side. There are only a few dozen such amounts, which cannot keep thousands of processors busy.</p></div>
   </div>
-  <div class="callout rise" style="--i:3; margin-top:30px">Vectorising is common advice for speeding up Python models. It works out one month for all policies, then the next month for all policies. This avoids handling one number at a time. The lifelib versions also keep every month's values for every policy in memory, and keep calculating policies that have already matured. Compiling turns this round. The model is translated into the processor's own instructions. Each policy runs through all its months and passes a small set of values to the next month.</div>
+  <div class="callout rise" style="--i:3; margin-top:30px">Vectorising is common advice for speeding up Python models. It works out one month for all policies, then the next month for all policies. This avoids handling one number at a time. The lifelib versions also keep every month's values for every policy in memory, and keep calculating policies that have already matured. Compiling turns this round. The model is compiled to machine code. Each policy runs through all its months and passes a small set of values to the next month.</div>
 </section>
 
 <!-- ================= 03 SIX LEVELS ================= -->
@@ -563,8 +563,8 @@ claims  = sa * p_death</pre>
 </section>
 
 </main>
-<script src="data.js?v=16"></script>
-<script src="assets/deck.js?v=16"></script>
-<script src="demos.js?v=16"></script>
+<script src="data.js?v=17"></script>
+<script src="assets/deck.js?v=17"></script>
+<script src="demos.js?v=17"></script>
 </body>
 </html>
