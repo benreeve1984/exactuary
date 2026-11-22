@@ -81,3 +81,27 @@ are as follows.
     good faith. Some ways to get a wrong conversion to pass could also affect an honest author, for
     example an unusual use of Python iterators in the original model. Known failure cases have
     regression tests. Other conversion errors may remain.
+
+## Optimisations not tried
+
+Exactuary changes how a model runs. It does not change what the model calculates for each row.
+Several other ways to save time fall outside that rule, or outside the work done so far.
+
+1. Removing duplicate rows. If two rows have the same inputs, the model needs to project only one
+   of them. This keeps results exact. The timing workloads for term assurance and traditional life
+   repeat lifelib's sample policies: 10,000 policies 1,000 times, and 300 policies 33,334 times.
+   Removing duplicates would make those two workloads almost free. Read those timings as the
+   throughput for a portfolio of that size, not as the time for a portfolio with that much
+   repetition. The savings workloads have no duplicate rows.
+2. Sharing work across scenarios. In the savings model, mortality and lapses do not depend on the
+   scenario. The model could work out the policies in force once for each policy, and reuse them in
+   every scenario. This keeps results exact. It does not apply to the dynamic lapse model, where
+   lapses depend on the scenario.
+3. Grouping similar policies. Actuaries often replace many policies with a smaller number of
+   representative ones. This is an approximation. It falls outside the rule that each change either
+   keeps results exact or has a proven error bound.
+4. Compensated summation. A running total can carry a correction term, which recovers most of the
+   digits that seven-digit arithmetic loses when it adds many values. We tested a simpler form of
+   this idea, mixed precision, and report it in [Results on other hardware](hardware.md).
+5. Several machines. Rows do not affect each other, so a run can split across machines. We tested
+   single machines only.

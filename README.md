@@ -174,7 +174,7 @@ The tests do not establish complete protection against conversion errors.
 | `skills/convert-model/` | The conversion procedure for a person or an AI coding agent |
 | `benchmarks/` | Timing and rounding error bounds for all 4 models, with results |
 | `tests/` | Tests of the checks themselves, including adversarial cases |
-| `docs/` | Levels, method, dependencies of the evidence, adding a model, limitations |
+| `docs/` | Levels, method, dependencies of the evidence, adding a model, results on other hardware, limitations |
 | `site/` | The illustrated explanation on GitHub Pages; `benchmarks/build_site_data.py` regenerates its figures |
 
 ## Running the examples

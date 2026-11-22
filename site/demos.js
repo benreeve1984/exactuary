@@ -37,7 +37,7 @@
     const box = $('#title-bars'); if (!box) return;
     const pick = [0, 2, 3, 4, 5].map(i => SAV.steps[i]);
     const names = ['Vectorised, as lifelib supplies it', 'Compilation and parallel cores', 'Plus early exit', 'Move to a GPU', 'Reduce GPU precision'];
-    const notes = ['The starting point', 'Every recorded value identical to the original', 'Proved equal in exact arithmetic; results agree to about 11 significant figures', 'Results agree to about ten significant figures', 'Portfolio totals agree to within one part in a million; single policies differ by up to 6%'];
+    const notes = ['The starting point', 'Every recorded value identical to the original', 'Proved equal in exact arithmetic; computed results differ only in the last digits', 'Results differ only in the last digits', 'Portfolio totals agree to within one part in a million, and each policy to within seven parts per million of its largest value'];
     const t = pick.map(s => s.s * 10), lo = Math.log10(Math.min(...t)) - 0.6, hi = Math.log10(Math.max(...t));
     const sig2 = x => { const p = 10 ** (Math.floor(Math.log10(x)) - 1); return (Math.round(x / p) * p).toLocaleString('en-GB'); };
     const rows = pick.map((s, i) => {

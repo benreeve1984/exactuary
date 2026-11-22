@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..500&family=Manrope:wght@400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/base.css">
 <link rel="stylesheet" href="assets/deck.css">
-<link rel="stylesheet" href="demos.css?v=22">
+<link rel="stylesheet" href="demos.css?v=23">
 </head>
 <body class="deck" data-title="Model acceleration and evidence" data-brand="Exactuary">
 <main class="stage">
@@ -247,6 +247,34 @@
 </section>
 
 <!-- ================= 04 SAME MODEL? ================= -->
+<section class="slide" data-section="[03] Six levels">
+  <span class="kicker">03 · Six levels of acceleration</span>
+  <h2>Results on rented cloud machines</h2>
+  <p class="lede" style="font-size:20px">The same ten million rows of the savings model, in seconds. lifelib's version takes 47 minutes.</p>
+  <div class="cols c2" style="margin-top:18px; gap:36px">
+    <table class="t">
+      <thead><tr><th>Processor cores, 16 digits</th><th class="num">Cores</th><th class="num">Seconds</th></tr></thead>
+      <tbody>
+        <tr><td>Desktop computer</td><td class="num">20</td><td class="num">3.1</td></tr>
+        <tr><td>AWS, one machine</td><td class="num">32</td><td class="num">1.9</td></tr>
+        <tr><td>AWS, one machine</td><td class="num">64</td><td class="num">1.2</td></tr>
+        <tr><td>AWS, one larger machine</td><td class="num">192</td><td class="num">0.6</td></tr>
+      </tbody>
+    </table>
+    <table class="t">
+      <thead><tr><th>GPU</th><th class="num">16 digits</th><th class="num">Seven digits</th></tr></thead>
+      <tbody>
+        <tr><td>Desktop computer (GB10)</td><td class="num">1.5</td><td class="num">0.13</td></tr>
+        <tr><td>NVIDIA L4</td><td class="num">1.5</td><td class="num">0.18</td></tr>
+        <tr><td>NVIDIA A10</td><td class="num">1.4</td><td class="num">0.15</td></tr>
+        <tr><td>NVIDIA H100, built for data centres</td><td class="num">0.06</td><td class="num">0.05</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout" style="margin-top:20px"><ul class="cl"><li>Rented processor cores go a long way: 64 cores project a billion rows in about two minutes, for about 11 US cents at AWS's list price.</li><li>A data-centre GPU runs 16 digits almost as fast as seven, so there is no need to reduce precision on one. The other GPUs are no faster at 16 digits than 64 processor cores.</li><li>The H100 was the only machine with a queue: one attempt waited about 15 minutes for a free GPU.</li><li>Mixed precision, which does each month in seven digits and keeps totals in 16, gained little accuracy and took about three times as long on the smaller GPUs.</li></ul></div>
+  <aside class="notes"><p>One run on each machine, so treat small differences as noise. The 192-core run finishes in under a second, so a larger job would use those cores better. Details are in docs/hardware.md.</p></aside>
+</section>
+
 <section class="slide" data-section="[04] Is it the same model?">
   <span class="kicker">04 · Is it still the same model?</span>
   <h2>Types of evidence</h2>
@@ -537,6 +565,20 @@ claims  = sa * p_death</pre>
 </section>
 
 <section class="slide" data-section="[08] What is new">
+  <span class="kicker">08 · Scope</span>
+  <h2>Optimisations we did not try</h2>
+  <p class="lede" style="font-size:20px">We changed how each model runs, not what it calculates for each row. These other ways to save time are untested.</p>
+  <div class="cols c3" style="margin-top:20px; gap:14px">
+    <div class="card mc rise" style="--i:0"><h3>Remove duplicate rows</h3><p class="small-p">Rows with identical inputs need only one projection. Results stay exact. Our term assurance and traditional life timing workloads repeat lifelib's sample policies, so this alone would make them almost free. Read those timings as throughput for a portfolio of that size.</p></div>
+    <div class="card mc rise" style="--i:1"><h3>Share work across scenarios</h3><p class="small-p">In the savings model, mortality and lapses do not depend on the scenario, so the policies in force could be worked out once for each policy. Results stay exact. This does not apply when lapses depend on the scenario.</p></div>
+    <div class="card mc rise" style="--i:2"><h3>Group similar policies</h3><p class="small-p">Actuaries often replace many policies with fewer representative ones. This is an approximation, so it falls outside our rule: each change keeps results exact or has a proven error bound.</p></div>
+    <div class="card mc rise" style="--i:3"><h3>Smarter seven-digit sums</h3><p class="small-p">A running total can carry a correction for the digits it loses. We tested a simpler form, mixed precision, and it gained little. Carrying the account value in 16 digits might do better.</p></div>
+    <div class="card mc rise" style="--i:4"><h3>Several machines</h3><p class="small-p">Rows do not affect each other, so a run can split across machines. We tested single machines only.</p></div>
+  </div>
+  <aside class="notes"><p>The first two keep results exact and could be large gains. They are the obvious next steps.</p></aside>
+</section>
+
+<section class="slide" data-section="[08] What is new">
   <span class="kicker">08 · Limits</span>
   <h2>Limitations</h2>
   <ul class="plain small" style="margin-top:20px; max-width:1180px">
@@ -563,8 +605,8 @@ claims  = sa * p_death</pre>
 </section>
 
 </main>
-<script src="data.js?v=22"></script>
-<script src="assets/deck.js?v=22"></script>
-<script src="demos.js?v=22"></script>
+<script src="data.js?v=23"></script>
+<script src="assets/deck.js?v=23"></script>
+<script src="demos.js?v=23"></script>
 </body>
 </html>
