@@ -55,7 +55,7 @@ The examples convert four lifelib models:
 - Savings: universal-life savings with stochastic returns (`CashValue_ME`)
 - Savings with dynamic lapses (`CashValue_ME_EX2`)
 - Term assurance (`BasicTerm_ME`)
-- Traditional life, annual: term, whole-life and endowment business in yearly periods (`fastlife`)
+- Traditional life, annual: term, whole-life, and endowment business in yearly periods (`fastlife`)
 
 The timing machine has 20 Arm processor cores and an NVIDIA GB10.
 
@@ -84,7 +84,7 @@ The table gives seconds per million rows, from `benchmarks/results/timings.json`
 | GPU, single precision | 0.013 | 0.0036 | 0.0030 | 0.0039 |
 
 The timing workloads have 1,141 monthly periods for savings, 121 monthly periods for dynamic
-savings (configuration 5), 277 monthly periods for term assurance and 103 yearly periods for the
+savings (configuration 5), 277 monthly periods for term assurance, and 103 yearly periods for the
 annual model.
 
 Fast-model times are the best of two single-core runs or five parallel or GPU runs after warm-up, on
@@ -93,7 +93,7 @@ scales its time up linearly. These are projection-stage comparisons at different
 The dynamic original timing also includes simulation summaries. The fast-model timing excludes
 them. The figures do not measure a complete reporting workflow.
 
-Fast-model times exclude input preparation, compilation, device transfer and verification. Input
+Fast-model times exclude input preparation, compilation, device transfer, and verification. Input
 preparation takes about 1.76 seconds for the 10-million-row savings run. The separate interval
 check takes about 97.5 seconds for 40,000 savings rows. The saved results do not separately
 measure file input and output.
@@ -161,7 +161,7 @@ formal description of the original model, and a reviewer must check that descrip
 examples are open source lifelib models, not production models. See [Dependencies of the evidence](docs/trusted-base.md) and
 [Limitations](docs/limitations.md).
 
-Tests in `tests/` include deliberately wrong models, descriptions and proof statements. The checks
+Tests in `tests/` include deliberately wrong models, descriptions, and proof statements. The checks
 reject the known failure cases. The formal description and interval program still need review.
 The tests do not establish complete protection against conversion errors.
 
@@ -170,7 +170,7 @@ The tests do not establish complete protection against conversion errors.
 | Path | Contents |
 |---|---|
 | `exactuary/` | The library: the step-function language (`lang.py`, `spec.py`), backends, exact comparison, planted errors, symbolic proof, export to Lean, guaranteed intervals, acceptance gates |
-| `examples/` | The 4 converted models, each with a README, its results and its run script |
+| `examples/` | The 4 converted models, each with a README, its results, and its run script |
 | `skills/convert-model/` | The conversion procedure for a person or an AI coding agent |
 | `benchmarks/` | Timing and rounding error bounds for all 4 models, with results |
 | `tests/` | Tests of the checks themselves, including adversarial cases |
@@ -181,8 +181,8 @@ The tests do not establish complete protection against conversion errors.
 
 You need:
 
-- Python 3.12, NumPy, Numba and z3-solver
-- lifelib, modelx and pandas for the examples
+- Python 3.12, NumPy, Numba, and z3-solver
+- lifelib, modelx, and pandas for the examples
 - `numba-cuda` and an NVIDIA GPU for the GPU backend
 - `mpmath` for guaranteed intervals of powers
 - Lean 4.36 for proof checking (set `LEAN` to its path)
@@ -216,7 +216,7 @@ check fails. To convert another model, see [Adding a model](docs/adding-a-model.
 - Original model: the lifelib model, run unchanged. This is level 1, the comparison reference.
 - Fast model: the rewritten version. It uses a step function for one period of one policy, and
   execution code repeats the step through the projection. The code calls the step function a
-  "kernel" or "step". `KernelSpec` declares the fast model's inputs, outputs and carried values.
+  "kernel" or "step". `KernelSpec` declares the fast model's inputs, outputs, and carried values.
 - Row: one policy in one scenario.
 - Period: one projection step, such as a month or a year.
 - Vectorised: calculating values for many policies together.

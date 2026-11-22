@@ -5,7 +5,7 @@ are as follows.
 
 1. Scope of the examples. The examples are open source lifelib models. They
    are smaller and more regular than production models. Production models often include
-   management actions, nested stochastic projections and interactions between policies. The
+   management actions, nested stochastic projections, and interactions between policies. The
    examples omit these features unless their README states otherwise.
 2. Exact arithmetic. The proofs establish equality in exact arithmetic. Separate checks assess
    computed results, through exact comparison or rounding error bounds.
@@ -39,7 +39,7 @@ are as follows.
    - quantities derived from totals over the whole projection (a premium solved from present
      values), which have exact comparison tests only
 
-   The other restrictions concern input forms, devices and performance:
+   The other restrictions concern input forms, devices, and performance:
    - original models spread over several source files, or that branch in Python on a policy
      attribute, need manual help in the symbolic step, and this adds to the dependencies
    - each fast model has one discount series, common to all scenarios
@@ -57,21 +57,21 @@ are as follows.
     no program checks that a given model's statements match their conditions exactly. Lean uses
     fractions, while Z3 uses real numbers. Every finite stored input is a rational number. That
     fact alone does not establish that the real-number and rational-number statements have the
-    same meaning. The translation and treatment of powers, exponentials and logarithms need review.
+    same meaning. The translation and treatment of powers, exponentials, and logarithms need review.
 12. Reading of the original model. An interpreter evaluates the original model's formulas. It
-    accepts a listed subset of Python, NumPy and pandas and rejects the rest. Tests found
+    accepts a listed subset of Python, NumPy, and pandas and rejects the rest. Tests found
     incorrect readings, and the interpreter now rejects those cases. Related forms may still pass.
     The formal description supplies trusted code, which runs as written. Within the supported
     subset, the interpreter treats values as real numbers or integers. Missing values, infinities,
     index alignment (matching table rows by their labels) and integer overflow (a whole number
     exceeding its storage range) are outside every proof.
 13. Planted errors are one family. They are single edits to the step function: operators,
-    constants, comparisons, branches, table positions and easily confused variables. They exclude
-    errors in the formal description, in input preparation and in the choice of accumulated
+    constants, comparisons, branches, table positions, and easily confused variables. They exclude
+    errors in the formal description, in input preparation, and in the choice of accumulated
     outputs. Scores count runnable errors, and the report counts other errors separately.
 14. Exit status. In each example's run script, the `exact`, `prove`, `lean` and `harness` commands
     record their checks as acceptance gates. The gates cover trace comparison, early exit,
-    prepared inputs, present values, proofs, exit statements, Lean checks and exhaustive table
+    prepared inputs, present values, proofs, exit statements, Lean checks, and exhaustive table
     lookups. Each command exits with a non-zero status if a gate fails or if the command failed to
     record a required gate. The `precision`, `baseline` and timing commands report measurements
     and have no acceptance criteria. Each script lists its required gates, and a reviewer should

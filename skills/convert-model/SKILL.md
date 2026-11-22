@@ -1,6 +1,6 @@
 ---
 name: convert-model
-description: Convert an actuarial cashflow model (modelx / lifelib style Python) into a fast kernel with Exactuary and establish, level by level, that the fast model is the same model. Use when asked to accelerate, port, vectorise or GPU-enable a cashflow projection model and to evidence equivalence.
+description: Convert an actuarial cashflow model (modelx / lifelib style Python) into a fast kernel with Exactuary and establish, level by level, that the fast model is the same model. Use when asked to accelerate, port, vectorise, or GPU-enable a cashflow projection model and to evidence equivalence.
 ---
 
 # Converting a model with Exactuary
@@ -66,10 +66,10 @@ Describe it with a `KernelSpec`. Guidance:
 - **Integers.** Where the original computes in integers (counts at period 0, durations), the
   kernel's reals agree only below 2^53. Assert the input range in `prep`.
 - **Division** follows NumPy: dividing by zero gives infinity or NaN and does not raise.
-- **Hoist, do not re-derive.** Powers, exponentials and logarithms that depend only on inputs
+- **Hoist, do not re-derive.** Powers, exponentials, and logarithms that depend only on inputs
   or on time belong in `prep`, computed with the *same expression and the same NumPy call* as the
   original, and passed to the step as tables or series. Do not compute them inside the step.
-- **State-dependent powers.** Where a power, exponential or logarithm depends on carried state
+- **State-dependent powers.** Where a power, exponential, or logarithm depends on carried state
   (for example a lapse rate driven by the account value) it cannot be hoisted; use `fpow`, `fexp`
   or `flog`. These may differ from NumPy in the last bit. If the exact gate then fails only
   downstream of such a call, do not hide it: report which outputs are exact, the size of the
@@ -161,7 +161,7 @@ unclear, and what you did about it.
 The library refuses work that breaks them.
 
 - **The step and the exit rule** must be in the kernel language (`exactuary/lang.py`): no
-  annotations, defaults, attribute access or calls other than the helpers. They are parsed, never
+  annotations, defaults, attribute access, or calls other than the helpers. They are parsed, never
   executed as written.
 - **The original's formulas** are read by an interpreter that accepts a listed subset of Python
   (see the `Original` class in `exactuary/symbolic.py`). If it refuses a cell, replace that cell

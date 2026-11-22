@@ -11,7 +11,7 @@ uses this to show a calculation in two passes: first price, then project.
 ## Fast model
 
 The fast model carries one value between months: the policies in force. Input preparation computes
-mortality rates, lapse rates and the premium once, with the original model's own expressions.
+mortality rates, lapse rates, and the premium once, with the original model's own expressions.
 Tests compare them with the original formula values.
 
 ## Results

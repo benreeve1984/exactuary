@@ -5,7 +5,7 @@ The [glossary](../README.md#glossary) explains the terms on this page.
 ## Scope
 
 The checks aim to detect mistakes during model conversion by a person or an AI coding agent.
-Typical mistakes are a wrong table row, an operation in the wrong order, a missing branch or a
+Typical mistakes are a wrong table row, an operation in the wrong order, a missing branch, or a
 misread formula. The tests in `tests/` record mistakes of this kind, and the checks detect them.
 
 The checks do not defend against someone who deliberately seeks a pass for a wrong model, for
@@ -55,7 +55,7 @@ Different programs interpret the same text:
 | Symbols (Z3) | Proof of equality in exact arithmetic |
 | Interval arithmetic with outward rounding | A guaranteed interval around the exact result |
 
-All interpretations come from one text, so there is no separate GPU model, proof model or test
+All interpretations come from one text, so there is no separate GPU model, proof model, or test
 model to maintain. The interpreters must still agree on the meaning of the text. The parser (the
 code reader) accepts only the allowed syntax in `exactuary/lang.py`. The interval and symbolic
 interpreters evaluate the parsed expressions one at a time. The backends regenerate code from the
@@ -129,7 +129,7 @@ A fast model may stop a projection once a stated rule holds, for example when no
 in force. The compiled code runs this rule, and the statements for early exit come from that same
 rule.
 
-For period 0, for any later period and for any carried values, Z3 must prove the following. If the
+For period 0, for any later period, and for any carried values, Z3 must prove the following. If the
 rule holds after a period, then in the next period every accumulated cashflow is zero and the rule
 holds again.
 
@@ -147,14 +147,14 @@ computer arithmetic rounds. There are two cases.
 If the fast model performs the original model's operations in the original order, expect agreement.
 Exact comparison confirms it on the portfolios tested.
 
-If the implementation changes operation order, device or precision, run the fast model through the
+If the implementation changes operation order, device, or precision, run the fast model through the
 interval program. The program stores each value as two endpoints, one on either side of the exact
 result. Each operation rounds the lower endpoint down and the upper endpoint up. Where the
 intervals cannot decide a comparison, the program keeps both outcomes.
 
 For each row, the result is a guaranteed interval. It contains the exact-arithmetic result on the
 same inputs, provided the interval program is correct. Every number in the step passes through
-that program, including integer arithmetic, the time index and divisions of constants. So nothing
+that program, including integer arithmetic, the time index, and divisions of constants. So nothing
 rounds before the program tracks it. If the program cannot represent an input exactly, it rejects
 that input.
 

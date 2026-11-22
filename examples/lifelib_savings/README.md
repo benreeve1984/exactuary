@@ -6,7 +6,7 @@ The [glossary](../../README.md#glossary) explains the terms on this page.
 
 This is lifelib's monthly universal-life savings model. The model credits premiums to an account
 and deducts fees and insurance charges. The account earns stochastic investment returns. It funds
-death, surrender and maturity benefits, subject to guaranteed minimum death and maturity benefits.
+death, surrender, and maturity benefits, subject to guaranteed minimum death and maturity benefits.
 The model has 79 formulas.
 
 The test portfolios combine lifelib's sample model points with generated scenarios. An edge-case

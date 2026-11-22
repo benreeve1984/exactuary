@@ -7,14 +7,14 @@ checks. Install the original models through lifelib and run them unchanged for c
 
 | Example | lifelib model | Product | Period | Scenarios |
 |---|---|---|---|---|
-| [Savings](lifelib_savings/) | `savings/CashValue_ME` | Universal-life savings with account value, fees and guarantees | Month | Stochastic investment returns |
+| [Savings](lifelib_savings/) | `savings/CashValue_ME` | Universal-life savings with account value, fees, and guarantees | Month | Stochastic investment returns |
 | [Savings with dynamic lapses](lifelib_savings_dynamic/) | `savings/CashValue_ME_EX2` | As above, with lapses that depend on the value of the guarantee | Month | Stochastic, with 5 configurations of the model's switches |
 | [Term assurance](lifelib_basicterm/) | `basiclife/BasicTerm_ME` | Level term assurance | Month | One deterministic basis |
-| [Traditional life, annual](lifelib_fastlife/) | `fastlife` | Term, whole life and endowment, with net-premium reserves and cash values | Year | One deterministic basis |
+| [Traditional life, annual](lifelib_fastlife/) | `fastlife` | Term, whole life, and endowment, with net-premium reserves and cash values | Year | One deterministic basis |
 
 Each folder contains:
 
-- `model.py`, with the portfolios, input preparation, the step function and its formal description
+- `model.py`, with the portfolios, input preparation, the step function, and its formal description
 - `run.py`, with the commands
 - `results/`, with the outputs of the last run
 

@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..500&family=Manrope:wght@400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/base.css">
 <link rel="stylesheet" href="assets/deck.css">
-<link rel="stylesheet" href="demos.css?v=12">
+<link rel="stylesheet" href="demos.css?v=13">
 </head>
 <body class="deck" data-title="Model acceleration and evidence" data-brand="Exactuary">
 <main class="stage">
@@ -47,16 +47,16 @@
   <h2>Actuarial cashflow models</h2>
   <div class="cols c55" style="margin-top:30px; gap:48px">
     <div>
-      <p>Life insurers use actuarial cashflow models to estimate what their policies will pay out and bring in over many years. The model takes each policy, such as a savings plan or a life cover, and projects its premiums, claims, surrenders and expenses month by month. It then discounts these future cashflows to a single value today.</p>
+      <p>Life insurers use actuarial cashflow models to estimate what their policies will pay out and bring in over many years. The model takes each policy, such as a savings plan or a life cover, and projects its premiums, claims, surrenders, and expenses month by month. It then discounts these future cashflows to a single value today.</p>
       <p>Insurers use the results to set reserves, price new products, report under rules such as Solvency II and IFRS 17, and work out how much capital to hold. A full run covers every policy, often under hundreds or thousands of economic scenarios. Many teams write these models in Python or in specialist actuarial software.</p>
     </div>
     <div>
       <span class="label">The four models in this experiment</span>
       <div class="cols c2" style="margin-top:12px; gap:14px">
-        <div class="card"><h3 style="font-size:18px">Savings</h3><p class="small-p">A savings policy with an account value, investment returns, fees, and guaranteed death and maturity benefits.</p></div>
-        <div class="card"><h3 style="font-size:18px">Savings with dynamic lapses</h3><p class="small-p">The same product, but more people cancel when the guarantee is worth little.</p></div>
-        <div class="card"><h3 style="font-size:18px">Term assurance</h3><p class="small-p">Life cover for a fixed term, with monthly premiums.</p></div>
-        <div class="card"><h3 style="font-size:18px">Traditional life, annual</h3><p class="small-p">Term, whole life and endowment policies, with reserves and cash values, projected year by year.</p></div>
+        <div class="card mc"><h3>Savings</h3><p class="small-p">A savings policy with an account value, investment returns, fees, and guaranteed death and maturity benefits.</p></div>
+        <div class="card mc"><h3>Savings with dynamic lapses</h3><p class="small-p">The same product, but more people cancel when the guarantee is worth little.</p></div>
+        <div class="card mc"><h3>Term assurance</h3><p class="small-p">Life cover for a fixed term, with monthly premiums.</p></div>
+        <div class="card mc"><h3>Traditional life, annual</h3><p class="small-p">Term, whole life, and endowment policies, with reserves and cash values, projected year by year.</p></div>
       </div>
       <p class="small-p" style="margin-top:14px">All four come from lifelib, an open source library of actuarial models written in Python. They are simpler than production models, but they use the same kinds of calculation.</p>
     </div>
@@ -117,7 +117,7 @@
     <div class="rise" style="--i:2"><span class="label">03</span><h3>Six levels of acceleration</h3><p>Gains and changes at each level, on four open source lifelib models.</p></div>
     <div class="rise" style="--i:3"><span class="label">04</span><h3>Checking that the models match</h3><p>Exact comparison, and tests with planted errors.</p></div>
     <div class="rise" style="--i:4"><span class="label">05</span><h3>Mathematical proof</h3><p>Theorem provers, and the role of Lean at levels 4 to 6.</p></div>
-    <div class="rise" style="--i:5"><span class="label">06</span><h3>Rounding, choosing a level and limitations</h3><p>Bounds on rounding error, a guide to choosing a level, and what the evidence does not cover.</p></div>
+    <div class="rise" style="--i:5"><span class="label">06</span><h3>Rounding, choosing a level, and limitations</h3><p>Bounds on rounding error, a guide to choosing a level, and what the evidence does not cover.</p></div>
   </div>
 </section>
 
@@ -127,7 +127,7 @@
   <h2>Projecting one policy</h2>
   <div class="cols c46" style="margin-top:10px; gap:44px">
     <div>
-      <p>A projection follows a policy forward one month at a time. Each month it works out how many policies are still in force. It then works out the cashflows: premiums coming in, and claims, surrenders and expenses going out.</p>
+      <p>A projection follows a policy forward one month at a time. Each month it works out how many policies are still in force. It then works out the cashflows: premiums coming in, and claims, surrenders, and expenses going out.</p>
       <p>Each month starts where the last one finished. The policies in force at the start of month 13 are those left at the end of month 12. This chain makes projections hard to speed up, and it comes up again later.</p>
       <p>Finally, the model discounts the cashflows and adds them up. This gives a present value: one number for each policy in each scenario.</p>
       <div class="sl-wrap"><label class="label" for="op-month">Month</label><input type="range" id="op-month" min="0" max="240" value="0"><span id="op-mval" class="mono">0</span></div>
@@ -181,11 +181,11 @@
   <span class="kicker">02 · Where the time goes</span>
   <h2>What can run in parallel</h2>
   <div class="cols c3" style="margin-top:30px">
-    <div class="card q3 rise" style="--i:0"><span class="label">Across policies and scenarios</span><h3>Independent policies</h3><p class="small-p">In the example models, policies do not affect each other, so a computer can work on one million of them at once. Levels 3, 5 and 6 rely on this.</p></div>
+    <div class="card q3 rise" style="--i:0"><span class="label">Across policies and scenarios</span><h3>Independent policies</h3><p class="small-p">In the example models, policies do not affect each other, so a computer can work on one million of them at once. Levels 3, 5, and 6 rely on this.</p></div>
     <div class="card q3 rise" style="--i:1"><span class="label">Across months</span><h3>Sequential periods</h3><p class="small-p">Month 13 needs the policies in force and the account value at the end of month 12. However you arrange the work, each policy's months come one after another.</p></div>
     <div class="card q3 rise" style="--i:2"><span class="label">Inside one month</span><h3>Calculations within a period</h3><p class="small-p">A computer can work out premiums and claims for the same month side by side. There are only a few dozen such amounts, which cannot keep thousands of processors busy.</p></div>
   </div>
-  <div class="callout rise" style="--i:3; margin-top:30px">Vectorising is common advice for speeding up Python models. It works out one month for all policies, then the next month for all policies. This avoids handling one number at a time. The lifelib versions also keep every month's values for every policy in memory, and keep calculating policies that have already matured. Compiling turns this round. The model is translated into the processor's own instructions, Each policy runs through all its months and passes a small set of values to the next month.</div>
+  <div class="callout rise" style="--i:3; margin-top:30px">Vectorising is common advice for speeding up Python models. It works out one month for all policies, then the next month for all policies. This avoids handling one number at a time. The lifelib versions also keep every month's values for every policy in memory, and keep calculating policies that have already matured. Compiling turns this round. The model is translated into the processor's own instructions. Each policy runs through all its months and passes a small set of values to the next month.</div>
 </section>
 
 <!-- ================= 03 SIX LEVELS ================= -->
@@ -196,7 +196,7 @@
     <div>
       <div class="tabs" id="lad-tabs" role="radiogroup" aria-label="Model"></div>
       <div id="lad-chart" class="lad-chart"></div>
-      <p class="src">Each grid line to the right represents ten times as many seconds; shorter bars are faster. Point at a bar for the figures. Fast-model times are the best of two runs on one core, or of five runs on all cores or the graphics processor, after a warm-up, on about ten million rows. The original runs once on 10,000 to 100,000 rows and its time is scaled up in proportion. Times leave out input preparation, compilation, copying to the graphics processor and checking.</p>
+      <p class="src">Each grid line to the right represents ten times as many seconds; shorter bars are faster. Point at a bar for the figures. Fast-model times are the best of two runs on one core, or of five runs on all cores or the graphics processor, after a warm-up, on about ten million rows. The original runs once on 10,000 to 100,000 rows and its time is scaled up in proportion. Times leave out input preparation, compilation, copying to the graphics processor, and checking.</p>
     </div>
     <div class="lad-side" id="lad-side"></div>
   </div>
@@ -245,7 +245,7 @@
   <h2>Results of the comparison</h2>
   <div class="cols c55" style="margin-top:14px; gap:50px; align-items:start">
     <div>
-      <p>For each test portfolio, we run the original model unchanged and record the selected values: policies in force, account values and each cashflow, for every policy and every period. The fast model's values must be identical. In the annual model, 20 cells fail in the original itself, so they are left out; that model's README lists them.</p>
+      <p>For each test portfolio, we run the original model unchanged and record the selected values: policies in force, account values, and each cashflow, for every policy and every period. The fast model's values must be identical. In the annual model, 20 cells fail in the original itself, so they are left out; that model's README lists them.</p>
       <p>We compare individual values as well as totals, for two reasons. Errors can cancel out and hide in a total. And a difference in a single value points straight at the line of the model that is wrong.</p>
       <p>The test portfolios include each model's own sample policies and a set of unusual cases. These include policies not yet started or already matured, ages at the ends of the mortality table, zero or extreme amounts, and cases where the original model itself gives an undefined result.</p>
     </div>
@@ -270,7 +270,7 @@
   <div class="cols c55" style="margin-top:6px; gap:50px; align-items:start">
     <div>
       <p>To measure how good a check is, we planted errors in the fast model, one at a time. They were common kinds of error: a plus instead of a minus, a wrong constant, the wrong row of a table, the wrong variable, or a comparison that is out by one. We then ran each check against each planted error.</p>
-      <p>Comparing portfolio totals, or even each policy's present values, catches only 58% to 73% of them. Many errors affect amounts that present values never use, such as margins, account values and policy counts. Others cancel out.</p>
+      <p>Comparing portfolio totals, or even each policy's present values, catches only 58% to 73% of them. Many errors affect amounts that present values never use, such as margins, account values, and policy counts. Others cancel out.</p>
       <p>Comparing every recorded value catches 95% to 99%. For most of the rest, the proofs in section 05 either find a difference or show that the change makes no difference in exact arithmetic.</p>
     </div>
     <div>
@@ -284,7 +284,7 @@
   <span class="kicker">04 · Is it still the same model?</span>
   <h2>Limits of testing</h2>
   <div class="cols c3" style="margin-top:30px">
-    <div class="card q3 rise" style="--i:0"><span class="label">Problem 1</span><h3>Untested policies</h3><p class="small-p">A comparison says nothing about a policy that is not in the portfolio, such as an age, term or duration that nobody thought to include.</p></div>
+    <div class="card q3 rise" style="--i:0"><span class="label">Problem 1</span><h3>Untested policies</h3><p class="small-p">A comparison says nothing about a policy that is not in the portfolio, such as an age, term, or duration that nobody thought to include.</p></div>
     <div class="card q3 rise" style="--i:1"><span class="label">Problem 2</span><h3>Rearranged sums</h3><p class="small-p">Stopping early, or rearranging the sums so they run faster, adds arithmetic that is not in the original. Results can differ in the last digit, so exact matching is no longer the test.</p></div>
     <div class="card q3 rise" style="--i:2"><span class="label">Problem 3</span><h3>Different hardware</h3><p class="small-p">A graphics processor may combine a multiplication and an addition into one operation, and at seven digits it keeps fewer digits. Results differ by design.</p></div>
   </div>
@@ -305,7 +305,7 @@
     <div class="card pf">
       <span class="label">Proof</span>
       <div class="pf-eq">a × (b + c) = a × b + a × c</div>
-      <div class="pf-checks"><span>for every number a, b and c</span></div>
+      <div class="pf-checks"><span>for every number a, b, and c</span></div>
       <p class="small-p">The rules of arithmetic establish this for all numbers, including ones nobody has tried.</p>
     </div>
   </div>
@@ -359,7 +359,7 @@ claims  = sa * p_death</pre>
     <div class="card tool">
       <span class="label">Theorem prover · Z3</span>
       <h3>Finds proofs and counterexamples</h3>
-      <p class="small-p">Z3 comes from Microsoft Research. You give it a statement, such as "for every policy, the two formulas are equal", and it searches for a proof. If the statement is false, it returns a counterexample: specific values, such as an age, term and amounts, on which the two models disagree. It can also report that it cannot decide.</p>
+      <p class="small-p">Z3 comes from Microsoft Research. You give it a statement, such as "for every policy, the two formulas are equal", and it searches for a proof. If the statement is false, it returns a counterexample: specific values, such as an age, term, and amounts, on which the two models disagree. It can also report that it cannot decide.</p>
       <p class="small-p">It is a large program, and its verdict depends on that program being correct.</p>
     </div>
     <div class="card tool">
@@ -406,7 +406,7 @@ claims  = sa * p_death</pre>
     <div class="push-col"><span class="label">Level 4</span><h3>Proof</h3><p class="small-p">Stopping early and rearranging sums change the arithmetic. The claim that results agree in exact arithmetic comes from the proof, and separate checks measure the effect of rounding.</p><div class="push-bar" style="--w:65%"></div></div>
     <div class="push-col"><span class="label">Levels 5 to 6</span><h3>Proof and error bounds</h3><p class="small-p">The proof covers the calculation in exact arithmetic. The error bound says how far rounding can have moved the answer. Both are needed.</p><div class="push-bar" style="--w:100%"></div></div>
   </div>
-  <div class="callout" style="margin-top:24px">At these levels a separate proof checker matters. A large automated tool finds the proofs; Lean then checks a separate proof of each statement with a small, widely examined checking program. The translation into Lean, the assumptions and the connection to the full projection still need review.</div>
+  <div class="callout" style="margin-top:24px">At these levels a separate proof checker matters. A large automated tool finds the proofs; Lean then checks a separate proof of each statement with a small, widely examined checking program. The translation into Lean, the assumptions, and the connection to the full projection still need review.</div>
   <aside class="notes"><p>A caveat, repeated on the limits slide. Our own code and a short written description of the model produce the statements, and Lean checks them. Someone has to review both the code and the description.</p></aside>
 </section>
 
@@ -464,7 +464,7 @@ claims  = sa * p_death</pre>
     <div class="fq rise" style="--i:0"><b>Is run time a problem?</b><span>No: change nothing, or vectorise (level 1). Speed is not free.</span></div>
     <div class="fq rise" style="--i:1"><b>Must every figure match the current model exactly?</b><span>Yes: <em>compile, and use all processor cores</em> (levels 2 and 3). On the three monthly tests this ran about 106 to 424 times as fast as lifelib's version, on ordinary hardware. Recorded values match on the test portfolios; present values match when added in the original order.</span></div>
     <div class="fq rise" style="--i:2"><b>Still not fast enough?</b><span><em>Restructure</em> (level 4): stop early and rearrange sums. This is up to about twice as fast again. A proof shows equality in exact arithmetic under stated assumptions; rounding checks cover the rest.</span></div>
-    <div class="fq rise" style="--i:3"><b>Millions of projections, with results used only in total?</b><span>Use a <em>graphics processor</em> (levels 5 and 6). Use 16 digits if the device is built for it. For seven digits, set an acceptable error for each reported output and check it on the intended workload, including totals, percentiles and ratios.</span></div>
+    <div class="fq rise" style="--i:3"><b>Millions of projections, with results used only in total?</b><span>Use a <em>graphics processor</em> (levels 5 and 6). Use 16 digits if the device is built for it. For seven digits, set an acceptable error for each reported output and check it on the intended workload, including totals, percentiles, and ratios.</span></div>
   </div>
   <aside class="notes"><p>We recommend levels 1 to 3 by default. They give most of the speed with the simplest evidence. Levels 4 to 6 are for work like the last row of the "does an insurer need this" table.</p></aside>
 </section>
@@ -506,9 +506,9 @@ claims  = sa * p_death</pre>
   <h2>Models and computer used</h2>
   <div class="mods">
     <div class="card md"><span class="label">lifelib · CashValue_ME</span><h3>Savings</h3><p class="small-p">A universal life savings product. An account value earns random investment returns and pays fees and a cost of insurance. Death and maturity benefits are guaranteed. Timing workload: 1,141 monthly periods. 79 formulas.</p></div>
-    <div class="card md"><span class="label">lifelib · CashValue_ME_EX2</span><h3>Savings with dynamic lapses</h3><p class="small-p">As above, but more people lapse when the guarantee is worth little. Five configurations of fees, mortality and lapses, each proved separately. Timing workload: configuration 5, 121 monthly periods. 92 formulas.</p></div>
+    <div class="card md"><span class="label">lifelib · CashValue_ME_EX2</span><h3>Savings with dynamic lapses</h3><p class="small-p">As above, but more people lapse when the guarantee is worth little. Five configurations of fees, mortality, and lapses, each proved separately. Timing workload: configuration 5, 121 monthly periods. 92 formulas.</p></div>
     <div class="card md"><span class="label">lifelib · BasicTerm_ME</span><h3>Term assurance</h3><p class="small-p">Level term assurance, monthly, with premiums from a rate table. It also works out its own net premium. 44 formulas.</p></div>
-    <div class="card md"><span class="label">lifelib · fastlife</span><h3>Traditional life, annual</h3><p class="small-p">Term, whole life and endowment, with net premium reserves from commutation columns, and cash values. Four source files. Timing workload: 103 annual periods.</p></div>
+    <div class="card md"><span class="label">lifelib · fastlife</span><h3>Traditional life, annual</h3><p class="small-p">Term, whole life, and endowment, with net premium reserves from commutation columns, and cash values. Four source files. Timing workload: 103 annual periods.</p></div>
   </div>
   <div class="cols c2" style="margin-top:22px; gap:36px">
     <p class="small-p">lifelib is an open source library of actuarial models written in Python. Its models are smaller and simpler than real production models. Because they are public, anyone can repeat every figure here.</p>
@@ -532,9 +532,9 @@ claims  = sa * p_death</pre>
 <section class="slide plain" data-section="Close" data-nochrome>
   <div class="close">
     <span class="kicker">Exactuary</span>
-    <h2 style="font-size:64px; max-width:1100px">Choose the lowest level that meets the run-time requirement and the agreed accuracy standard. Review the comparisons, proof assumptions and rounding bounds for the intended workload.</h2>
+    <h2 style="font-size:64px; max-width:1100px">Choose the lowest level that meets the run-time requirement and the agreed accuracy standard. Review the comparisons, proof assumptions, and rounding bounds for the intended workload.</h2>
     <div class="close-links">
-      <a class="btn" href="https://github.com/benreeve1984/exactuary">Code, docs and results on GitHub</a>
+      <a class="btn" href="https://github.com/benreeve1984/exactuary">Code, docs, and results on GitHub</a>
       <a class="btn ghost" href="https://github.com/benreeve1984/exactuary/blob/main/docs/levels.md">Levels and how to choose</a>
       <a class="btn ghost" href="https://github.com/benreeve1984/exactuary/blob/main/docs/limitations.md">Limitations</a>
     </div>
@@ -543,8 +543,8 @@ claims  = sa * p_death</pre>
 </section>
 
 </main>
-<script src="data.js?v=12"></script>
-<script src="assets/deck.js?v=12"></script>
-<script src="demos.js?v=12"></script>
+<script src="data.js?v=13"></script>
+<script src="assets/deck.js?v=13"></script>
+<script src="demos.js?v=13"></script>
 </body>
 </html>

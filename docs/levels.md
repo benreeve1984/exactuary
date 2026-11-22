@@ -30,7 +30,7 @@ There are five complementary checks. Each addresses a different source of error.
    pairs of undefined values as matching. It separately prints differences in the stored binary
    representation, including signed zeros and undefined values. The saved JSON reports do not
    retain that count.
-2. Tests with planted errors. Plant an error, run the comparison and record whether it detects the
+2. Tests with planted errors. Plant an error, run the comparison, and record whether it detects the
    error. The recorded detection rate measures test performance.
 3. Proof in exact arithmetic. An interpreter evaluates the original model's formulas with symbols.
    Z3 then checks whether any policy, in any period, could give a different value in the fast
@@ -38,7 +38,7 @@ There are five complementary checks. Each addresses a different source of error.
    model's stated assumptions (see [Dependencies of the evidence](trusted-base.md)).
 4. Separate proof checking. The exporter translates the statements for Lean, which checks separate
    proofs. This removes reliance on Z3's verdict for those statements. The translation covers
-   integers, real numbers and true-or-false values, and rejects anything else. The translation,
+   integers, real numbers, and true-or-false values, and rejects anything else. The translation,
    assumptions and connection to the full projection still need review.
 5. Rounding error bounds. A separate check computes an interval for each row in the certification
    run. The interval contains the exact fast-model result on the prepared inputs, provided the
@@ -52,14 +52,14 @@ order removes this difference on those tests.
 
 Exact comparison tests the programs that run, on real inputs, against the original model. Proof
 extends the result to all inputs within the stated assumptions, for a formal reading of the
-selected formulas. It excludes some calculations, non-finite values and machine rounding.
+selected formulas. It excludes some calculations, non-finite values, and machine rounding.
 
 Some errors leave the exact-arithmetic meaning unchanged but damage the computed result. One
 example is adding and then subtracting a very large number. Such an error passes every proof. You
 also need a numerical check to detect changes in rounding.
 
 Proofs concern exact arithmetic. Z3 uses real numbers here, and Lean uses fractions. Both represent
-powers, exponentials and logarithms as named functions with unspecified behaviour. So the proof
+powers, exponentials, and logarithms as named functions with unspecified behaviour. So the proof
 does not establish how a computer calculates them.
 
 At levels 2 and 3, exact comparison shows agreement on the policies tested. It does not show that
@@ -80,8 +80,8 @@ To choose a level, ask these questions.
    limit. They need no special hardware. Present values match only when the fast model adds them
    in the original order.
 3. Which outputs do you report? For each reported output, set an acceptable error and check it on
-   the intended workload. Apply separate checks to totals, percentiles and ratios. Aggregation
-   alone does not guarantee an acceptable error, especially for tails, ratios or totals near 0.
+   the intended workload. Apply separate checks to totals, percentiles, and ratios. Aggregation
+   alone does not guarantee an acceptable error, especially for tails, ratios, or totals near 0.
    Double precision can serve individual outputs if you check them.
 4. Is compatible hardware available? GPU use needs compatible hardware, which may be costly or
    shared. It also needs bounds on rounding.
