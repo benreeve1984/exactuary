@@ -6,13 +6,16 @@ from .numba_cpu import signature, call, args_of, loop_body
 
 def build(spec, ftype="float64"):
     """Returns prepare(p) -> (go, out): `go()` runs the projection on the device and waits;
-    `out.copy_to_host()` gives the array [row, accumulated output]."""
+    `out.copy_to_host()` gives the array [row, accumulated output].
+    ftype "mixed": each period's arithmetic is in float32 (pass the float32 step and inputs) and the
+    discounted totals accumulate in float64 (pass the discount factors as a float64 array)."""
     from numba import cuda
     from ..spec import check_spec
     check_spec(spec)
     d = cuda.jit(device=True, inline="always")
-    cast = np.float32 if ftype == "float32" else np.float64
+    cast = np.float32 if ftype in ("float32", "mixed") else np.float64
     zero = cast(0)
+    azero = np.float64(0) if ftype == "mixed" else zero
     @d
     def sel(c, a, b): return a if c else b
     @d
@@ -55,7 +58,7 @@ def build(spec, ftype="float64"):
              ONE=cast(1), ZERO=zero, lk1=lk1, lk2=lk2)
     step = d(make_step(h, spec.step_src))
     ns, na = len(spec.state), len(spec.accumulate)
-    init = "; ".join([f"st{k} = ZERO" for k in range(ns)] + [f"a{k} = ZERO" for k in range(na)])
+    init = "; ".join([f"st{k} = ZERO" for k in range(ns)] + [f"a{k} = AZERO" for k in range(na)])
     acc = "\n".join(f"        a{k} += r[{spec.ix(n)}] * dsc" for k, n in enumerate(spec.accumulate))
     ex = f"        if {spec.exit_expr()}:\n            break" if spec.exit_when else ""
     code = f'''
@@ -72,7 +75,7 @@ def kern({signature(spec)}, out):
 {ex}
     {'; '.join(f'out[i, {k}] = a{k}' for k in range(na))}
 '''
-    g = {"__builtins__": {"range": range}, "cuda": cuda, "step": step, "ZERO": zero}; exec(code, g)
+    g = {"__builtins__": {"range": range}, "cuda": cuda, "step": step, "ZERO": zero, "AZERO": azero}; exec(code, g)
     kern = cuda.jit(g["kern"])
     def prepare(p):
         n = len(p[spec.row_args[0]])
