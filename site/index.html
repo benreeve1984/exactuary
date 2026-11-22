@@ -137,7 +137,7 @@
     <div class="rise" style="--i:2"><span class="label">03</span><h3>Six levels of acceleration</h3><p>Gains and changes at each level, on four open source lifelib models.</p></div>
     <div class="rise" style="--i:3"><span class="label">04</span><h3>Checking that the models match</h3><p>Exact comparison, and tests with planted errors.</p></div>
     <div class="rise" style="--i:4"><span class="label">05</span><h3>Mathematical proof</h3><p>Theorem provers, and the role of Lean when we change the arithmetic to optimise.</p></div>
-    <div class="rise" style="--i:5"><span class="label">06</span><h3>Rounding, choosing a level, and limitations</h3><p>Bounds on rounding error, a guide to choosing a level, and what the evidence does not cover.</p></div>
+    <div class="rise" style="--i:5"><span class="label">06</span><h3>Rounding, choosing a level of optimisation, and limitations</h3><p>Bounds on rounding error, a guide to choosing a level of optimisation, and what the evidence does not cover.</p></div>
   </div>
 </section>
 
@@ -478,8 +478,8 @@ claims  = sa * p_death</pre>
 
 <!-- ================= 07 CHOOSING ================= -->
 <section class="slide" data-section="[07] Choosing">
-  <span class="kicker">07 · Choosing a level</span>
-  <h2>Choosing a level</h2>
+  <span class="kicker">07 · Choosing a level of optimisation</span>
+  <h2>Choosing a level of optimisation</h2>
   <div class="flow">
     <div class="fq rise" style="--i:0"><b>Is run time a problem?</b><span>No: change nothing, or vectorise. Speed is not free.</span></div>
     <div class="fq rise" style="--i:1"><b>Must every figure match the current model exactly?</b><span>Yes: <em>compile, and use all processor cores</em>. On the three monthly tests this ran about 106 to 424 times as fast as lifelib's version, on ordinary hardware. Recorded values match on the test portfolios; present values match when added in the original order.</span></div>
@@ -490,7 +490,7 @@ claims  = sa * p_death</pre>
 </section>
 
 <section class="slide" data-section="[07] Choosing">
-  <span class="kicker">07 · Choosing a level</span>
+  <span class="kicker">07 · Choosing a level of optimisation</span>
   <h2>Comparison of the levels</h2>
   <table class="t trade-t">
     <thead><tr><th></th><th>Vectorised (today)</th><th>Compilation and parallel cores</th><th>Early exit</th><th>Move to a GPU</th><th>Reduce GPU precision</th></tr></thead>
